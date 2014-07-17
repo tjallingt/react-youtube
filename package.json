@@ -1,0 +1,25 @@
+{
+  "name": "react-youtube",
+  "version": "0.0.1",
+  "description": "react.js powered YouTube player component",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:compedit/react-youtube.git"
+  },
+  "keywords": [
+    "react",
+    "youtube",
+    "player",
+    "component"
+  ],
+  "author": "troybetz",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/compedit/react-youtube/issues"
+  },
+  "homepage": "https://github.com/compedit/react-youtube"
+}
