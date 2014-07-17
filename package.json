@@ -4,7 +4,8 @@
   "description": "react.js powered YouTube player component",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "./node_modules/.bin/browserify index.js -t reactify -o build/react-youtube.js",
+    "watch": "./node_modules/.bin/watchify index.js -t reactify -o build/react-youtube.js"
   },
   "repository": {
     "type": "git",
@@ -21,5 +22,15 @@
   "bugs": {
     "url": "https://github.com/compedit/react-youtube/issues"
   },
-  "homepage": "https://github.com/compedit/react-youtube"
+  "homepage": "https://github.com/compedit/react-youtube",
+  "devDependencies": {
+    "watchify": "~0.10.2",
+    "browserify": "~4.2.1",
+    "reactify": "~0.13.1"
+  },
+  "dependencies": {
+    "require-sdk": "0.0.2",
+    "envify": "~1.2.1",
+    "react": "~0.10.0"
+  }
 }
