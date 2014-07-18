@@ -42,10 +42,11 @@ module.exports = React.createClass({
 
   componentDidMount: function() {
     var _this = this;
+    var id = this.props.id || 'react-yt-player';
 
     // called once API has loaded.
     sdk(function(err, youtube) {
-      var player = new youtube.Player('yt-player', {
+      var player = new youtube.Player(id, {
         videoId: getVideoId(_this.props.url),
         events: {
           'onStateChange': _this._handlePlayerStateChange
@@ -108,8 +109,9 @@ module.exports = React.createClass({
   },
 
   render: function() {
+    var id = this.props.id || 'react-yt-player';
     return (
-      <div id='yt-player'></div>
+      <div id={id}></div>
     );
   }
 });
