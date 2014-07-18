@@ -15,6 +15,13 @@ window.onYouTubeIframeAPIReady = function () {
 };
 
 module.exports = React.createClass({
+  getInitialState: function() {
+    return {
+      player: undefined,
+      url: undefined
+    };
+  },
+
   componentDidMount: function() {
     var _this = this;
 
@@ -22,7 +29,15 @@ module.exports = React.createClass({
       var player = new youtube.Player('yt-player', {
         videoId: getVideoId(_this.props.url)
       });
+
+      _this.setState({player: player, url: _this.props.url});
     });
+  },
+
+  componentDidUpdate: function() {
+    if (this.props.url !== this.state.url) {
+      this.state.player.cueVideoById(getVideoId(this.props.url));
+    }
   },
 
   render: function() {
