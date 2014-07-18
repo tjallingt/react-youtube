@@ -27,7 +27,10 @@ module.exports = React.createClass({
 
     sdk(function(err, youtube) {
       var player = new youtube.Player('yt-player', {
-        videoId: getVideoId(_this.props.url)
+        videoId: getVideoId(_this.props.url),
+        events: {
+          'onStateChange': _this._handlePlayerStateChange
+        }
       });
 
       _this.setState({player: player, url: _this.props.url});
@@ -48,6 +51,29 @@ module.exports = React.createClass({
     }
   },
 
+  _handlePlayerStateChange: function(event) {
+    var handler;
+    switch(event.data) {
+      case 0: 
+        handler = this.props.ended || noop;
+        handler();
+        break;
+
+      case 1:
+        handler = this.props.playing || noop;
+        handler();
+        break
+
+      case 2:
+        handler = this.props.stopped || noop;
+        handler();
+        break;
+
+      default: 
+        return;
+    }
+  },
+
   render: function() {
     return (
       <div id='yt-player'></div>
@@ -55,6 +81,7 @@ module.exports = React.createClass({
   }
 });
 
+function noop() {};
 
 /**
  * Separates video ID from valid YouTube URL
