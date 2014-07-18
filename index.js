@@ -36,6 +36,14 @@ module.exports = React.createClass({
 
   componentDidUpdate: function() {
     if (this.props.url !== this.state.url) {
+      this._loadNewUrl();
+    }
+  },
+
+  _loadNewUrl: function() {
+    if (this.props.autoplay) {
+      this.state.player.loadVideoById(getVideoId(this.props.url));
+    } else {
       this.state.player.cueVideoById(getVideoId(this.props.url));
     }
   },
