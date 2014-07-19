@@ -33,47 +33,48 @@ function getVideoId(url) {
  */
 
 module.exports = React.createClass({
-  getInitialState: function() {
+  getDefaultProps: function() {
     return {
-      player: undefined,
-      url: undefined
+      id: 'react-yt-player',
+      url: undefined,
+      autoplay: false,
+      ended: noop,
+      playing: noop,
+      stopped: noop
     };
   },
 
   componentDidMount: function() {
     var _this = this;
-    var id = this.props.id || 'react-yt-player';
-
     // called once API has loaded.
     sdk(function(err, youtube) {
-      var player = new youtube.Player(id, {
+      var player = new youtube.Player(_this.props.id, {
         videoId: getVideoId(_this.props.url),
         events: {
           'onStateChange': _this._handlePlayerStateChange
         }
       });
 
-      _this.setState({player: player, url: _this.props.url});
+      _this.setState({player: player});
     });
   },
 
-  componentDidUpdate: function() {
-    if (this.props.url !== this.state.url) {
-      this._loadNewUrl();
+  componentWillUpdate: function(nextProps) {
+    if (this.props.url !== nextProps.url) {
+      this._loadNewUrl(nextProps.url);
     }
   },
 
   /**
    * Start a new video
+   *
+   * @param {string} url
    */
   
-  _loadNewUrl: function() {
-    if (this.props.autoplay) {
-      this.state.player.loadVideoById(getVideoId(this.props.url));
-    } else {
-      this.state.player.cueVideoById(getVideoId(this.props.url));
-    }
-    this.setState({url: this.props.url});
+  _loadNewUrl: function(url) {
+    this.props.autoplay
+      ? this.state.player.loadVideoById(getVideoId(url))
+      : this.state.player.cueVideoById(getVideoId(url));
   },
 
   /**
@@ -87,21 +88,17 @@ module.exports = React.createClass({
    */
   
   _handlePlayerStateChange: function(event) {
-    var handler;
     switch(event.data) {
       case 0: 
-        handler = this.props.ended || noop;
-        handler();
+        this.props.ended();
         break;
 
       case 1:
-        handler = this.props.playing || noop;
-        handler();
+        this.props.playing();
         break;
 
       case 2:
-        handler = this.props.stopped || noop;
-        handler();
+        this.props.stopped();
         break;
 
       default: 
@@ -110,9 +107,8 @@ module.exports = React.createClass({
   },
 
   render: function() {
-    var id = this.props.id || 'react-yt-player';
     return (
-      <div id={id}></div>
+      <div id={this.props.id}></div>
     );
   }
 });
