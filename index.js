@@ -36,7 +36,7 @@ module.exports = React.createClass({
   propTypes: {
     id: React.PropTypes.string,
     url: React.PropTypes.string,
-    autoplau: React.PropTypes.boolean,
+    autoplay: React.PropTypes.bool,
     playing: React.PropTypes.func,
     stopped: React.PropTypes.func,
     ended: React.PropTypes.func
