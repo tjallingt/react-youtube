@@ -8,13 +8,13 @@ var React = require('react');
 var sdk = require('require-sdk')('https://www.youtube.com/iframe_api', 'YT');
 var loadTrigger = sdk.trigger();
 
-function noop() {}
-
 // YT API requires global ready event handler
 window.onYouTubeIframeAPIReady = function () {
   loadTrigger();
   delete window.onYouTubeIframeAPIReady;
 };
+
+function noop() {}
 
 /**
  * Separates video ID from valid YouTube URL
@@ -52,6 +52,11 @@ module.exports = React.createClass({
       ended: noop
     };
   },
+
+  /**
+   * Once YouTube API had loaded, a new YT.Player
+   * instance will be created and its events bound.
+   */
   
   componentDidMount: function() {
     var _this = this;
@@ -88,10 +93,6 @@ module.exports = React.createClass({
 
   /**
    * Respond to player events
-   *
-   * 0 = ended
-   * 1 = playing
-   * 2 = paused
    *
    * @param {object} event
    */
