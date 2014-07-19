@@ -33,17 +33,26 @@ function getVideoId(url) {
  */
 
 module.exports = React.createClass({
+  propTypes: {
+    id: React.PropTypes.string,
+    url: React.PropTypes.string,
+    autoplau: React.PropTypes.boolean,
+    playing: React.PropTypes.func,
+    stopped: React.PropTypes.func,
+    ended: React.PropTypes.func
+  },
+
   getDefaultProps: function() {
     return {
       id: 'react-yt-player',
       url: undefined,
       autoplay: false,
-      ended: noop,
       playing: noop,
-      stopped: noop
+      stopped: noop,
+      ended: noop
     };
   },
-
+  
   componentDidMount: function() {
     var _this = this;
     // called once API has loaded.
