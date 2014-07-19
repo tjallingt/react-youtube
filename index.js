@@ -73,6 +73,7 @@ module.exports = React.createClass({
     } else {
       this.state.player.cueVideoById(getVideoId(this.props.url));
     }
+    this.setState({url: this.props.url});
   },
 
   /**
