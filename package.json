@@ -17,7 +17,7 @@
     "player",
     "component"
   ],
-  "author": "troybetz",
+  "author": "troy betz <troybetz@gmail.com>",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/compedit/react-youtube/issues"
