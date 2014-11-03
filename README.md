@@ -1,7 +1,7 @@
 react-youtube player component
 =============================
 
-Simple [React][react] component using the [YouTube JS Player API][yt-api]
+Simple [React](http://facebook.github.io/react/ ) component using the [YouTube JS Player API](https://developers.google.com/youtube/js_api_reference)
 
 Installation
 ------------
@@ -59,9 +59,3 @@ var App = React.createClass({
   console.log('video has ended');
   }
 });
-
-
-
-
-  [yt-api]:https://developers.google.com/youtube/js_api_reference
-  [react]:http://facebook.github.io/react/
