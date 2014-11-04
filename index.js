@@ -5,8 +5,8 @@
  */
 
 var React = require('react');
+var getYouTubeId = require('get-youtube-id');
 var createPlayer = require('./lib/createPlayer');
-var getVideoId = require('./lib/getVideoId');
 var globalize = require('./lib/globalize');
 
 /**
@@ -106,9 +106,9 @@ var YouTube = React.createClass({
   
   _loadUrl: function(url) {
     if (this.props.autoplay) {
-      this.state.player.loadVideoById(getVideoId(url));
+      this.state.player.loadVideoById(getYouTubeId(url));
     } else {
-      this.state.player.cueVideoById(getVideoId(url));
+      this.state.player.cueVideoById(getYouTubeId(url));
     }
   },
 
