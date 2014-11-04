@@ -5,8 +5,9 @@
  */
 
 var React = require('react');
-var sdk = require('require-sdk')('https://www.youtube.com/iframe_api', 'YT');
-var loadTrigger = sdk.trigger();
+var createPlayer = require('./lib/createPlayer');
+var getVideoId = require('./lib/getVideoId');
+var globalize = require('./lib/globalize');
 
 /**
  * Create a new `YouTube` component.
@@ -43,7 +44,9 @@ var YouTube = React.createClass({
 
   getInitialState: function() {
     return {
-      player: null
+      player: null,
+      playerReadyHandle: null,
+      stateChangeHandle: null
     };
   },
 
@@ -55,14 +58,8 @@ var YouTube = React.createClass({
   componentDidMount: function() {
     var _this = this;
 
-    var opts = {
-      id: this.props.id,
-      url: this.props.url,
-      listener: this._handlePlayerStateChange
-    };
-
-    createPlayer(opts, function(player) {
-      _this.setState({player: player});
+    createPlayer(this.props.id, function(player) {
+      _this._setupPlayer(player);
     });
   },
 
@@ -78,10 +75,27 @@ var YouTube = React.createClass({
     }
   },
 
+  componentWillUnmount: function() {
+    this._unbindEvents();
+    this._destroyGlobalEventHandlers();
+  },
+
   render: function() {
     return (
       <div id={this.props.id}></div>
     );
+  },
+
+  /**
+   * Integrate a newly created `player` with the rest of the component.
+   *
+   * @param {Object} player
+   */
+
+  _setupPlayer: function(player) {
+    this.setState({player: player});
+    this._globalizeEventHandlers();
+    this._bindEvents();
   },
 
   /**
@@ -99,7 +113,22 @@ var YouTube = React.createClass({
   },
 
   /**
+   * When the player is all loaded up, load the url
+   * passed via `props.url`.
+   *
+   * Is exposed in the global namespace under a random
+   * name, see `_globalizeEventHandlers`
+   */
+  
+  _handlePlayerReady: function() {
+    this._loadUrl(this.props.url);
+  },
+
+  /**
    * Respond to player events
+   *
+   * Is exposed in the global namespace under a random
+   * name, see `_globalizeEventHandlers`
    *
    * @param {Object} event
    */
@@ -121,52 +150,50 @@ var YouTube = React.createClass({
       default: 
         return;
     }
+  },
+
+  /**
+   * Expose our player event handlers onto the global namespace
+   * under random handles, then store those handles into `state`.
+   *
+   * The YouTube API requires a `player`s event handlers to be
+   * exposed in the global namespace, so this is unfortunate but necessary.
+   */
+
+  _globalizeEventHandlers: function() {
+    this.setState({
+      playerReadyHandle: globalize(this._handlePlayerReady),
+      stateChangeHandle: globalize(this._handlePlayerStateChange)
+    });
+  },
+
+  /**
+   * Clean up the ickyness of globalness.
+   */
+
+  _destroyGlobalEventHandlers: function() {
+    delete window[this.state.playerReadyHandle];
+    delete window[this.state.stateChangeHandle];
+  },
+
+  /**
+   * Listen for events coming from `player`.
+   */
+
+  _bindEvents: function() {
+    this.state.player.addEventListener('onReady', this.state.playerReadyHandle);
+    this.state.player.addEventListener('onStateChange', this.state.stateChangeHandle);
+  },
+
+  /**
+   * Remove all event bindings.
+   */
+
+  _unbindEvents: function() {
+    this.state.player.removeEventListener('onReady', this.state.playerReadyHandle);
+    this.state.player.removeEventListener('onStateChange', this.state.stateChangeHandle);
   }
 });
-
-/**
- * YT API required global ready event handler
- */
-
-window.onYouTubeIframeAPIReady = function () {
-  loadTrigger();
-  delete window.onYouTubeIframeAPIReady;
-};
-
-/**
- * Create a new `player` by requesting and using the YouTube Iframe API
- *
- * @param {Object} opts
- *    @param {String} id - reference to element for player
- *    @param {String} url - the first url to play
- *    @param {Function} listener - function listening to player events
- *    @param {Function} cb
- */
-
-function createPlayer(opts, cb) {
-  return sdk(function(err, youtube) {
-    var player = new youtube.Player(opts.id, {
-      videoId: getVideoId(opts.url),
-      events: {
-        'onStateChange': opts.listener
-      }
-    });
-
-    return cb(player);
-  });
-}
-
-/**
- * Separates video ID from valid YouTube URL
- *
- * @param {String} url
- * @return {String}
- */
-
-function getVideoId(url) {
-  var regex = /(youtu\.be\/|youtube\.com\/(watch\?(.*&)?v=|(embed|v)\/))([^\?&"'>]+)/;
-  if (url) return url.match(regex)[5];
-}
 
 /**
  * Do nothing
