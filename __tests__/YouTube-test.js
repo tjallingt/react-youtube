@@ -5,8 +5,8 @@ jest.dontMock('../');
 describe('YouTube Component', function() {
   React = require('react/addons');
   getYouTubeId = require('get-youtube-id');
+  globalize = require('random-global');
   createPlayer = require('../lib/createPlayer');
-  globalize = require('../lib/globalize');
   YouTube = require('../');
   TestUtils = React.addons.TestUtils;
 

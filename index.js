@@ -6,8 +6,8 @@
 
 var React = require('react');
 var getYouTubeId = require('get-youtube-id');
+var globalize = require('random-global');
 var createPlayer = require('./lib/createPlayer');
-var globalize = require('./lib/globalize');
 
 /**
  * Create a new `YouTube` component.
