@@ -26,11 +26,23 @@
     "require-sdk": "0.0.2"
   },
   "devDependencies": {
+    "browserify": "^6.2.0",
+    "http-server": "^0.7.2",
     "jest-cli": "^0.1.18",
-    "react-tools": "^0.11.0"
+    "react-tools": "^0.11.0",
+    "reactify": "~0.14.0",
+    "watchify": "^2.1.1"
   },
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "start": "npm run serve & npm run watch-js",
+    "serve": "./node_modules/.bin/http-server ./example -s",
+    "watch-js": "./node_modules/.bin/watchify ./example/app.js -o ./example/bundle.js"
+  },
+  "browserify": {
+    "transform": [
+      "reactify"
+    ]
   },
   "jest": {
     "scriptPreprocessor": "./jest/preprocessor.js",
