@@ -24,5 +24,18 @@
     "randomstring": "^1.0.3",
     "react": "^0.11.1",
     "require-sdk": "0.0.2"
+  },
+  "devDependencies": {
+    "jest-cli": "^0.1.18",
+    "react-tools": "^0.11.0"
+  },
+  "scripts": {
+    "test": "jest"
+  },
+  "jest": {
+    "scriptPreprocessor": "./jest/preprocessor.js",
+    "unmockedModulePathPatterns": [
+      "./node_modules/react"
+    ]
   }
 }
