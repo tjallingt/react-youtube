@@ -1,19 +1,25 @@
 react-youtube player component
 =============================
 
-Simple [React](http://facebook.github.io/react/ ) component using the [YouTube JS Player API](https://developers.google.com/youtube/js_api_reference)
+Simple [React](http://facebook.github.io/react/ ) component acting as a thin layer over the [YouTube JS Player API](https://developers.google.com/youtube/js_api_reference)
 
-Installation
-------------
+## Features
+- url playback
+- playback event bindings
+- lazy API loading
 
-`npm install react-youtube`
+## Installation
+
+```
+$ npm install react-youtube
+```
 
 Usage
 -----
 
 ```js
 var React = require('react');
-var ReactYouTube = require('react-youtube');
+var YouTube = require('react-youtube');
 
 var App = React.createClass({
   render: function() {
@@ -32,16 +38,16 @@ var App = React.createClass({
         // `playing`, `stopped`, and `ended` are event handlers called by the player.
         // They default to no-ops.
 
-        <ReactYoutube id={'react-player'}
+        <YouTube id={'react-player'}
                       autoplay={false}
                       url={'https://www.youtube.com/watch?v=OvJDiZwGGd4'}
-                      playing={this._handlePlay}
-                      stopped={this._handleStop}
-                      ended={this._handleEnd}
+                      onPlay={this._handlePlay}
+                      onPause={this._handleStop}
+                      onEnd={this._handleEnd}
         />
 
         // Simplest version of component
-        <ReactYoutube url={'https://www.youtube.com/watch?v=OvJDiZwGGd4'} />
+        <YouTube url={'https://www.youtube.com/watch?v=OvJDiZwGGd4'} />
       </div>
     );
   },
@@ -56,6 +62,19 @@ var App = React.createClass({
 
   // load a new video or call an alert or something like that.
   _handleEnd: function() {
-  console.log('video has ended');
+  	console.log('video has ended');
   }
 });
+```
+
+## Caveat
+
+ Programmatic control of the player as outlined in the [API docs](https://developers.google.com/youtube/js_api_reference) isn't included.
+
+If decide to take control of it, be aware that the react-youtube uses `loadVideoById`, `cueVideoById`, `addEventListener` and `removeEventListener` internally. 
+
+Using these methods outside the component may cause problems. 
+
+# License
+
+  MIT
