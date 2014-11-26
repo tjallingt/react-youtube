@@ -127,6 +127,8 @@ var YouTube = React.createClass({
   /**
    * Respond to player events
    *
+   * Event definitions at https://developers.google.com/youtube/js_api_reference#Events
+   *
    * Is exposed in the global namespace under a random
    * name, see `_globalizeEventHandlers`
    *
@@ -135,7 +137,10 @@ var YouTube = React.createClass({
   
   _handlePlayerStateChange: function(event) {
     switch(event.data) {
+
+      // videos has ended, or new video is being cued.
       case 0: 
+      case 5:
         this.props.onEnd();
         break;
 
