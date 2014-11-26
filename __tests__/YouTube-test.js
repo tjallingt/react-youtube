@@ -16,6 +16,16 @@ describe('YouTube Component', function() {
      * Mock out YouTube player API
      */
 
+     window.YT = {
+      PlayerState: {
+        ENDED: 0,
+        PLAYING: 1,
+        PAUSED: 2,
+        BUFFERING: 3,
+        CUED: 5
+      }
+     };
+
     playerMock = {
       loadVideoById: jest.genMockFunction(),
       cueVideoById: jest.genMockFunction(),
@@ -166,19 +176,19 @@ describe('YouTube Component', function() {
       var youtube = TestUtils.renderIntoDocument(<YouTube onPlay={onPlay} onPause={onPause} onEnd={onEnd} />);
 
       // video ended
-      youtube._handlePlayerStateChange({data: 0});
+      youtube._handlePlayerStateChange({data: window.YT.PlayerState.ENDED});
       expect(onEnd.mock.calls.length).toBe(1);
 
       // new video being cued
-      youtube._handlePlayerStateChange({data: 5});
+      youtube._handlePlayerStateChange({data: window.YT.PlayerState.CUED});
       expect(onEnd.mock.calls.length).toBe(2);
 
       // video playing
-      youtube._handlePlayerStateChange({data: 1});
+      youtube._handlePlayerStateChange({data: window.YT.PlayerState.PLAYING});
       expect(onPlay.mock.calls.length).toBe(1);
 
       // video paused
-      youtube._handlePlayerStateChange({data: 2});
+      youtube._handlePlayerStateChange({data: window.YT.PlayerState.PAUSED});
       expect(onPlay.mock.calls.length).toBe(1);
     });
 

@@ -137,18 +137,17 @@ var YouTube = React.createClass({
   
   _handlePlayerStateChange: function(event) {
     switch(event.data) {
-
-      // videos has ended, or new video is being cued.
-      case 0: 
-      case 5:
+      
+      case window.YT.PlayerState.ENDED: 
+      case window.YT.PlayerState.CUED:
         this.props.onEnd();
         break;
 
-      case 1:
+      case window.YT.PlayerState.PLAYING:
         this.props.onPlay();
         break;
 
-      case 2:
+      case window.YT.PlayerState.PAUSED:
         this.props.onPause();
         break;
 
