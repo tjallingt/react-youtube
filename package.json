@@ -34,12 +34,6 @@
     "reactify": "~0.14.0",
     "watchify": "^2.1.1"
   },
-  "scripts": {
-    "test": "jest",
-    "start": "npm run serve & npm run watch-js",
-    "serve": "./node_modules/.bin/http-server ./example -s",
-    "watch-js": "./node_modules/.bin/watchify ./example/app.js -o ./example/bundle.js"
-  },
   "browserify": {
     "transform": [
       "reactify"
