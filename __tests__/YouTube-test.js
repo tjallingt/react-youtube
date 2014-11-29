@@ -1,5 +1,3 @@
-/** @jsx React.DOM */
-
 jest.dontMock('../');
 
 describe('YouTube Component', function() {
@@ -199,14 +197,14 @@ describe('YouTube Component', function() {
      */     
 
     it('should remove player event listeners when unmounted', function() {
-      React.renderComponent(<YouTube />, document.body);
+      React.render(<YouTube />, document.body);
       React.unmountComponentAtNode(document.body);
 
       expect(playerMock.removeEventListener.mock.calls.length).toBe(2);
     });
 
     it('should destroy event handlers on the global namespace when unmounted', function() {
-      var youtube = React.renderComponent(<YouTube />, document.body);
+      var youtube = React.render(<YouTube />, document.body);
 
       // add fake global handlers
       window.playerReady = 'player ready handler';

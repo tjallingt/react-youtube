@@ -1,5 +1,3 @@
-/** @jsx React.DOM */
-
 /**
  * Module dependencies
  */
@@ -42,4 +40,4 @@ var Example = React.createClass({
  * Render Example
  */
 
-React.renderComponent(<Example />, document.body);
+React.render(<Example />, document.body);
