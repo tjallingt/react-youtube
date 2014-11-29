@@ -7,9 +7,6 @@ setup:
 test:
 	$(BIN)/jest
 
-serve:
-	$(BIN)/http-server ./example -s
-
 example: example/build/bundle.js example/build/bundle.css
 
 example/build/bundle.js: example/example.js
@@ -21,4 +18,4 @@ example/build/bundle.css: example/example.css
 clean:
 	rm -rf node_modules example/build
 
-.PHONT: setup test serve example clean
+.PHONT: setup test example clean
