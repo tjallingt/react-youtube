@@ -10,10 +10,7 @@ serve:
 	$(BIN)/http-server ./example -s
 
 example/bundle.js: example/example.js
-	$(BIN)/watchify $^ -o $@
-
-example/bundle.css: example/example.css
-	$(BIN)/autoprefixer $^ -o $@
+	$(BIN)/browserify $^ -o $@
 
 clean:
 	rm -rf node_modules
