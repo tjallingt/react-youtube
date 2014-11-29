@@ -75,6 +75,38 @@ section.content {
  * custom styles
  */
 
-.content iframe {
+.example {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.example iframe {
   max-width: 100%;
+}
+
+.changeUrl {
+  flex-basis: 100%;
+  text-align: center;
+  margin-top: 2em;
+}
+
+.changeUrl button {;
+  padding: 1em 4em;
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #168add), color-stop(100%, #007ee5));
+  border: 1px solid #0c6ebe;
+  border-radius: 3px;
+  color: white;
+  font-size: 14px;
+  text-align: center;
+}
+
+.changeUrl button:hover,
+.changeUrl button:focus {
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #168eef), color-stop(100%, #007ee5));
+  outline: none;
+}
+
+.changeUrl button:active {
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #1b80d3), color-stop(100%, #0a74cb));
 }

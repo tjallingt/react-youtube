@@ -3,12 +3,11 @@
  */
 
 var React = require('react');
+var cx = require('react/addons').addons.classSet;
 var YouTube = require('../');
 
-window.React = React;
-
-var url = 'https://www.youtube.com/watch?v=tITYj52gXxU';
-var url2 = 'https://www.youtube.com/watch?v=vW7qFzT7cbA';
+var url = 'http://www.youtube.com/watch?v=2g811Eo7K8U';
+var url2 = 'http://www.youtube.com/watch?v=_OBlgSz8sSM';
 
 var Example = React.createClass({
   getInitialState: function() {
@@ -23,14 +22,28 @@ var Example = React.createClass({
   },
 
   _onPlay: function() {
-    console.log('playing');
+    console.log('PLAYING');
+  },
+
+  _onPause: function() {
+    console.log('PAUSED');
+  },
+
+  _onEnd: function() {
+    console.log('ENDED');
   },
 
   render: function() {
     return (
-      <div>
-        <button onClick={this._changeUrl}>Change URL</button>
-        <YouTube url={this.state.url} onPlay={this._onPlay} />
+      <div className='example'>
+        <YouTube url={this.state.url} 
+                 onPlay={this._onPlay} 
+                 onPause={this._onPause}
+                 onEnd={this._onEnd} />
+
+        <div className='changeUrl'>
+          <button onClick={this._changeUrl}>Change url</button>
+        </div>
       </div>
     );
   }
