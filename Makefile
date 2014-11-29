@@ -2,6 +2,7 @@ BIN = node_modules/.bin
 
 setup:
 	npm install
+	mkdir example/build
 
 test:
 	$(BIN)/jest
@@ -9,11 +10,15 @@ test:
 serve:
 	$(BIN)/http-server ./example -s
 
-example/bundle.js: example/example.js
+example: example/build/bundle.js example/build/bundle.css
+
+example/build/bundle.js: example/example.js
 	$(BIN)/browserify $^ -o $@
 
-clean:
-	rm -rf node_modules
-	rm example/bundle.*
+example/build/bundle.css: example/example.css
+	$(BIN)/autoprefixer $^ -o $@
 
-.PHONT: setup test serve clean
+clean:
+	rm -rf node_modules example/build
+
+.PHONT: setup test serve example clean
