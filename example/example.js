@@ -40,4 +40,4 @@ var Example = React.createClass({
  * Render Example
  */
 
-React.render(<Example />, document.body);
+React.render(<Example />, document.querySelector('section.content'));
