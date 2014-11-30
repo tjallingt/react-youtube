@@ -15,56 +15,40 @@ $ npm install react-youtube
 ```
 
 Usage
+----
+```js
+<YouTube 
+  url={string}         // required
+  id={string}          // defaults -> 'react-yt-player'
+  autoplay={bool}      // defaults -> false
+  onPlayerReady={func} // defaults -> noop
+  onVideoReady={func}  // defaults -> noop
+  onPlay={func}        // defaults -> noop
+  onPause={func}       // defaults -> noop
+  onEnd={func}         // defaults -> noop
+/> 
+```
+
+Example
 -----
 
 ```js
 var React = require('react');
 var YouTube = require('react-youtube');
 
-var App = React.createClass({
+var Example = React.createClass({
+  _onPlay: function() {
+    console.log('PLAYING');
+  },
+
   render: function() {
     return (
-      <div>
-
-        // `id` will be the YT Player iframe's container ID. Completely 
-        // optional, defaults to 'react-yt-player'
-        //
-        // `autoplay` decides whether playback needs to be started manually
-        //  or not, defaults to 'false'
-        //
-        // `url` is  the only parameter needed to play a video. Player automatically
-        // loads it when it is changed.
-        //
-        // `playing`, `stopped`, and `ended` are event handlers called by the player.
-        // They default to no-ops.
-
-        <YouTube id={'react-player'}
-                      autoplay={false}
-                      url={'https://www.youtube.com/watch?v=OvJDiZwGGd4'}
-                      onPlay={this._handlePlay}
-                      onPause={this._handleStop}
-                      onEnd={this._handleEnd}
-        />
-
-        // Simplest version of component
-        <YouTube url={'https://www.youtube.com/watch?v=OvJDiZwGGd4'} />
-      </div>
+      <YouTube url={'http://www.youtube.com/watch?v=2g811Eo7K8U'} 
+               onPlay={this._onPlay} />
     );
-  },
-
-  _handlePlay: function() {
-    console.log('video is playing');
-  },
-
-  _handleStop: function() {
-    console.log('video is stopped');
-  },
-
-  // load a new video or call an alert or something like that.
-  _handleEnd: function() {
-  	console.log('video has ended');
   }
 });
+
 ```
 
 ## Caveat

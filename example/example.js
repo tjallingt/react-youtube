@@ -3,7 +3,6 @@
  */
 
 var React = require('react');
-var cx = require('react/addons').addons.classSet;
 var YouTube = require('../');
 
 var url = 'http://www.youtube.com/watch?v=2g811Eo7K8U';
