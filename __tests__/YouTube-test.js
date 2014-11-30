@@ -168,18 +168,20 @@ describe('YouTube Component', function() {
     });
 
     it('should bind event handler props to playback events', function() {
+      var onVideoReady = jest.genMockFunction();
       var onPlay = jest.genMockFunction();
       var onPause = jest.genMockFunction();
       var onEnd = jest.genMockFunction();
-      var youtube = TestUtils.renderIntoDocument(<YouTube onPlay={onPlay} onPause={onPause} onEnd={onEnd} />);
+      var youtube = TestUtils.renderIntoDocument(
+        <YouTube onVideoReady={onVideoReady}
+                 onPlay={onPlay} 
+                 onPause={onPause} 
+                 onEnd={onEnd} />
+      );
 
-      // video ended
-      youtube._handlePlayerStateChange({data: window.YT.PlayerState.ENDED});
-      expect(onEnd.mock.calls.length).toBe(1);
-
-      // new video being cued
+      // video has been cued and is ready
       youtube._handlePlayerStateChange({data: window.YT.PlayerState.CUED});
-      expect(onEnd.mock.calls.length).toBe(2);
+      expect(onVideoReady.mock.calls.length).toBe(1);
 
       // video playing
       youtube._handlePlayerStateChange({data: window.YT.PlayerState.PLAYING});
@@ -188,6 +190,10 @@ describe('YouTube Component', function() {
       // video paused
       youtube._handlePlayerStateChange({data: window.YT.PlayerState.PAUSED});
       expect(onPlay.mock.calls.length).toBe(1);
+
+      // video ended
+      youtube._handlePlayerStateChange({data: window.YT.PlayerState.ENDED});
+      expect(onEnd.mock.calls.length).toBe(1);
     });
 
     /**

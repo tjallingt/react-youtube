@@ -21,6 +21,10 @@ var Example = React.createClass({
     this.setState({url: newUrl});
   },
 
+  _onVideoReady: function() {
+    console.log('VIDEO READY');
+  },
+
   _onPlay: function() {
     console.log('PLAYING');
   },
@@ -37,6 +41,7 @@ var Example = React.createClass({
     return (
       <div className='example'>
         <YouTube url={this.state.url} 
+                 onVideoReady={this._onVideoReady}
                  onPlay={this._onPlay} 
                  onPause={this._onPause}
                  onEnd={this._onEnd} />
