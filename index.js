@@ -25,6 +25,7 @@ var YouTube = React.createClass({
     autoplay: React.PropTypes.bool,
 
     // event subscriptions
+    onPlayerReady: React.PropTypes.func,
     onVideoReady: React.PropTypes.func,
     onPlay: React.PropTypes.func,
     onPause: React.PropTypes.func,
@@ -35,6 +36,7 @@ var YouTube = React.createClass({
     return {
       id: 'react-yt-player',
       autoplay: false,
+      onPlayerReady: noop,
       onVideoReady: noop,
       onPlay: noop,
       onPause: noop,
@@ -114,13 +116,14 @@ var YouTube = React.createClass({
 
   /**
    * When the player is all loaded up, load the url
-   * passed via `props.url`.
+   * passed via `props.url` and notify anybody listening.
    *
    * Is exposed in the global namespace under a random
    * name, see `_globalizeEventHandlers`
    */
   
   _handlePlayerReady: function() {
+    this.props.onPlayerReady();
     this._loadUrl(this.props.url);
   },
 
