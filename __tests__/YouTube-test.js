@@ -218,20 +218,14 @@ describe('YouTube Component', function() {
     });
 
     it('should destroy event handlers on the global namespace when unmounted', function() {
+      window.fakeGlobalEventHandler = 'this is a fake event handler.';
+      globalize.mockReturnValue('fakeGlobalEventHandler');
+
       var youtube = React.render(<YouTube />, document.body);
-
-      // add fake global handlers
-      window.playerReady = 'player ready handler';
-      window.stateChange = 'state change handler';
-
-      youtube.state.playerReadyHandle = 'playerReady';
-      youtube.state.stateChangeHandle = 'stateChange';
 
       // trigger unmounting
       React.unmountComponentAtNode(document.body);
-
-      expect(window.playerReady).not.toBeDefined();
-      expect(window.stateChange).not.toBeDefined();
+      expect(window.fakeGlobalEventHandler).not.toBeDefined();
     });
   });
 });

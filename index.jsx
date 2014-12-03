@@ -7,6 +7,10 @@ var getYouTubeId = require('get-youtube-id');
 var globalize = require('random-global');
 var createPlayer = require('./lib/createPlayer');
 
+var internalPlayer;
+var playerReadyHandle;
+var stateChangeHandle;
+
 /**
  * Create a new `YouTube` component.
  */
@@ -41,14 +45,6 @@ var YouTube = React.createClass({
       onPlay: noop,
       onPause: noop,
       onEnd: noop
-    };
-  },
-
-  getInitialState: function() {
-    return {
-      player: null,
-      playerReadyHandle: null,
-      stateChangeHandle: null
     };
   },
 
@@ -95,7 +91,7 @@ var YouTube = React.createClass({
    */
 
   _setupPlayer: function(player) {
-    this.setState({player: player});
+    internalPlayer = player;
     this._globalizeEventHandlers();
     this._bindEvents();
   },
@@ -108,9 +104,9 @@ var YouTube = React.createClass({
   
   _loadUrl: function(url) {
     if (this.props.autoplay) {
-      this.state.player.loadVideoById(getYouTubeId(url));
+      internalPlayer.loadVideoById(getYouTubeId(url));
     } else {
-      this.state.player.cueVideoById(getYouTubeId(url));
+      internalPlayer.cueVideoById(getYouTubeId(url));
     }
   },
 
@@ -171,10 +167,8 @@ var YouTube = React.createClass({
    */
 
   _globalizeEventHandlers: function() {
-    this.setState({
-      playerReadyHandle: globalize(this._handlePlayerReady),
-      stateChangeHandle: globalize(this._handlePlayerStateChange)
-    });
+    playerReadyHandle = globalize(this._handlePlayerReady);
+    stateChangeHandle = globalize(this._handlePlayerStateChange);
   },
 
   /**
@@ -182,8 +176,8 @@ var YouTube = React.createClass({
    */
 
   _destroyGlobalEventHandlers: function() {
-    delete window[this.state.playerReadyHandle];
-    delete window[this.state.stateChangeHandle];
+    delete window[playerReadyHandle];
+    delete window[stateChangeHandle];
   },
 
   /**
@@ -191,8 +185,8 @@ var YouTube = React.createClass({
    */
 
   _bindEvents: function() {
-    this.state.player.addEventListener('onReady', this.state.playerReadyHandle);
-    this.state.player.addEventListener('onStateChange', this.state.stateChangeHandle);
+    internalPlayer.addEventListener('onReady', playerReadyHandle);
+    internalPlayer.addEventListener('onStateChange', stateChangeHandle);
   },
 
   /**
@@ -200,8 +194,8 @@ var YouTube = React.createClass({
    */
 
   _unbindEvents: function() {
-    this.state.player.removeEventListener('onReady', this.state.playerReadyHandle);
-    this.state.player.removeEventListener('onStateChange', this.state.stateChangeHandle);
+    internalPlayer.removeEventListener('onReady', playerReadyHandle);
+    internalPlayer.removeEventListener('onStateChange', stateChangeHandle);
   }
 });
 
