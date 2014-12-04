@@ -2,15 +2,18 @@
  * base styles
  */
 
+* {
+  box-sizing: border-box;
+}
+
 body {
   color: #222;
   font-family: Arial;
   display: flex;
   justify-content: center;
   align-items: flex-start;
-  flex-flow: row wrap;
-  margin: 0;
-  padding: 0;
+  flex-direction: row;
+  flex-wrap: wrap;
 }
 
 a {
@@ -27,48 +30,38 @@ a:focus {
 
 header {
   flex-basis: 100%;
-  display: flex;
-  height: 230px;
-  justify-content: center;
-  align-items: center;
   text-align: center;
+  margin-bottom: 2em;
 }
 
 header h1 {
+  margin: 2.2em 0.5em 0.9em 0.5em;
   font-size: 2.5em;
   font-weight: bold;
   letter-spacing: 5px;
   text-transform: uppercase;
 }
 
+header p {
+  letter-spacing: 1px;
+}
+
 footer {
   flex-basis: 100%;
-  display: flex;
-  height: 230px;
-  justify-content: center;
-  align-items: center;
   text-align: center;
 }
 
-section.content {
-  flex-basis: 60%;
-}
-
 .github-button {
+  margin: 6em 0;
   width: 75px;
   height: 30px;
 }
 
-@media(max-width: 1000px) {
-  section.content {
-    flex-basis: 80%;
-  }
-}
-
-@media(max-width: 500px) {
-  section.content {
-    flex-basis: 90%;
-  }
+.content {
+  display: flex;
+  flex-basis: 60%;
+  justify-content: center;
+  flex-wrap: wrap;
 }
 
 /**
@@ -109,4 +102,20 @@ section.content {
 
 .changeUrl button:active {
   background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #1b80d3), color-stop(100%, #0a74cb));
+}
+
+/**
+ * responsive things
+ */
+
+@media(max-width: 1000px) {
+  .content {
+    flex-basis: 80%;
+  }
+}
+
+@media(max-width: 700px) {
+  .content {
+    flex-basis: 90%;
+  }
 }
