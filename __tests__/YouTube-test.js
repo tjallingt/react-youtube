@@ -38,21 +38,21 @@ describe('YouTube Component', function() {
 
   describe('instantiation', function() {
     it('should render a YouTube API ready div', function() {
-      var youtube = TestUtils.renderIntoDocument(<YouTube />);
+      var youtube = TestUtils.renderIntoDocument(React.createElement(YouTube, null));
       var div = TestUtils.findRenderedDOMComponentWithTag(youtube, 'div').getDOMNode();
 
       expect(div.getAttribute('id')).toBe('react-yt-player');
     });
 
     it('should create a new YouTube widget', function() {
-      var youtube = TestUtils.renderIntoDocument(<YouTube />);
+      var youtube = TestUtils.renderIntoDocument(React.createElement(YouTube, null));
       expect(createPlayer.mock.calls[0][0]).toBe('react-yt-player');
     });
   });
 
   describe('appearance', function() {
     it('should accept a custom id', function() {
-      var youtube = TestUtils.renderIntoDocument(<YouTube id='custom-id'/>);
+      var youtube = TestUtils.renderIntoDocument(React.createElement(YouTube, {id: 'custom-id'}));
       var div = TestUtils.findRenderedDOMComponentWithTag(youtube, 'div').getDOMNode();
 
       expect(div.getAttribute('id')).toBe('custom-id');
@@ -92,17 +92,17 @@ describe('YouTube Component', function() {
 
         render: function() {
           return (
-            <div>
-              <button className='set-url-1' onClick={this._setUrl1}>URL 1</button>
-              <button className='set-url-2' onClick={this._setUrl2}>URL 2</button>
-              <button className='toggle-autoplay' onClick={this._setAutoplay}>Toggle autoplay</button>
-              <YouTube url={this.state.url} autoplay={this.state.autoplay} />
-            </div>
+            React.createElement("div", null, 
+              React.createElement("button", {className: "set-url-1", onClick: this._setUrl1}, "URL 1"), 
+              React.createElement("button", {className: "set-url-2", onClick: this._setUrl2}, "URL 2"), 
+              React.createElement("button", {className: "toggle-autoplay", onClick: this._setAutoplay}, "Toggle autoplay"), 
+              React.createElement(YouTube, {url: this.state.url, autoplay: this.state.autoplay})
+            )
           );
         }
       });
 
-      container = TestUtils.renderIntoDocument(<Container />);
+      container = TestUtils.renderIntoDocument(React.createElement(Container, null));
     });
 
     it('should load a `url`', function() {
@@ -158,18 +158,18 @@ describe('YouTube Component', function() {
 
   describe('events', function() {
     it('should register event handlers onto the global namespace', function() {
-      var youtube = TestUtils.renderIntoDocument(<YouTube />);
+      var youtube = TestUtils.renderIntoDocument(React.createElement(YouTube, null));
       expect(globalize.mock.calls.length).toBe(2);
     }); 
 
     it('should bind event handlers to the player', function() {
-      var youtube = TestUtils.renderIntoDocument(<YouTube />);
+      var youtube = TestUtils.renderIntoDocument(React.createElement(YouTube, null));
       expect(playerMock.addEventListener.mock.calls.length).toBe(2);
     });
 
     it('should bind an event handler to player events', function() {
       var onPlayerReady = jest.genMockFunction();
-      var youtube = TestUtils.renderIntoDocument(<YouTube onPlayerReady={onPlayerReady} />);
+      var youtube = TestUtils.renderIntoDocument(React.createElement(YouTube, {onPlayerReady: onPlayerReady}));
 
       youtube._handlePlayerReady();
       expect(onPlayerReady.mock.calls.length).toBe(1);
@@ -181,10 +181,12 @@ describe('YouTube Component', function() {
       var onPause = jest.genMockFunction();
       var onEnd = jest.genMockFunction();
       var youtube = TestUtils.renderIntoDocument(
-        <YouTube onVideoReady={onVideoReady}
-                 onPlay={onPlay} 
-                 onPause={onPause} 
-                 onEnd={onEnd} />
+        React.createElement(YouTube, {
+          onVideoReady: onVideoReady, 
+          onPlay: onPlay, 
+          onPause: onPause, 
+          onEnd: onEnd
+        })
       );
 
       // video has been cued and is ready
@@ -211,7 +213,7 @@ describe('YouTube Component', function() {
      */     
 
     it('should remove player event listeners when unmounted', function() {
-      React.render(<YouTube />, document.body);
+      React.render(React.createElement(YouTube, null), document.body);
       React.unmountComponentAtNode(document.body);
 
       expect(playerMock.removeEventListener.mock.calls.length).toBe(2);
@@ -221,7 +223,7 @@ describe('YouTube Component', function() {
       window.fakeGlobalEventHandler = 'this is a fake event handler.';
       globalize.mockReturnValue('fakeGlobalEventHandler');
 
-      var youtube = React.render(<YouTube />, document.body);
+      var youtube = React.render(React.createElement(YouTube, null), document.body);
 
       // trigger unmounting
       React.unmountComponentAtNode(document.body);

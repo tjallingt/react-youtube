@@ -38,19 +38,16 @@
     ]
   },
   "jest": {
-    "scriptPreprocessor": "./jest/preprocessor.js",
     "unmockedModulePathPatterns": [
       "./node_modules/react"
     ],
     "testPathIgnorePatterns": [
       "/example/",
-      "/jest/",
       "/lib/",
       "/node_modules/"
     ],
     "modulePathIgnorePatterns": [
       "/example/",
-      "/jest/",
       "/lib/",
       "/node_modules"
     ]
