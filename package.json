@@ -2,7 +2,7 @@
   "name": "react-youtube",
   "version": "2.1.3",
   "description": "react.js powered YouTube player component",
-  "main": "index.jsx",
+  "main": "index.js",
   "repository": {
     "type": "git",
     "url": "git@github.com:compedit/react-youtube.git"

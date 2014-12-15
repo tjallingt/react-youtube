@@ -80,7 +80,7 @@ var YouTube = React.createClass({
 
   render: function() {
     return (
-      <div id={this.props.id}></div>
+      React.createElement("div", {id: this.props.id})
     );
   },
 
