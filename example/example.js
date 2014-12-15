@@ -42,18 +42,20 @@ var Example = React.createClass({
 
   render: function() {
     return (
-      <div className='example'>
-        <YouTube url={this.state.url} 
-                 onPlayerReady={this._onPlayerReady}
-                 onVideoReady={this._onVideoReady}
-                 onPlay={this._onPlay} 
-                 onPause={this._onPause}
-                 onEnd={this._onEnd} />
+      React.createElement("div", {className: "example"}, 
+        React.createElement(YouTube, {
+          url: this.state.url, 
+          onPlayerReady: this._onPlayerReady, 
+          onVideoReady: this._onVideoReady, 
+          onPlay: this._onPlay, 
+          onPause: this._onPause, 
+          onEnd: this._onEnd
+        }), 
 
-        <div className='changeUrl'>
-          <button onClick={this._changeUrl}>Change url</button>
-        </div>
-      </div>
+        React.createElement("div", {className: "changeUrl"}, 
+          React.createElement("button", {onClick: this._changeUrl}, "Change url")
+        )
+      )
     );
   }
 });
@@ -62,4 +64,4 @@ var Example = React.createClass({
  * Render Example
  */
 
-React.render(<Example />, document.querySelector('section.content'));
+React.render(React.createElement(Example, null), document.querySelector('section.content'));

@@ -28,14 +28,7 @@
   "devDependencies": {
     "autoprefixer": "^4.0.0",
     "browserify": "^6.2.0",
-    "jest-cli": "^0.1.18",
-    "react-tools": "^0.12.1",
-    "reactify": "^0.17.1"
-  },
-  "browserify": {
-    "transform": [
-      "reactify"
-    ]
+    "jest-cli": "^0.1.18"
   },
   "jest": {
     "unmockedModulePathPatterns": [
