@@ -11,7 +11,7 @@
     "react",
     "youtube",
     "player",
-    "component"
+    "react-component"
   ],
   "author": "troy betz <troybetz@gmail.com>",
   "license": "MIT",
