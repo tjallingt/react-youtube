@@ -18,4 +18,4 @@ example/build/bundle.css: example/example.css
 clean:
 	rm -rf node_modules example/build
 
-.PHONT: setup test example clean
+.PHONY: setup test example clean
