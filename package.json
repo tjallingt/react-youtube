@@ -25,15 +25,18 @@
     "require-sdk": "0.0.2"
   },
   "devDependencies": {
-    "autoprefixer": "^5.1.0",
-    "browserify": "^8.1.3",
-    "jest-cli": "^0.2.2"
+    "autoprefixer-loader": "^1.1.0",
+    "css-loader": "^0.9.1",
+    "jest-cli": "^0.2.2",
+    "style-loader": "^0.8.3",
+    "webpack": "^1.5.3"
   },
   "peerDependencies": {
     "react": "^0.12.2"
   },
   "scripts": {
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "example": "webpack --config example/webpack.config.js"
   },
   "jest": {
     "unmockedModulePathPatterns": [

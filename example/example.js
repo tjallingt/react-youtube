@@ -5,6 +5,9 @@
 var React = require('react');
 var YouTube = require('../');
 
+// css
+require('./example.css');
+
 var url = 'http://www.youtube.com/watch?v=2g811Eo7K8U';
 var url2 = 'http://www.youtube.com/watch?v=_OBlgSz8sSM';
 
