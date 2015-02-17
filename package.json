@@ -35,6 +35,7 @@
     "react": "^0.12.2"
   },
   "scripts": {
+    "test": "jest",
     "lint": "eslint .",
     "example": "webpack --config example/webpack.config.js"
   },
