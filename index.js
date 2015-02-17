@@ -52,7 +52,7 @@ var YouTube = React.createClass({
    * Once YouTube API had loaded, a new YT.Player
    * instance will be created and its events bound.
    */
-  
+
   componentDidMount: function() {
     var _this = this;
 
@@ -80,7 +80,7 @@ var YouTube = React.createClass({
 
   render: function() {
     return (
-      React.createElement("div", {id: this.props.id})
+      React.createElement('div', {id: this.props.id})
     );
   },
 
@@ -101,7 +101,7 @@ var YouTube = React.createClass({
    *
    * @param {String} url
    */
-  
+
   _loadUrl: function(url) {
     if (this.props.autoplay) {
       internalPlayer.loadVideoById(getYouTubeId(url));
@@ -117,7 +117,7 @@ var YouTube = React.createClass({
    * Is exposed in the global namespace under a random
    * name, see `_globalizeEventHandlers`
    */
-  
+
   _handlePlayerReady: function() {
     this.props.onPlayerReady();
     this._loadUrl(this.props.url);
@@ -133,15 +133,15 @@ var YouTube = React.createClass({
    *
    * @param {Object} event
    */
-  
+
   _handlePlayerStateChange: function(event) {
     switch(event.data) {
 
       case window.YT.PlayerState.CUED:
         this.props.onVideoReady();
         break;
-      
-      case window.YT.PlayerState.ENDED: 
+
+      case window.YT.PlayerState.ENDED:
         this.props.onEnd();
         break;
 
@@ -153,7 +153,7 @@ var YouTube = React.createClass({
         this.props.onPause();
         break;
 
-      default: 
+      default:
         return;
     }
   },

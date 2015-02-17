@@ -45,7 +45,7 @@ describe('YouTube Component', function() {
     });
 
     it('should create a new YouTube widget', function() {
-      var youtube = TestUtils.renderIntoDocument(React.createElement(YouTube, null));
+      TestUtils.renderIntoDocument(React.createElement(YouTube, null));
       expect(createPlayer.mock.calls[0][0]).toBe('react-yt-player');
     });
   });
@@ -69,7 +69,7 @@ describe('YouTube Component', function() {
        * Using `forceUpdate` doesn't work with `componentWillUpdate` when
        * changing `props.url`. This is a hack to get around that.
        */
-      
+
       Container = React.createClass({
         getInitialState: function() {
           return {
@@ -92,10 +92,10 @@ describe('YouTube Component', function() {
 
         render: function() {
           return (
-            React.createElement("div", null, 
-              React.createElement("button", {className: "set-url-1", onClick: this._setUrl1}, "URL 1"), 
-              React.createElement("button", {className: "set-url-2", onClick: this._setUrl2}, "URL 2"), 
-              React.createElement("button", {className: "toggle-autoplay", onClick: this._setAutoplay}, "Toggle autoplay"), 
+            React.createElement('div', null,
+              React.createElement('button', {className: 'set-url-1', onClick: this._setUrl1}, 'URL 1'),
+              React.createElement('button', {className: 'set-url-2', onClick: this._setUrl2}, 'URL 2'),
+              React.createElement('button', {className: 'toggle-autoplay', onClick: this._setAutoplay}, 'Toggle autoplay'),
               React.createElement(YouTube, {url: this.state.url, autoplay: this.state.autoplay})
             )
           );
@@ -150,7 +150,7 @@ describe('YouTube Component', function() {
 
       TestUtils.Simulate.click(toggleAutoplay);
       TestUtils.Simulate.click(setNewTrack);
-      
+
       // `loadVideoById` automatically plays a URl
       expect(playerMock.loadVideoById.mock.calls.length).toBe(1);
     });
@@ -158,12 +158,12 @@ describe('YouTube Component', function() {
 
   describe('events', function() {
     it('should register event handlers onto the global namespace', function() {
-      var youtube = TestUtils.renderIntoDocument(React.createElement(YouTube, null));
+      TestUtils.renderIntoDocument(React.createElement(YouTube, null));
       expect(globalize.mock.calls.length).toBe(2);
-    }); 
+    });
 
     it('should bind event handlers to the player', function() {
-      var youtube = TestUtils.renderIntoDocument(React.createElement(YouTube, null));
+      TestUtils.renderIntoDocument(React.createElement(YouTube, null));
       expect(playerMock.addEventListener.mock.calls.length).toBe(2);
     });
 
@@ -182,9 +182,9 @@ describe('YouTube Component', function() {
       var onEnd = jest.genMockFunction();
       var youtube = TestUtils.renderIntoDocument(
         React.createElement(YouTube, {
-          onVideoReady: onVideoReady, 
-          onPlay: onPlay, 
-          onPause: onPause, 
+          onVideoReady: onVideoReady,
+          onPlay: onPlay,
+          onPause: onPause,
           onEnd: onEnd
         })
       );
@@ -210,7 +210,7 @@ describe('YouTube Component', function() {
      * These tests use the regular methods of rendering components instead
      * of `TestUtils.renderIntoDocument`. TestUtils forces the component
      * into a detached DOM node, making it difficult to unmount.
-     */     
+     */
 
     it('should remove player event listeners when unmounted', function() {
       React.render(React.createElement(YouTube, null), document.body);
@@ -223,7 +223,7 @@ describe('YouTube Component', function() {
       window.fakeGlobalEventHandler = 'this is a fake event handler.';
       globalize.mockReturnValue('fakeGlobalEventHandler');
 
-      var youtube = React.render(React.createElement(YouTube, null), document.body);
+      React.render(React.createElement(YouTube, null), document.body);
 
       // trigger unmounting
       React.unmountComponentAtNode(document.body);

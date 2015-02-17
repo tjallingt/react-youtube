@@ -32,6 +32,9 @@
   "peerDependencies": {
     "react": "^0.12.2"
   },
+  "scripts": {
+    "lint": "eslint ."
+  },
   "jest": {
     "unmockedModulePathPatterns": [
       "./node_modules/react"
