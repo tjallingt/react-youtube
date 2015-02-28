@@ -43,7 +43,7 @@ var Example = React.createClass({
   },
 
   render: function() {
-    var playerParams = { height: '390', width: '640' }
+    var playerParams = { height: '390', width: '640' };
     return (
       <YouTube
         url={'http://www.youtube.com/watch?v=2g811Eo7K8U'}
