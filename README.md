@@ -18,14 +18,15 @@ Usage
 ----
 ```js
 <YouTube 
-  url={string}         // required
-  id={string}          // defaults -> 'react-yt-player'
-  autoplay={bool}      // defaults -> false
-  onPlayerReady={func} // defaults -> noop
-  onVideoReady={func}  // defaults -> noop
-  onPlay={func}        // defaults -> noop
-  onPause={func}       // defaults -> noop
-  onEnd={func}         // defaults -> noop
+  url={string}            // required
+  id={string}             // defaults -> 'react-yt-player'
+  autoplay={bool}         // defaults -> false
+  onPlayerReady={func}    // defaults -> noop
+  onVideoReady={func}     // defaults -> noop
+  onPlay={func}           // defaults -> noop
+  onPause={func}          // defaults -> noop
+  onEnd={func}            // defaults -> noop
+  playerParameters={obj}  // defaults -> {}
 /> 
 ```
 
@@ -42,9 +43,13 @@ var Example = React.createClass({
   },
 
   render: function() {
+    var playerParams = { height: '390', width: '640' }
     return (
-      <YouTube url={'http://www.youtube.com/watch?v=2g811Eo7K8U'} 
-               onPlay={this._onPlay} />
+      <YouTube
+        url={'http://www.youtube.com/watch?v=2g811Eo7K8U'}
+        onPlay={this._onPlay}
+        playerParameters={playerParams}
+      />
     );
   }
 });
