@@ -31,7 +31,7 @@ describe('YouTube Component', function() {
       removeEventListener: jest.genMockFunction()
     };
 
-    createPlayer.mockImplementation(function(url, cb) {
+    createPlayer.mockImplementation(function(url, playerParameters, cb) {
       return cb(playerMock);
     });
   });

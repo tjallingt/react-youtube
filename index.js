@@ -33,7 +33,11 @@ var YouTube = React.createClass({
     onVideoReady: React.PropTypes.func,
     onPlay: React.PropTypes.func,
     onPause: React.PropTypes.func,
-    onEnd: React.PropTypes.func
+    onEnd: React.PropTypes.func,
+
+    // YT.Player parameters
+    // https://developers.google.com/youtube/player_parameters
+    playerParameters: React.PropTypes.object
   },
 
   getDefaultProps: function() {
@@ -44,7 +48,8 @@ var YouTube = React.createClass({
       onVideoReady: noop,
       onPlay: noop,
       onPause: noop,
-      onEnd: noop
+      onEnd: noop,
+      playerParameters: {}
     };
   },
 
@@ -54,11 +59,9 @@ var YouTube = React.createClass({
    */
 
   componentDidMount: function() {
-    var _this = this;
-
-    createPlayer(this.props.id, function(player) {
-      _this._setupPlayer(player);
-    });
+    createPlayer(this.props.id, this.props.playerParameters, function(player) {
+      this._setupPlayer(player);
+    }.bind(this));
   },
 
   /**
