@@ -145,11 +145,11 @@ describe('YouTube Component', function() {
     });
 
     it('should bind an event handler to player events', function() {
-      var onPlayerReady = jest.genMockFunction();
-      var youtube = TestUtils.renderIntoDocument(React.createElement(YouTube, {onPlayerReady: onPlayerReady}));
+      var onReady = jest.genMockFunction();
+      var youtube = TestUtils.renderIntoDocument(React.createElement(YouTube, {onReady: onReady}));
 
       youtube._handlePlayerReady();
-      expect(onPlayerReady.mock.calls.length).toBe(1);
+      expect(onReady.mock.calls.length).toBe(1);
     });
 
     it('should bind event handler props to playback events', function() {

@@ -26,7 +26,7 @@ var YouTube = React.createClass({
     id: React.PropTypes.string,
 
     // event subscriptions
-    onPlayerReady: React.PropTypes.func,
+    onReady: React.PropTypes.func,
     onPlay: React.PropTypes.func,
     onPause: React.PropTypes.func,
     onEnd: React.PropTypes.func,
@@ -39,7 +39,7 @@ var YouTube = React.createClass({
   getDefaultProps: function() {
     return {
       id: 'react-yt-player',
-      onPlayerReady: noop,
+      onReady: noop,
       onPlay: noop,
       onPause: noop,
       onEnd: noop,
@@ -112,7 +112,7 @@ var YouTube = React.createClass({
    */
 
   _handlePlayerReady: function() {
-    this.props.onPlayerReady();
+    this.props.onReady();
     this._loadUrl(this.props.url);
   },
 
