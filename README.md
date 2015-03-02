@@ -21,7 +21,6 @@ Usage
   url={string}            // required
   id={string}             // defaults -> 'react-yt-player'
   onPlayerReady={func}    // defaults -> noop
-  onVideoReady={func}     // defaults -> noop
   onPlay={func}           // defaults -> noop
   onPause={func}          // defaults -> noop
   onEnd={func}            // defaults -> noop

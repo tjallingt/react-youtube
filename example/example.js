@@ -27,10 +27,6 @@ var Example = React.createClass({
     console.log('PLAYER READY');
   },
 
-  _onVideoReady: function() {
-    console.log('VIDEO READY');
-  },
-
   _onPlay: function() {
     console.log('PLAYING');
   },
@@ -49,7 +45,6 @@ var Example = React.createClass({
         React.createElement(YouTube, {
           url: this.state.url,
           onPlayerReady: this._onPlayerReady,
-          onVideoReady: this._onVideoReady,
           onPlay: this._onPlay,
           onPause: this._onPause,
           onEnd: this._onEnd

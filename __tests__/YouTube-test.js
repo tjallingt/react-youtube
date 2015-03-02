@@ -19,8 +19,7 @@ describe('YouTube Component', function() {
         ENDED: 0,
         PLAYING: 1,
         PAUSED: 2,
-        BUFFERING: 3,
-        CUED: 5
+        BUFFERING: 3
       }
      };
 
@@ -154,22 +153,16 @@ describe('YouTube Component', function() {
     });
 
     it('should bind event handler props to playback events', function() {
-      var onVideoReady = jest.genMockFunction();
       var onPlay = jest.genMockFunction();
       var onPause = jest.genMockFunction();
       var onEnd = jest.genMockFunction();
       var youtube = TestUtils.renderIntoDocument(
         React.createElement(YouTube, {
-          onVideoReady: onVideoReady,
           onPlay: onPlay,
           onPause: onPause,
           onEnd: onEnd
         })
       );
-
-      // video has been cued and is ready
-      youtube._handlePlayerStateChange({data: window.YT.PlayerState.CUED});
-      expect(onVideoReady.mock.calls.length).toBe(1);
 
       // video playing
       youtube._handlePlayerStateChange({data: window.YT.PlayerState.PLAYING});
