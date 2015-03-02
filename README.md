@@ -17,17 +17,16 @@ $ npm install react-youtube
 Usage
 ----
 ```js
-<YouTube 
+<YouTube
   url={string}            // required
   id={string}             // defaults -> 'react-yt-player'
-  autoplay={bool}         // defaults -> false
   onPlayerReady={func}    // defaults -> noop
   onVideoReady={func}     // defaults -> noop
   onPlay={func}           // defaults -> noop
   onPause={func}          // defaults -> noop
   onEnd={func}            // defaults -> noop
   playerParameters={obj}  // defaults -> {}
-/> 
+/>
 ```
 
 Example
@@ -60,9 +59,9 @@ var Example = React.createClass({
 
  Programmatic control of the player as outlined in the [API docs](https://developers.google.com/youtube/js_api_reference) isn't included.
 
-If decide to take control of it, be aware that the react-youtube uses `loadVideoById`, `cueVideoById`, `addEventListener` and `removeEventListener` internally. 
+If decide to take control of it, be aware that the react-youtube uses `loadVideoById`, `cueVideoById`, `addEventListener` and `removeEventListener` internally.
 
-Using these methods outside the component may cause problems. 
+Using these methods outside the component may cause problems.
 
 # License
 

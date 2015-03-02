@@ -25,9 +25,6 @@ var YouTube = React.createClass({
     // custom ID for player element
     id: React.PropTypes.string,
 
-    // autoplay the video when loaded.
-    autoplay: React.PropTypes.bool,
-
     // event subscriptions
     onPlayerReady: React.PropTypes.func,
     onVideoReady: React.PropTypes.func,
@@ -43,7 +40,6 @@ var YouTube = React.createClass({
   getDefaultProps: function() {
     return {
       id: 'react-yt-player',
-      autoplay: false,
       onPlayerReady: noop,
       onVideoReady: noop,
       onPlay: noop,
@@ -106,11 +102,7 @@ var YouTube = React.createClass({
    */
 
   _loadUrl: function(url) {
-    if (this.props.autoplay) {
-      internalPlayer.loadVideoById(getYouTubeId(url));
-    } else {
-      internalPlayer.cueVideoById(getYouTubeId(url));
-    }
+    internalPlayer.cueVideoById(getYouTubeId(url));
   },
 
   /**

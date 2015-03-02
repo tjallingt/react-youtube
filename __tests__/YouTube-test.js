@@ -25,7 +25,6 @@ describe('YouTube Component', function() {
      };
 
     playerMock = {
-      loadVideoById: jest.genMockFunction(),
       cueVideoById: jest.genMockFunction(),
       addEventListener: jest.genMockFunction(),
       removeEventListener: jest.genMockFunction()
@@ -73,8 +72,7 @@ describe('YouTube Component', function() {
       Container = React.createClass({
         getInitialState: function() {
           return {
-            url: 'https://www.youtube.com/watch?v=tITYj52gXxU',
-            autoplay: false
+            url: 'https://www.youtube.com/watch?v=tITYj52gXxU'
           };
         },
 
@@ -86,17 +84,12 @@ describe('YouTube Component', function() {
           this.setState({url: 'https://www.youtube.com/watch?v=vW7qFzT7cbA'});
         },
 
-        _setAutoplay: function() {
-          this.setState({autoplay: true});
-        },
-
         render: function() {
           return (
             React.createElement('div', null,
               React.createElement('button', {className: 'set-url-1', onClick: this._setUrl1}, 'URL 1'),
               React.createElement('button', {className: 'set-url-2', onClick: this._setUrl2}, 'URL 2'),
-              React.createElement('button', {className: 'toggle-autoplay', onClick: this._setAutoplay}, 'Toggle autoplay'),
-              React.createElement(YouTube, {url: this.state.url, autoplay: this.state.autoplay})
+              React.createElement(YouTube, {url: this.state.url})
             )
           );
         }
@@ -138,21 +131,6 @@ describe('YouTube Component', function() {
       TestUtils.Simulate.click(setSameTrack);
 
       expect(playerMock.cueVideoById.mock.calls.length).toBe(1);
-    });
-
-    it('should autoplay a `url`', function() {
-      var youtube = TestUtils.findRenderedComponentWithType(container, YouTube);
-      var setNewTrack = TestUtils.findRenderedDOMComponentWithClass(container, 'set-url-2');
-      var toggleAutoplay = TestUtils.findRenderedDOMComponentWithClass(container, 'toggle-autoplay');
-
-      // trigger player ready event.
-      youtube._handlePlayerReady();
-
-      TestUtils.Simulate.click(toggleAutoplay);
-      TestUtils.Simulate.click(setNewTrack);
-
-      // `loadVideoById` automatically plays a URl
-      expect(playerMock.loadVideoById.mock.calls.length).toBe(1);
     });
   });
 
