@@ -20,7 +20,7 @@ Usage
 <YouTube
   url={string}            // required
   id={string}             // defaults -> 'react-yt-player'
-  playerParameters={obj}  // defaults -> {}
+  opts={obj}              // defaults -> {}
   onReady={func}          // defaults -> noop
   onPlay={func}           // defaults -> noop
   onPause={func}          // defaults -> noop
@@ -41,7 +41,7 @@ var Example = React.createClass({
   },
 
   render: function() {
-    var playerParams = {
+    var playerOptions = {
       height: '390',
       width: '640',
       playerVars: { // https://developers.google.com/youtube/player_parameters
@@ -52,8 +52,8 @@ var Example = React.createClass({
     return (
       <YouTube
         url={'http://www.youtube.com/watch?v=2g811Eo7K8U'}
+        opts={playerOptions}
         onPlay={this._onPlay}
-        playerParameters={playerParams}
       />
     );
   }

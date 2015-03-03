@@ -24,24 +24,24 @@ var YouTube = React.createClass({
     // custom ID for player element
     id: React.PropTypes.string,
 
-    // event subscriptions
-    onReady: React.PropTypes.func,
-    onPlay: React.PropTypes.func,
-    onPause: React.PropTypes.func,
-    onEnd: React.PropTypes.func,
-
-    // Parameters passed to a new `YT.Player` instance
+    // Options passed to a new `YT.Player` instance
     // https://developers.google.com/youtube/iframe_api_reference#Loading_a_Video_Player
     //
     // NOTE: Do not include event listeners in here, they will be ignored.
     //
-    playerParameters: React.PropTypes.object
+    opts: React.PropTypes.object,
+
+    // event subscriptions
+    onReady: React.PropTypes.func,
+    onPlay: React.PropTypes.func,
+    onPause: React.PropTypes.func,
+    onEnd: React.PropTypes.func
   },
 
   getDefaultProps: function() {
     return {
       id: 'react-yt-player',
-      playerParameters: {},
+      opts: {},
       onReady: noop,
       onPlay: noop,
       onPause: noop,

@@ -55,7 +55,7 @@ var Example = React.createClass({
         React.createElement(YouTube, {
           url: this.state.url,
           id: 'example-player',
-          playerParameters: playerOptions,
+          opts: playerOptions,
           onReady: this._onReady,
           onPlay: this._onPlay,
           onPause: this._onPause,
