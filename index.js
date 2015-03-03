@@ -3,7 +3,6 @@
  */
 
 var React = require('react');
-var getYouTubeId = require('get-youtube-id');
 var globalize = require('random-global');
 var createPlayer = require('./lib/createPlayer');
 
@@ -31,54 +30,68 @@ var YouTube = React.createClass({
     onPause: React.PropTypes.func,
     onEnd: React.PropTypes.func,
 
-    // YT.Player parameters
-    // https://developers.google.com/youtube/player_parameters
+    // Parameters passed to a new `YT.Player` instance
+    // https://developers.google.com/youtube/iframe_api_reference#Loading_a_Video_Player
+    //
+    // NOTE: Do not include event listeners in here, they will be ignored.
+    //
     playerParameters: React.PropTypes.object
   },
 
   getDefaultProps: function() {
     return {
       id: 'react-yt-player',
+      playerParameters: {},
       onReady: noop,
       onPlay: noop,
       onPause: noop,
-      onEnd: noop,
-      playerParameters: {}
+      onEnd: noop
     };
   },
 
+  shouldComponentUpdate: function(nextProps) {
+    return nextProps.url !== this.props.url;
+  },
+
+  componentWillUnmount: function() {
+    this._destroyPlayer();
+  },
+
+  render: function() {
+    this._createPlayer();
+
+    return (
+      React.createElement('div', {id: this.props.id})
+    );
+  },
+
   /**
-   * Once YouTube API had loaded, a new YT.Player
-   * instance will be created and its events bound.
+   * Create a new `internalPlayer`.
+   *
+   * This is called on every render, which is only triggered after
+   * `props.url` has changed. Setting or changing any other props
+   * will *not* cause a new player to be loaded.
    */
 
-  componentDidMount: function() {
-    createPlayer(this.props.id, this.props.playerParameters, function(player) {
+  _createPlayer: function() {
+    this._destroyPlayer();
+
+    createPlayer(this.props, function(player) {
       this._setupPlayer(player);
     }.bind(this));
   },
 
   /**
-   * If the `url` has changed, load it.
-   *
-   * @param {Object} nextProps
+   * Destroy the currently embedded player/iframe and remove any event listeners
+   * bound to it.
    */
 
-  componentWillUpdate: function(nextProps) {
-    if (this.props.url !== nextProps.url) {
-      this._loadUrl(nextProps.url);
+  _destroyPlayer: function() {
+    if (internalPlayer) {
+      this._unbindEvents();
+      this._destroyGlobalEventHandlers();
+      internalPlayer.destroy();
     }
-  },
-
-  componentWillUnmount: function() {
-    this._unbindEvents();
-    this._destroyGlobalEventHandlers();
-  },
-
-  render: function() {
-    return (
-      React.createElement('div', {id: this.props.id})
-    );
   },
 
   /**
@@ -94,16 +107,6 @@ var YouTube = React.createClass({
   },
 
   /**
-   * Start a new video
-   *
-   * @param {String} url
-   */
-
-  _loadUrl: function(url) {
-    internalPlayer.cueVideoById(getYouTubeId(url));
-  },
-
-  /**
    * When the player is all loaded up, load the url
    * passed via `props.url` and notify anybody listening.
    *
@@ -113,7 +116,6 @@ var YouTube = React.createClass({
 
   _handlePlayerReady: function() {
     this.props.onReady();
-    this._loadUrl(this.props.url);
   },
 
   /**

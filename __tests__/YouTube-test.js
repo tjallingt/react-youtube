@@ -24,12 +24,12 @@ describe('YouTube Component', function() {
      };
 
     playerMock = {
-      cueVideoById: jest.genMockFunction(),
+      destroy: jest.genMockFunction(),
       addEventListener: jest.genMockFunction(),
       removeEventListener: jest.genMockFunction()
     };
 
-    createPlayer.mockImplementation(function(url, playerParameters, cb) {
+    createPlayer.mockImplementation(function(props, cb) {
       return cb(playerMock);
     });
   });
@@ -44,7 +44,7 @@ describe('YouTube Component', function() {
 
     it('should create a new YouTube widget', function() {
       TestUtils.renderIntoDocument(React.createElement(YouTube, null));
-      expect(createPlayer.mock.calls[0][0]).toBe('react-yt-player');
+      expect(createPlayer.mock.calls[0][0].id).toBe('react-yt-player');
     });
   });
 
@@ -103,8 +103,7 @@ describe('YouTube Component', function() {
       // trigger player ready event.
       youtube._handlePlayerReady();
 
-      expect(getYouTubeId.mock.calls[0][0]).toBe('https://www.youtube.com/watch?v=tITYj52gXxU');
-      expect(playerMock.cueVideoById.mock.calls.length).toBe(1);
+      expect(createPlayer.mock.calls[0][0].url).toBe('https://www.youtube.com/watch?v=tITYj52gXxU');
     });
 
     it('should load new `url`s', function() {
@@ -116,8 +115,7 @@ describe('YouTube Component', function() {
 
       TestUtils.Simulate.click(setNewTrack);
 
-      expect(getYouTubeId.mock.calls[1][0]).toBe('https://www.youtube.com/watch?v=vW7qFzT7cbA');
-      expect(playerMock.cueVideoById.mock.calls.length).toBe(2);
+      expect(createPlayer.mock.calls[1][0].url).toBe('https://www.youtube.com/watch?v=vW7qFzT7cbA');
     });
 
     it('should not load the same `url` twice', function() {
@@ -129,7 +127,7 @@ describe('YouTube Component', function() {
 
       TestUtils.Simulate.click(setSameTrack);
 
-      expect(playerMock.cueVideoById.mock.calls.length).toBe(1);
+      expect(createPlayer.mock.calls.length).toBe(1);
     });
   });
 
@@ -176,6 +174,9 @@ describe('YouTube Component', function() {
       youtube._handlePlayerStateChange({data: window.YT.PlayerState.ENDED});
       expect(onEnd.mock.calls.length).toBe(1);
     });
+  });
+
+  describe('destruction', function() {
 
     /**
      * These tests use the regular methods of rendering components instead
@@ -199,6 +200,14 @@ describe('YouTube Component', function() {
       // trigger unmounting
       React.unmountComponentAtNode(document.body);
       expect(window.fakeGlobalEventHandler).not.toBeDefined();
+    });
+
+    it('should destroy the player/iframe when unmounted', function() {
+      React.render(React.createElement(YouTube, null), document.body);
+
+      // trigger unmounting
+      React.unmountComponentAtNode(document.body);
+      expect(playerMock.destroy.mock.calls.length).toBe(1);
     });
   });
 });

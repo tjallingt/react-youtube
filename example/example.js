@@ -40,10 +40,22 @@ var Example = React.createClass({
   },
 
   render: function() {
+    var playerOptions = {
+      height: '390',
+      width: '640',
+      playerVars: {
+        fs: 0,
+        modestbranding: 1,
+        autohide: 1
+      }
+    };
+
     return (
       React.createElement('div', {className: 'example'},
         React.createElement(YouTube, {
           url: this.state.url,
+          id: 'example-player',
+          playerParameters: playerOptions,
           onReady: this._onReady,
           onPlay: this._onPlay,
           onPause: this._onPause,
