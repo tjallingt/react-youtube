@@ -6,7 +6,7 @@ Simple [React](http://facebook.github.io/react/ ) component acting as a thin lay
 ## Features
 - url playback
 - playback event bindings
-- lazy API loading
+- [customizable player options](https://developers.google.com/youtube/player_parameters)
 
 ## Installation
 
