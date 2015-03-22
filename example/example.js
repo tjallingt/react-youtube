@@ -23,12 +23,8 @@ var Example = React.createClass({
     this.setState({url: newUrl});
   },
 
-  _onPlayerReady: function() {
-    console.log('PLAYER READY');
-  },
-
-  _onVideoReady: function() {
-    console.log('VIDEO READY');
+  _onReady: function() {
+    console.log('READY');
   },
 
   _onPlay: function() {
@@ -44,12 +40,23 @@ var Example = React.createClass({
   },
 
   render: function() {
+    var playerOptions = {
+      height: '390',
+      width: '640',
+      playerVars: {
+        fs: 0,
+        modestbranding: 1,
+        autohide: 1
+      }
+    };
+
     return (
       React.createElement('div', {className: 'example'},
         React.createElement(YouTube, {
           url: this.state.url,
-          onPlayerReady: this._onPlayerReady,
-          onVideoReady: this._onVideoReady,
+          id: 'example-player',
+          opts: playerOptions,
+          onReady: this._onReady,
           onPlay: this._onPlay,
           onPause: this._onPause,
           onEnd: this._onEnd

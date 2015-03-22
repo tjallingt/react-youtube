@@ -6,7 +6,7 @@ Simple [React](http://facebook.github.io/react/ ) component acting as a thin lay
 ## Features
 - url playback
 - playback event bindings
-- lazy API loading
+- [customizable player options](https://developers.google.com/youtube/player_parameters)
 
 ## Installation
 
@@ -17,16 +17,15 @@ $ npm install react-youtube
 Usage
 ----
 ```js
-<YouTube 
-  url={string}         // required
-  id={string}          // defaults -> 'react-yt-player'
-  autoplay={bool}      // defaults -> false
-  onPlayerReady={func} // defaults -> noop
-  onVideoReady={func}  // defaults -> noop
-  onPlay={func}        // defaults -> noop
-  onPause={func}       // defaults -> noop
-  onEnd={func}         // defaults -> noop
-/> 
+<YouTube
+  url={string}            // required
+  id={string}             // defaults -> 'react-yt-player'
+  opts={obj}              // defaults -> {}
+  onReady={func}          // defaults -> noop
+  onPlay={func}           // defaults -> noop
+  onPause={func}          // defaults -> noop
+  onEnd={func}            // defaults -> noop
+/>
 ```
 
 Example
@@ -42,9 +41,20 @@ var Example = React.createClass({
   },
 
   render: function() {
+    var playerOptions = {
+      height: '390',
+      width: '640',
+      playerVars: { // https://developers.google.com/youtube/player_parameters
+        autoplay: 1
+      }
+    };
+
     return (
-      <YouTube url={'http://www.youtube.com/watch?v=2g811Eo7K8U'} 
-               onPlay={this._onPlay} />
+      <YouTube
+        url={'http://www.youtube.com/watch?v=2g811Eo7K8U'}
+        opts={playerOptions}
+        onPlay={this._onPlay}
+      />
     );
   }
 });
@@ -55,9 +65,9 @@ var Example = React.createClass({
 
  Programmatic control of the player as outlined in the [API docs](https://developers.google.com/youtube/js_api_reference) isn't included.
 
-If decide to take control of it, be aware that the react-youtube uses `loadVideoById`, `cueVideoById`, `addEventListener` and `removeEventListener` internally. 
+If decide to take control of it, be aware that the react-youtube uses `addEventListener` and `removeEventListener` internally.
 
-Using these methods outside the component may cause problems. 
+Using these methods outside the component may cause problems.
 
 # License
 
