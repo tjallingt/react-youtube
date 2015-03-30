@@ -1,6 +1,6 @@
 {
   "name": "react-youtube",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "description": "react.js powered YouTube player component",
   "main": "index.js",
   "repository": {
