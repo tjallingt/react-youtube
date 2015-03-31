@@ -1,0 +1,59 @@
+{
+  "name": "react-youtube",
+  "version": "3.0.1",
+  "description": "react.js powered YouTube player component",
+  "main": "dist/YouTube.js",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:compedit/react-youtube.git"
+  },
+  "keywords": [
+    "react",
+    "youtube",
+    "player",
+    "react-component"
+  ],
+  "author": "troy betz <troybetz@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/compedit/react-youtube/issues"
+  },
+  "homepage": "https://github.com/compedit/react-youtube",
+  "dependencies": {
+    "get-youtube-id": "^0.1.3",
+    "object-assign": "^2.0.0",
+    "random-global": "^1.0.0",
+    "require-sdk": "0.0.2"
+  },
+  "devDependencies": {
+    "babel": "^4.7.16",
+    "babel-eslint": "^2.0.2",
+    "babel-jest": "^4.0.0",
+    "eslint": "^0.17.1",
+    "jest-cli": "^0.4.0"
+  },
+  "peerDependencies": {
+    "react": ">=0.13.0"
+  },
+  "scripts": {
+    "test": "jest",
+    "compile": "babel src --out-dir dist",
+    "prepublish": "npm run compile",
+    "lint": "eslint ."
+  },
+  "jest": {
+    "scriptPreprocessor": "<rootDir>/node_modules/babel-jest",
+    "testFileExtensions": [
+      "js"
+    ],
+    "moduleFileExtensions": [
+      "js"
+    ],
+    "unmockedModulePathPatterns": [
+      "./node_modules/react"
+    ],
+    "testPathDirs": [
+      "src"
+    ]
+  }
+}
