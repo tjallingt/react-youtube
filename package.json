@@ -26,11 +26,17 @@
     "require-sdk": "0.0.2"
   },
   "devDependencies": {
+    "autoprefixer-loader": "^1.2.0",
     "babel": "^4.7.16",
+    "babel-core": "^4.7.16",
     "babel-eslint": "^2.0.2",
     "babel-jest": "^4.0.0",
+    "babel-loader": "^4.3.0",
+    "css-loader": "^0.9.1",
     "eslint": "^0.17.1",
-    "jest-cli": "^0.4.0"
+    "jest-cli": "^0.4.0",
+    "style-loader": "^0.9.0",
+    "webpack": "^1.7.3"
   },
   "peerDependencies": {
     "react": ">=0.13.0"
@@ -39,7 +45,8 @@
     "test": "jest",
     "compile": "babel src --out-dir dist",
     "prepublish": "npm run compile",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "example": "npm run compile && webpack -p"
   },
   "jest": {
     "scriptPreprocessor": "<rootDir>/node_modules/babel-jest",
