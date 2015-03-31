@@ -2,15 +2,9 @@
  * Module dependencies
  */
 
-var load = require('require-sdk');
-var assign = require('object-assign');
-var getYouTubeId = require('get-youtube-id');
-
-/**
- * Expose `createPlayer`
- */
-
-module.exports = createPlayer;
+import load from 'require-sdk';
+import assign from 'object-assign';
+import getYouTubeId from 'get-youtube-id';
 
 /**
  * Create a new `player` by requesting and using the YouTube Iframe API
@@ -23,15 +17,15 @@ module.exports = createPlayer;
  * @param {Function} cb
  */
 
-function createPlayer(props, cb) {
-  var sdk = loadApi();
+const createPlayer = (props, cb) => {
+  const sdk = loadApi();
 
-  var params = assign({}, props.opts, {
+  const params = assign({}, props.opts, {
     videoId: getYouTubeId(props.url)
   });
 
 
-  return sdk(function(err) {
+  return sdk((err) => {
     // need to handle err better.
     if (err) {
       console.error(err);
@@ -39,7 +33,7 @@ function createPlayer(props, cb) {
 
     return cb(new window.YT.Player(props.id, params));
   });
-}
+};
 
 /**
  * Load the YouTube API
@@ -47,19 +41,25 @@ function createPlayer(props, cb) {
  * @returns {Function}
  */
 
-function loadApi() {
-  var sdk = load('https://www.youtube.com/iframe_api', 'YT');
-  var loadTrigger = sdk.trigger();
+const loadApi = () => {
+  const sdk = load('https://www.youtube.com/iframe_api', 'YT');
+  const loadTrigger = sdk.trigger();
 
   /**
    * The YouTube API requires a global ready event handler.
    * The YouTube API really sucks.
    */
 
-  window.onYouTubeIframeAPIReady = function () {
+  window.onYouTubeIframeAPIReady = () => {
     loadTrigger();
     delete window.onYouTubeIframeAPIReady;
   };
 
   return sdk;
-}
+};
+
+/**
+ * Expose `createPlayer`
+ */
+
+export default createPlayer;
