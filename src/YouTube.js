@@ -13,6 +13,49 @@ import createPlayer from './lib/createPlayer';
 class YouTube extends React.Component {
 
   /**
+   * @returns {Object}
+   */
+
+  static get defaultProps() {
+    return {
+      id: 'react-yt-player',
+      opts: {},
+      onReady: () => {},
+      onPlay: () => {},
+      onPause: () => {},
+      onEnd: () => {}
+    };
+  }
+
+  /**
+   * @returns {Object}
+   */
+
+  static get propTypes() {
+    return {
+      // url to play. It's kept in sync, changing it will
+      // cause the player to refresh and play the new url.
+      url: React.PropTypes.string.isRequired,
+
+      // custom ID for player element
+      id: React.PropTypes.string,
+
+      // Options passed to a new `YT.Player` instance
+      // https://developers.google.com/youtube/iframe_api_reference#Loading_a_Video_Player
+      //
+      // NOTE: Do not include event listeners in here, they will be ignored.
+      //
+      opts: React.PropTypes.object,
+
+      // event subscriptions
+      onReady: React.PropTypes.func,
+      onPlay: React.PropTypes.func,
+      onPause: React.PropTypes.func,
+      onEnd: React.PropTypes.func
+    };
+  }
+
+  /**
    * @param {Object} props
    */
 
@@ -182,37 +225,6 @@ class YouTube extends React.Component {
     this._internalPlayer.removeEventListener('onStateChange', this._stateChangeHandle);
   }
 }
-
-YouTube.propTypes = {
-  // url to play. It's kept in sync, changing it will
-  // cause the player to refresh and play the new url.
-  url: React.PropTypes.string.isRequired,
-
-  // custom ID for player element
-  id: React.PropTypes.string,
-
-  // Options passed to a new `YT.Player` instance
-  // https://developers.google.com/youtube/iframe_api_reference#Loading_a_Video_Player
-  //
-  // NOTE: Do not include event listeners in here, they will be ignored.
-  //
-  opts: React.PropTypes.object,
-
-  // event subscriptions
-  onReady: React.PropTypes.func,
-  onPlay: React.PropTypes.func,
-  onPause: React.PropTypes.func,
-  onEnd: React.PropTypes.func
-};
-
-YouTube.defaultProps = {
-  id: 'react-yt-player',
-  opts: {},
-  onReady: () => {},
-  onPlay: () => {},
-  onPause: () => {},
-  onEnd: () => {}
-};
 
 /**
  * Expose `YouTube`
