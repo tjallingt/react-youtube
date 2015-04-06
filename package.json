@@ -50,7 +50,8 @@
       "js"
     ],
     "unmockedModulePathPatterns": [
-      "./node_modules/react"
+      "./node_modules/react",
+      "./src/YouTube"
     ],
     "testPathDirs": [
       "src"
