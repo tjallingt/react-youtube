@@ -16,7 +16,8 @@ const urlB = 'https://www.youtube.com/watch?v=I7IdS-PbEgI';
  */
 
 class Example extends React.Component {
-  constructor() {
+  constructor(props) {
+    super(props)
     this.state = {
       url: urlA
     };

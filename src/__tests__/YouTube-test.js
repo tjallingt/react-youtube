@@ -65,7 +65,9 @@ describe('YouTube Component', () => {
 
   describe('functionality', () => {
     class Container extends React.Component {
-      constructor() {
+      constructor(props) {
+        super(props);
+
         this.state = {
           url: url
         };
