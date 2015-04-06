@@ -26,10 +26,10 @@
     "require-sdk": "0.0.2"
   },
   "devDependencies": {
-    "babel": "^4.7.16",
+    "babel": "^5.0.8",
     "babel-eslint": "^2.0.2",
-    "babel-jest": "^4.0.0",
-    "eslint": "^0.17.1",
+    "babel-jest": "^5.0.1",
+    "eslint": "^0.18.0",
     "jest-cli": "^0.4.0"
   },
   "peerDependencies": {
