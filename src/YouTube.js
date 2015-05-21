@@ -148,10 +148,13 @@ class YouTube extends React.Component {
    *
    * Is exposed in the global namespace under a random
    * name, see `_globalizeEventHandlers`
+   *
+   * @param {Object} event
+   *   @param {Object} target - player object
    */
 
-  _handlePlayerReady() {
-    this.props.onReady();
+  _handlePlayerReady(event) {
+    this.props.onReady(event);
   }
 
   /**

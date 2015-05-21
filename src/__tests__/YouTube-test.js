@@ -147,8 +147,9 @@ describe('YouTube Component', () => {
       const onReady = jest.genMockFunction();
       const youtube = TestUtils.renderIntoDocument(<YouTube url={url} onReady={onReady} />);
 
-      youtube._handlePlayerReady();
-      expect(onReady.mock.calls.length).toBe(1);
+      const readyEvent = {target: "player would be here"};
+      youtube._handlePlayerReady(readyEvent);
+      expect(onReady).toBeCalledWith(readyEvent);
     });
 
     it('should bind event handler props to playback events', () => {
