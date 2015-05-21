@@ -164,16 +164,19 @@ describe('YouTube Component', () => {
       );
 
       // video playing
-      youtube._handlePlayerStateChange({data: window.YT.PlayerState.PLAYING});
-      expect(onPlay.mock.calls.length).toBe(1);
+      const playingEvent = {data: window.YT.PlayerState.PLAYING};
+      youtube._handlePlayerStateChange(playingEvent);
+      expect(onPlay).toBeCalledWith(playingEvent);
 
       // video paused
-      youtube._handlePlayerStateChange({data: window.YT.PlayerState.PAUSED});
-      expect(onPlay.mock.calls.length).toBe(1);
+      const pausedEvent = {data: window.YT.PlayerState.PAUSED};
+      youtube._handlePlayerStateChange(pausedEvent);
+      expect(onPause).toBeCalledWith(pausedEvent);
 
       // video ended
-      youtube._handlePlayerStateChange({data: window.YT.PlayerState.ENDED});
-      expect(onEnd.mock.calls.length).toBe(1);
+      const endedEvent = {data: window.YT.PlayerState.ENDED};
+      youtube._handlePlayerStateChange(endedEvent);
+      expect(onEnd).toBeCalledWith(endedEvent);
     });
   });
 
