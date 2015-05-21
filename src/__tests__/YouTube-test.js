@@ -138,44 +138,44 @@ describe('YouTube Component', () => {
       expect(globalize.mock.calls.length).toBe(2);
     });
 
-    it('should bind event handlers to the player', () => {
+    it('should listen to `_internalPlayer` events', () => {
       TestUtils.renderIntoDocument(<YouTube url={url} />);
       expect(playerMock.addEventListener.mock.calls.length).toBe(2);
     });
 
-    it('should bind an event handler to player events', () => {
+    it('should bind event handler props to `_internalPlayer` events', () => {
       const onReady = jest.genMockFunction();
-      const youtube = TestUtils.renderIntoDocument(<YouTube url={url} onReady={onReady} />);
-
-      const readyEvent = {target: "player would be here"};
-      youtube._handlePlayerReady(readyEvent);
-      expect(onReady).toBeCalledWith(readyEvent);
-    });
-
-    it('should bind event handler props to playback events', () => {
       const onPlay = jest.genMockFunction();
       const onPause = jest.genMockFunction();
       const onEnd = jest.genMockFunction();
+
       const youtube = TestUtils.renderIntoDocument(
-        <YouTube url={url}
-                 onPlay={onPlay}
-                 onPause={onPause}
-                 onEnd={onEnd}
-        />
+        <YouTube
+          url={url}
+          onReady={onReady}
+          onPlay={onPlay}
+          onPause={onPause}
+          onEnd={onEnd}>
+        </YouTube>
       );
 
+      // video ready
+      const readyEvent = {data: null, target: playerMock};
+      youtube._handlePlayerReady(readyEvent);
+      expect(onReady).toBeCalledWith(readyEvent);
+
       // video playing
-      const playingEvent = {data: window.YT.PlayerState.PLAYING};
+      const playingEvent = {data: window.YT.PlayerState.PLAYING, target: playerMock};
       youtube._handlePlayerStateChange(playingEvent);
       expect(onPlay).toBeCalledWith(playingEvent);
 
       // video paused
-      const pausedEvent = {data: window.YT.PlayerState.PAUSED};
+      const pausedEvent = {data: window.YT.PlayerState.PAUSED, target: playerMock};
       youtube._handlePlayerStateChange(pausedEvent);
       expect(onPause).toBeCalledWith(pausedEvent);
 
       // video ended
-      const endedEvent = {data: window.YT.PlayerState.ENDED};
+      const endedEvent = {data: window.YT.PlayerState.ENDED, target: playerMock};
       youtube._handlePlayerStateChange(endedEvent);
       expect(onEnd).toBeCalledWith(endedEvent);
     });
