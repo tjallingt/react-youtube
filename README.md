@@ -1,11 +1,11 @@
 react-youtube player component
 =============================
 
-Simple [React](http://facebook.github.io/react/ ) component acting as a thin layer over the [YouTube IFrame Player API](https://developers.google.com/youtube/iframe_api_reference)
+Simple [React](http://facebook.github.io/react/ ) component acting as a thin layer over the [YouTube JS Player API](https://developers.google.com/youtube/js_api_reference)
 
 ## Features
 - url playback
-- playback event bindings
+- [playback event bindings](https://developers.google.com/youtube/iframe_api_reference#Events)
 - [customizable player options](https://developers.google.com/youtube/player_parameters)
 
 ## Installation
@@ -50,20 +50,32 @@ class Example extends React.Component {
     );
   }
 
-  _onPlay() {
+  _onPlay(event) {
     console.log('PLAYING');
+
+    // access to player in all event handlers via event.target
+    event.target.pauseVideo();
   }
 }
 
 ```
 
-## Caveat
+## Controlling the player
 
- Programmatic control of the player as outlined in the [API docs](https://developers.google.com/youtube/js_api_reference) isn't included.
+You can access & control the player in a way similar to the [official api](https://developers.google.com/youtube/iframe_api_reference#Events):
 
-If decide to take control of it, be aware that the react-youtube uses `addEventListener` and `removeEventListener` internally.
+> The ~~API~~ *component* will pass an event object as the sole argument to each of ~~those functions~~ *the event handler props*. The event object has the following properties:
 
-Using these methods outside the component may cause problems.
+> * The event's target identifies the video player that corresponds to the event.
+> * The event's data specifies a value relevant to the event. Note that the `onReady` event does not specify a data property.
+
+**Note:** Whenever a new `url` is passed into the component, the previous player is destroyed and a new one created. Meaning, if you're storing the player inside of `state`,
+you'll want to replace it whenever the `onReady` event handler is called.
+
+
+**Note:**
+`player.addEventListener`, `player.removeEventListener`, and `player.destroy` are used internally, using these outside the component may cause problems.
+
 
 # License
 
