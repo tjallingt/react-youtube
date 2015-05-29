@@ -1,7 +1,7 @@
 react-youtube player component
 =============================
 
-Simple [React](http://facebook.github.io/react/ ) component acting as a thin layer over the [YouTube JS Player API](https://developers.google.com/youtube/js_api_reference)
+Simple [React](http://facebook.github.io/react/ ) component acting as a thin layer over the [YouTube IFrame Player API](https://developers.google.com/youtube/iframe_api_reference)
 
 ## Features
 - url playback
