@@ -23,7 +23,8 @@ class YouTube extends React.Component {
       onReady: () => {},
       onPlay: () => {},
       onPause: () => {},
-      onEnd: () => {}
+      onEnd: () => {},
+      _onError: () => {}
     };
   }
 
@@ -51,7 +52,8 @@ class YouTube extends React.Component {
       onReady: React.PropTypes.func,
       onPlay: React.PropTypes.func,
       onPause: React.PropTypes.func,
-      onEnd: React.PropTypes.func
+      onEnd: React.PropTypes.func,
+      _onError: React.PropTypes.func
     };
   }
 
@@ -64,9 +66,11 @@ class YouTube extends React.Component {
 
     this._internalPlayer = null;
     this._playerReadyHandle = null;
+    this._playerErrorHandle = null;
     this._stateChangeHandle = null;
 
     this._handlePlayerReady = this._handlePlayerReady.bind(this);
+    this._handlePlayerError = this._handlePlayerError.bind(this);
     this._handlePlayerStateChange = this._handlePlayerStateChange.bind(this);
   }
 
@@ -156,6 +160,20 @@ class YouTube extends React.Component {
   _handlePlayerReady(event) {
     this.props.onReady(event);
   }
+  /**
+   * When the player is all loaded up, load the url
+   * passed via `props.url` and notify anybody listening.
+   *
+   * Is exposed in the global namespace under a random
+   * name, see `_globalizeEventHandlers`
+   *
+   * @param {Object} event
+   *   @param {Object} target - player object
+   */
+
+  _handlePlayerError(event) {
+    this.props._onError(event);
+  }
 
   /**
    * Respond to player events
@@ -198,6 +216,7 @@ class YouTube extends React.Component {
 
   _globalizeEventHandlers() {
     this._playerReadyHandle = globalize(this._handlePlayerReady);
+    this._playerErrorHandle = globalize(this._handlePlayerError);
     this._stateChangeHandle = globalize(this._handlePlayerStateChange);
   }
 
@@ -207,6 +226,7 @@ class YouTube extends React.Component {
 
   _destroyGlobalEventHandlers() {
     delete window[this._playerReadyHandle];
+    delete window[this._playerErrorHandle];
     delete window[this._stateChangeHandle];
   }
 
@@ -216,6 +236,7 @@ class YouTube extends React.Component {
 
   _bindEvents() {
     this._internalPlayer.addEventListener('onReady', this._playerReadyHandle);
+    this._internalPlayer.addEventListener('onError', this._playerErrorHandle);
     this._internalPlayer.addEventListener('onStateChange', this._stateChangeHandle);
   }
 
@@ -225,6 +246,7 @@ class YouTube extends React.Component {
 
   _unbindEvents() {
     this._internalPlayer.removeEventListener('onReady', this._playerReadyHandle);
+    this._internalPlayer.removeEventListener('onError', this._playerErrorHandle);
     this._internalPlayer.removeEventListener('onStateChange', this._stateChangeHandle);
   }
 }

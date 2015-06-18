@@ -135,12 +135,12 @@ describe('YouTube Component', () => {
   describe('events', () => {
     it('should register event handlers onto the global namespace', () => {
       TestUtils.renderIntoDocument(<YouTube url={url} />);
-      expect(globalize.mock.calls.length).toBe(2);
+      expect(globalize.mock.calls.length).toBe(3);
     });
 
     it('should listen to `_internalPlayer` events', () => {
       TestUtils.renderIntoDocument(<YouTube url={url} />);
-      expect(playerMock.addEventListener.mock.calls.length).toBe(2);
+      expect(playerMock.addEventListener.mock.calls.length).toBe(3);
     });
 
     it('should bind event handler props to `_internalPlayer` events', () => {
@@ -148,6 +148,7 @@ describe('YouTube Component', () => {
       const onPlay = jest.genMockFunction();
       const onPause = jest.genMockFunction();
       const onEnd = jest.genMockFunction();
+      const _onError = jest.genMockFunction();
 
       const youtube = TestUtils.renderIntoDocument(
         <YouTube
@@ -155,6 +156,7 @@ describe('YouTube Component', () => {
           onReady={onReady}
           onPlay={onPlay}
           onPause={onPause}
+          _onError={_onError}
           onEnd={onEnd}>
         </YouTube>
       );
@@ -163,6 +165,11 @@ describe('YouTube Component', () => {
       const readyEvent = {data: null, target: playerMock};
       youtube._handlePlayerReady(readyEvent);
       expect(onReady).toBeCalledWith(readyEvent);
+
+      // video error
+      const errorEvent = {data: null, target: playerMock};
+      youtube._handlePlayerError(errorEvent);
+      expect(_onError).toBeCalledWith(errorEvent);
 
       // video playing
       const playingEvent = {data: window.YT.PlayerState.PLAYING, target: playerMock};
@@ -193,7 +200,7 @@ describe('YouTube Component', () => {
       React.render(<YouTube url={url} />, document.body);
       React.unmountComponentAtNode(document.body);
 
-      expect(playerMock.removeEventListener.mock.calls.length).toBe(2);
+      expect(playerMock.removeEventListener.mock.calls.length).toBe(3);
     });
 
     it('should destroy event handlers on the global namespace when unmounted', () => {

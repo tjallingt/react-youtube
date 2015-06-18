@@ -25,6 +25,7 @@ Usage
   onPlay={func}           // defaults -> noop
   onPause={func}          // defaults -> noop
   onEnd={func}            // defaults -> noop
+  _onError={func}         // defaults -> noop
 />
 ```
 
