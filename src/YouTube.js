@@ -161,8 +161,7 @@ class YouTube extends React.Component {
     this.props.onReady(event);
   }
   /**
-   * When the player is all loaded up, load the url
-   * passed via `props.url` and notify anybody listening.
+   * When something wrong happens with the player.
    *
    * Is exposed in the global namespace under a random
    * name, see `_globalizeEventHandlers`
