@@ -148,7 +148,7 @@ describe('YouTube Component', () => {
       const onPlay = jest.genMockFunction();
       const onPause = jest.genMockFunction();
       const onEnd = jest.genMockFunction();
-      const _onError = jest.genMockFunction();
+      const onError = jest.genMockFunction();
 
       const youtube = TestUtils.renderIntoDocument(
         <YouTube
@@ -156,7 +156,7 @@ describe('YouTube Component', () => {
           onReady={onReady}
           onPlay={onPlay}
           onPause={onPause}
-          _onError={_onError}
+          onError={_onError}
           onEnd={onEnd}>
         </YouTube>
       );
@@ -169,7 +169,7 @@ describe('YouTube Component', () => {
       // video error
       const errorEvent = {data: null, target: playerMock};
       youtube._handlePlayerError(errorEvent);
-      expect(_onError).toBeCalledWith(errorEvent);
+      expect(onError).toBeCalledWith(errorEvent);
 
       // video playing
       const playingEvent = {data: window.YT.PlayerState.PLAYING, target: playerMock};
