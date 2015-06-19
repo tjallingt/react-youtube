@@ -30,7 +30,8 @@
     "babel-eslint": "^2.0.2",
     "babel-jest": "^5.0.1",
     "eslint": "^0.18.0",
-    "jest-cli": "^0.4.0"
+    "jest-cli": "^0.4.0",
+    "react": "^0.13.3"
   },
   "peerDependencies": {
     "react": ">=0.13.0"
