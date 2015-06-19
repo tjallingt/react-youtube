@@ -24,7 +24,7 @@ class YouTube extends React.Component {
       onPlay: () => {},
       onPause: () => {},
       onEnd: () => {},
-      _onError: () => {}
+      onError: () => {}
     };
   }
 
@@ -53,7 +53,7 @@ class YouTube extends React.Component {
       onPlay: React.PropTypes.func,
       onPause: React.PropTypes.func,
       onEnd: React.PropTypes.func,
-      _onError: React.PropTypes.func
+      onError: React.PropTypes.func
     };
   }
 
@@ -171,7 +171,7 @@ class YouTube extends React.Component {
    */
 
   _handlePlayerError(event) {
-    this.props._onError(event);
+    this.props.onError(event);
   }
 
   /**
