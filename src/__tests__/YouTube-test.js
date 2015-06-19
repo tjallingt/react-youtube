@@ -156,7 +156,7 @@ describe('YouTube Component', () => {
           onReady={onReady}
           onPlay={onPlay}
           onPause={onPause}
-          onError={_onError}
+          onError={onError}
           onEnd={onEnd}>
         </YouTube>
       );
