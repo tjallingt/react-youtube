@@ -22,7 +22,7 @@ const createPlayer = (props, cb) => {
     videoId: getYouTubeId(props.url)
   });
 
-  return YouTubeIframeLoader.load((YT) => new YT.Player(props.id, params));
+  return YouTubeIframeLoader.load((YT) => cb(new YT.Player(props.id, params)));
 };
 
 /**
