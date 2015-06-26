@@ -11,51 +11,33 @@ import createPlayer from './lib/createPlayer';
  */
 
 class YouTube extends React.Component {
+  static propTypes = {
+    // changing the url will cause a new player to be loaded
+    url: React.PropTypes.string.isRequired,
 
-  /**
-   * @returns {Object}
-   */
+    // custom ID for player element
+    id: React.PropTypes.string,
 
-  static get defaultProps() {
-    return {
-      id: 'react-yt-player',
-      opts: {},
-      onReady: () => {},
-      onPlay: () => {},
-      onPause: () => {},
-      onEnd: () => {},
-      onError: () => {}
-    };
-  }
+    // https://developers.google.com/youtube/iframe_api_reference#Loading_a_Video_Player
+    opts: React.PropTypes.object,
 
-  /**
-   * @returns {Object}
-   */
+    // event subscriptions
+    onReady: React.PropTypes.func,
+    onError: React.PropTypes.func,
+    onPlay: React.PropTypes.func,
+    onPause: React.PropTypes.func,
+    onEnd: React.PropTypes.func
+  };
 
-  static get propTypes() {
-    return {
-      // url to play. It's kept in sync, changing it will
-      // cause the player to refresh and play the new url.
-      url: React.PropTypes.string.isRequired,
-
-      // custom ID for player element
-      id: React.PropTypes.string,
-
-      // Options passed to a new `YT.Player` instance
-      // https://developers.google.com/youtube/iframe_api_reference#Loading_a_Video_Player
-      //
-      // NOTE: Do not include event listeners in here, they will be ignored.
-      //
-      opts: React.PropTypes.object,
-
-      // event subscriptions
-      onReady: React.PropTypes.func,
-      onPlay: React.PropTypes.func,
-      onPause: React.PropTypes.func,
-      onEnd: React.PropTypes.func,
-      onError: React.PropTypes.func
-    };
-  }
+  static defaultProps = {
+    id: 'react-yt-player',
+    opts: {},
+    onReady: () => {},
+    onError: () => {},
+    onPlay: () => {},
+    onPause: () => {},
+    onEnd: () => {}
+  };
 
   /**
    * @param {Object} props
@@ -69,9 +51,13 @@ class YouTube extends React.Component {
     this._playerErrorHandle = null;
     this._stateChangeHandle = null;
 
-    this._handlePlayerReady = this._handlePlayerReady.bind(this);
-    this._handlePlayerError = this._handlePlayerError.bind(this);
-    this._handlePlayerStateChange = this._handlePlayerStateChange.bind(this);
+    this.onPlayerReady = this.onPlayerReady.bind(this);
+    this.onPlayerError = this.onPlayerError.bind(this);
+    this.onPlayerStateChange = this.onPlayerStateChange.bind(this);
+  }
+
+  componentDidMount() {
+    this.onChangeUrl();
   }
 
   /**
@@ -83,111 +69,78 @@ class YouTube extends React.Component {
     return nextProps.url !== this.props.url;
   }
 
-  componentDidMount() {
-    this._createPlayer();
-  }
-
   componentDidUpdate() {
-    this._createPlayer();
+    this.onChangeUrl();
   }
 
   componentWillUnmount() {
-    this._destroyPlayer();
+    this.onReset();
   }
 
-  /**
-   * @returns Object
-   */
-
-  render() {
-    return (
-      <div id={this.props.id} />
-    );
-  }
-
-  /**
-   * Create a new `internalPlayer`.
-   *
-   * This is called on every render, which is only triggered after
-   * `props.url` has changed. Setting or changing any other props
-   * will *not* cause a new player to be loaded.
-   */
-
-  _createPlayer() {
-    this._destroyPlayer();
+  onChangeUrl() {
+    this.onReset();
 
     createPlayer(this.props, (player) => {
-      this._setupPlayer(player);
-    }.bind(this));
+      this._internalPlayer = player;
+
+      // YT API requires event handlers to be globalized
+      this._playerReadyHandle = globalize(this.onPlayerReady);
+      this._playerErrorHandle = globalize(this.onPlayerError);
+      this._stateChangeHandle = globalize(this.onPlayerStateChange);
+
+      this._internalPlayer.addEventListener('onReady', this._playerReadyHandle);
+      this._internalPlayer.addEventListener('onError', this._playerErrorHandle);
+      this._internalPlayer.addEventListener('onStateChange', this._stateChangeHandle);
+    });
   }
 
-  /**
-   * Destroy the currently embedded player/iframe and remove any event listeners
-   * bound to it.
-   */
-
-  _destroyPlayer() {
+  onReset() {
     if (this._internalPlayer) {
-      this._unbindEvents();
-      this._destroyGlobalEventHandlers();
+      this._internalPlayer.removeEventListener('onReady', this._playerReadyHandle);
+      this._internalPlayer.removeEventListener('onError', this._playerErrorHandle);
+      this._internalPlayer.removeEventListener('onStateChange', this._stateChangeHandle);
+
       this._internalPlayer.destroy();
+
+      delete window[this._playerReadyHandle];
+      delete window[this._playerErrorHandle];
+      delete window[this._stateChangeHandle];
     }
   }
 
   /**
-   * Integrate a newly created `player` with the rest of the component.
-   *
-   * @param {Object} player
-   */
-
-  _setupPlayer(player) {
-    this._internalPlayer = player;
-    this._globalizeEventHandlers();
-    this._bindEvents();
-  }
-
-  /**
-   * When the player is all loaded up, load the url
-   * passed via `props.url` and notify anybody listening.
-   *
-   * Is exposed in the global namespace under a random
-   * name, see `_globalizeEventHandlers`
+   * https://developers.google.com/youtube/iframe_api_reference#onReady
    *
    * @param {Object} event
    *   @param {Object} target - player object
    */
 
-  _handlePlayerReady(event) {
+  onPlayerReady(event) {
     this.props.onReady(event);
   }
+
   /**
-   * When something wrong happens with the player.
-   *
-   * Is exposed in the global namespace under a random
-   * name, see `_globalizeEventHandlers`
+   * https://developers.google.com/youtube/iframe_api_reference#onError
    *
    * @param {Object} event
+   *   @param {Integer} data  - error type
    *   @param {Object} target - player object
    */
 
-  _handlePlayerError(event) {
+  onPlayerError(event) {
     this.props.onError(event);
   }
 
   /**
-   * Respond to player events
-   *
-   * Event definitions at https://developers.google.com/youtube/js_api_reference#Events
-   *
-   * Is exposed in the global namespace under a random
-   * name, see `_globalizeEventHandlers`
+   * https://developers.google.com/youtube/iframe_api_reference#onStateChange
    *
    * @param {Object} event
+   *   @param {Integer} data  - status change type
+   *   @param {Object} target - actual YT player
    */
 
-  _handlePlayerStateChange(event) {
-    switch(event.data) {
-
+  onPlayerStateChange(event) {
+    switch (event.data) {
       case window.YT.PlayerState.ENDED:
         this.props.onEnd(event);
         break;
@@ -206,47 +159,13 @@ class YouTube extends React.Component {
   }
 
   /**
-   * Expose our player event handlers onto the global namespace
-   * under random handles, then store those handles into `state`.
-   *
-   * The YouTube API requires a `player`s event handlers to be
-   * exposed in the global namespace, so this is unfortunate but necessary.
+   * @returns Object
    */
 
-  _globalizeEventHandlers() {
-    this._playerReadyHandle = globalize(this._handlePlayerReady);
-    this._playerErrorHandle = globalize(this._handlePlayerError);
-    this._stateChangeHandle = globalize(this._handlePlayerStateChange);
-  }
-
-  /**
-   * Clean up the ickyness of globalness.
-   */
-
-  _destroyGlobalEventHandlers() {
-    delete window[this._playerReadyHandle];
-    delete window[this._playerErrorHandle];
-    delete window[this._stateChangeHandle];
-  }
-
-  /**
-   * Listen for events coming from `player`.
-   */
-
-  _bindEvents() {
-    this._internalPlayer.addEventListener('onReady', this._playerReadyHandle);
-    this._internalPlayer.addEventListener('onError', this._playerErrorHandle);
-    this._internalPlayer.addEventListener('onStateChange', this._stateChangeHandle);
-  }
-
-  /**
-   * Remove all event bindings.
-   */
-
-  _unbindEvents() {
-    this._internalPlayer.removeEventListener('onReady', this._playerReadyHandle);
-    this._internalPlayer.removeEventListener('onError', this._playerErrorHandle);
-    this._internalPlayer.removeEventListener('onStateChange', this._stateChangeHandle);
+  render() {
+    return (
+      <div id={this.props.id} />
+    );
   }
 }
 
