@@ -2,6 +2,7 @@ jest.dontMock('../YouTube');
 
 import React from 'react/addons';
 import globalize from 'random-global';
+import randomize from 'random-string';
 import createPlayer from '../lib/createPlayer';
 import YouTube from '../YouTube';
 
@@ -24,7 +25,8 @@ const playerMock = {
   removeEventListener: jest.genMockFunction()
 };
 
-createPlayer.mockImplementation((props, cb) => cb(playerMock));
+createPlayer.mockImplementation((id, props, cb) => cb(playerMock));
+randomize.mockImplementation(() => 'random-id');
 
 describe('YouTube Component', () => {
   afterEach(() => {
@@ -39,7 +41,7 @@ describe('YouTube Component', () => {
     it('should render a YouTube API ready div', () => {
       const youtube = TestUtils.renderIntoDocument(<YouTube url={url} />);
       const div = TestUtils.findRenderedDOMComponentWithTag(youtube, 'div').getDOMNode();
-      expect(div.getAttribute('id')).toBe('react-yt-player');
+      expect(div.getAttribute('id')).toBe('random-id');
     });
 
     it('should render a YouTube API ready div with a custom id', () => {
@@ -84,12 +86,12 @@ describe('YouTube Component', () => {
     });
 
     it('should load a url', () => {
-      expect(createPlayer.mock.calls[0][0].url).toBe(url);
+      expect(createPlayer.mock.calls[0][1].url).toBe(url);
     });
 
     it('should load a new url', () => {
       TestUtils.Simulate.click(playSecondUrlBtn);
-      expect(createPlayer.mock.calls[1][0].url).toBe(url2);
+      expect(createPlayer.mock.calls[1][1].url).toBe(url2);
     });
 
     it('should *only* load a new url', () => {

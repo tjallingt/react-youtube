@@ -4,6 +4,7 @@
 
 import React from 'react';
 import globalize from 'random-global';
+import randomize from 'random-string';
 import createPlayer from './lib/createPlayer';
 
 /**
@@ -30,7 +31,6 @@ class YouTube extends React.Component {
   };
 
   static defaultProps = {
-    id: 'react-yt-player',
     opts: {},
     onReady: () => {},
     onError: () => {},
@@ -46,6 +46,7 @@ class YouTube extends React.Component {
   constructor(props) {
     super(props);
 
+    this._containerId = props.id || randomize();
     this._internalPlayer = null;
     this._playerReadyHandle = null;
     this._playerErrorHandle = null;
@@ -80,7 +81,7 @@ class YouTube extends React.Component {
   onChangeUrl() {
     this.onReset();
 
-    createPlayer(this.props, (player) => {
+    createPlayer(this._containerId, this.props, (player) => {
       this._internalPlayer = player;
 
       // YT API requires event handlers to be globalized
@@ -164,7 +165,7 @@ class YouTube extends React.Component {
 
   render() {
     return (
-      <div id={this.props.id} />
+      <div id={this._containerId} />
     );
   }
 }

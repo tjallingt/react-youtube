@@ -23,6 +23,7 @@
     "get-youtube-id": "^0.1.3",
     "object-assign": "^3.0.0",
     "random-global": "^1.0.0",
+    "random-string": "^0.1.2",
     "youtube-iframe": "^1.0.0"
   },
   "devDependencies": {
