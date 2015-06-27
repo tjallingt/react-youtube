@@ -1,4 +1,4 @@
-react-youtube player component
+react-youtube
 =============================
 
 Simple [React](http://facebook.github.io/react/ ) component acting as a thin layer over the [YouTube IFrame Player API](https://developers.google.com/youtube/iframe_api_reference)
@@ -19,13 +19,13 @@ Usage
 ```js
 <YouTube
   url={string}            // required
-  id={string}             // defaults -> 'react-yt-player'
+  id={string}             // defaults -> random string
   opts={obj}              // defaults -> {}
   onReady={func}          // defaults -> noop
   onPlay={func}           // defaults -> noop
   onPause={func}          // defaults -> noop
   onEnd={func}            // defaults -> noop
-  onError={func}         // defaults -> noop
+  onError={func}          // defaults -> noop
 />
 ```
 
@@ -44,16 +44,15 @@ class Example extends React.Component {
     };
 
     return (
-      <YouTube url={'http://www.youtube.com/watch?v=2g811Eo7K8U'}
-               opts={opts}
-               onPlay={this._onPlay}
+      <YouTube
+        url={'http://www.youtube.com/watch?v=2g811Eo7K8U'}
+        opts={opts}
+        onPlay={this._onPlay}
       />
     );
   }
 
   _onPlay(event) {
-    console.log('PLAYING');
-
     // access to player in all event handlers via event.target
     event.target.pauseVideo();
   }

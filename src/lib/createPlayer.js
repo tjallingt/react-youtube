@@ -9,20 +9,20 @@ import YouTubeIframeLoader from 'youtube-iframe';
 /**
  * Create a new `player` by requesting and using the YouTube Iframe API
  *
+ * @param {String} containerId - id of div container
  * @param {Object} props
  *   @param {String} url - url to be loaded
- *   @param {String} id - id of div container
  *   @param {Object} playerVars - https://developers.google.com/youtube/player_parameters
  *
  * @param {Function} cb
  */
 
-const createPlayer = (props, cb) => {
+const createPlayer = (containerId, props, cb) => {
   const params = assign({}, props.opts, {
     videoId: getYouTubeId(props.url)
   });
 
-  return YouTubeIframeLoader.load((YT) => cb(new YT.Player(props.id, params)));
+  return YouTubeIframeLoader.load((YT) => cb(new YT.Player(containerId, params)));
 };
 
 /**
