@@ -4,7 +4,6 @@
 
 import assign from 'object-assign';
 import getYouTubeId from 'get-youtube-id';
-import YouTubeIframeLoader from 'youtube-iframe';
 
 /**
  * Create a new `player` by requesting and using the YouTube Iframe API
@@ -18,6 +17,8 @@ import YouTubeIframeLoader from 'youtube-iframe';
  */
 
 const createPlayer = (containerId, props, cb) => {
+  let YouTubeIframeLoader = require('youtube-iframe');
+
   const params = assign({}, props.opts, {
     videoId: getYouTubeId(props.url)
   });
