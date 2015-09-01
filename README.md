@@ -20,6 +20,7 @@ Usage
 <YouTube
   url={string}            // required
   id={string}             // defaults -> random string
+  className={string}      // defaults -> ""
   opts={obj}              // defaults -> {}
   onReady={func}          // defaults -> noop
   onPlay={func}           // defaults -> noop
