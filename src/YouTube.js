@@ -106,9 +106,9 @@ class YouTube extends React.Component {
 
       this._internalPlayer.destroy();
 
-      delete window[this._playerReadyHandle];
-      delete window[this._playerErrorHandle];
-      delete window[this._stateChangeHandle];
+      delete this._playerReadyHandle;
+      delete this._playerErrorHandle;
+      delete this._stateChangeHandle;
     }
   }
 

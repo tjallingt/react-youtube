@@ -172,18 +172,22 @@ describe('YouTube Component', () => {
   });
 
   describe('unmounting', () => {
+    let youtube;
+
     beforeEach(() => {
       // create a fake global event handler to be used within the component
       window.fakeHandler = 'this is a fake event handler.';
       globalize.mockReturnValue('fakeHandler');
 
-      const youtube = TestUtils.renderIntoDocument(<YouTube url={url} />);
+      youtube = TestUtils.renderIntoDocument(<YouTube url={url} />);
       React.unmountComponentAtNode(React.findDOMNode(youtube).parentNode);
     });
 
     it('should destroy event handlers', () => {
       expect(playerMock.removeEventListener.mock.calls.length).toBe(3);
-      expect(window.fakeHandler).not.toBeDefined();
+      expect(youtube._playerReadyHandle).not.toBeDefined();
+      expect(youtube._playerErrorHandle).not.toBeDefined();
+      expect(youtube._stateChangeHandle).not.toBeDefined();
     });
 
     it('should destroy the player', () => {
