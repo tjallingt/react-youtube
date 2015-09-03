@@ -17,7 +17,7 @@ import getYouTubeId from 'get-youtube-id';
  */
 
 const createPlayer = (containerId, props, cb) => {
-  let YouTubeIframeLoader = require('youtube-iframe');
+  const YouTubeIframeLoader = require('youtube-iframe');
 
   const params = assign({}, props.opts, {
     videoId: getYouTubeId(props.url)
