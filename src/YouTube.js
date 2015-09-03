@@ -20,7 +20,7 @@ class YouTube extends React.Component {
     id: React.PropTypes.string,
 
     // custom class name for player element
-    className: React.PropType.string,
+    className: React.PropTypes.string,
 
     // https://developers.google.com/youtube/iframe_api_reference#Loading_a_Video_Player
     opts: React.PropTypes.object,
