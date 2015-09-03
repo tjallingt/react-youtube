@@ -19,6 +19,9 @@ class YouTube extends React.Component {
     // custom ID for player element
     id: React.PropTypes.string,
 
+    // custom class name for player element
+    className: React.PropType.string,
+
     // https://developers.google.com/youtube/iframe_api_reference#Loading_a_Video_Player
     opts: React.PropTypes.object,
 
@@ -165,7 +168,7 @@ class YouTube extends React.Component {
 
   render() {
     return (
-      <div id={this._containerId} />
+      <div id={this._containerId} className={this.props.className || ""} />
     );
   }
 }
