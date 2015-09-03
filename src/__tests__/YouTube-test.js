@@ -68,9 +68,14 @@ describe('YouTube Component', () => {
       }
 
       render() {
+        const opts = {
+          height: '390',
+          width: '640',
+        };
+
         return (
           <div>
-            <YouTube url={this.state.url} />
+            <YouTube url={this.state.url} opts={opts} />
             <button onClick={this.onPlaySecondUrl} />
           </div>
         );
@@ -87,6 +92,13 @@ describe('YouTube Component', () => {
 
     it('should load a url', () => {
       expect(createPlayer.mock.calls[0][1].url).toBe(url);
+    });
+
+    it('should load player options', () => {
+      expect(createPlayer.mock.calls[0][1].opts).toEqual({
+        height: '390',
+        width: '640',
+      });
     });
 
     it('should load a new url', () => {

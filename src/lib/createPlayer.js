@@ -2,7 +2,6 @@
  * Module dependencies
  */
 
-import assign from 'object-assign';
 import getYouTubeId from 'get-youtube-id';
 
 /**
@@ -18,11 +17,7 @@ import getYouTubeId from 'get-youtube-id';
 
 const createPlayer = (containerId, props, cb) => {
   const YouTubeIframeLoader = require('youtube-iframe');
-
-  const params = assign({}, props.opts, {
-    videoId: getYouTubeId(props.url),
-  });
-
+  const params = { ...props.opts, videoId: getYouTubeId(props.url) };
   return YouTubeIframeLoader.load((YT) => cb(new YT.Player(containerId, params)));
 };
 
