@@ -30,7 +30,7 @@ class YouTube extends React.Component {
     onError: React.PropTypes.func,
     onPlay: React.PropTypes.func,
     onPause: React.PropTypes.func,
-    onEnd: React.PropTypes.func
+    onEnd: React.PropTypes.func,
   };
 
   static defaultProps = {
@@ -39,7 +39,7 @@ class YouTube extends React.Component {
     onError: () => {},
     onPlay: () => {},
     onPause: () => {},
-    onEnd: () => {}
+    onEnd: () => {},
   };
 
   /**
@@ -145,20 +145,21 @@ class YouTube extends React.Component {
 
   onPlayerStateChange(event) {
     switch (event.data) {
-      case window.YT.PlayerState.ENDED:
-        this.props.onEnd(event);
-        break;
 
-      case window.YT.PlayerState.PLAYING:
-        this.props.onPlay(event);
-        break;
+    case window.YT.PlayerState.ENDED:
+      this.props.onEnd(event);
+      break;
 
-      case window.YT.PlayerState.PAUSED:
-        this.props.onPause(event);
-        break;
+    case window.YT.PlayerState.PLAYING:
+      this.props.onPlay(event);
+      break;
 
-      default:
-        return;
+    case window.YT.PlayerState.PAUSED:
+      this.props.onPause(event);
+      break;
+
+    default:
+      return;
     }
   }
 
@@ -168,7 +169,7 @@ class YouTube extends React.Component {
 
   render() {
     return (
-      <div id={this._containerId} className={this.props.className || ""} />
+      <div id={this._containerId} className={this.props.className || ''} />
     );
   }
 }

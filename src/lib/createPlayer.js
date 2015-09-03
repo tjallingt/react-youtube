@@ -20,7 +20,7 @@ const createPlayer = (containerId, props, cb) => {
   const YouTubeIframeLoader = require('youtube-iframe');
 
   const params = assign({}, props.opts, {
-    videoId: getYouTubeId(props.url)
+    videoId: getYouTubeId(props.url),
   });
 
   return YouTubeIframeLoader.load((YT) => cb(new YT.Player(containerId, params)));

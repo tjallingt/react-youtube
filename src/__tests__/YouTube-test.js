@@ -15,14 +15,14 @@ window.YT = {
     ENDED: 0,
     PLAYING: 1,
     PAUSED: 2,
-    BUFFERING: 3
-  }
+    BUFFERING: 3,
+  },
 };
 
 const playerMock = {
   destroy: jest.genMockFunction(),
   addEventListener: jest.genMockFunction(),
-  removeEventListener: jest.genMockFunction()
+  removeEventListener: jest.genMockFunction(),
 };
 
 createPlayer.mockImplementation((id, props, cb) => cb(playerMock));
