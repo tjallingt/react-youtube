@@ -99,7 +99,7 @@ class YouTube extends React.Component {
   }
 
   onReset() {
-    if (this._internalPlayer) {
+    if (this._internalPlayer && this._internalPlayer.getIframe()) {
       this._internalPlayer.removeEventListener('onReady', this._playerReadyHandle);
       this._internalPlayer.removeEventListener('onError', this._playerErrorHandle);
       this._internalPlayer.removeEventListener('onStateChange', this._stateChangeHandle);
