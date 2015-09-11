@@ -23,6 +23,7 @@ const playerMock = {
   destroy: jest.genMockFunction(),
   addEventListener: jest.genMockFunction(),
   removeEventListener: jest.genMockFunction(),
+  getIframe: jest.genMockFunction().mockImplementation(() => true),
 };
 
 createPlayer.mockImplementation((id, props, cb) => cb(playerMock));
@@ -35,6 +36,7 @@ describe('YouTube Component', () => {
     playerMock.destroy.mockClear();
     playerMock.addEventListener.mockClear();
     playerMock.removeEventListener.mockClear();
+    playerMock.getIframe.mockClear();
   });
 
   describe('rendering', () => {
