@@ -103,13 +103,14 @@ class YouTube extends React.Component {
       this._internalPlayer.removeEventListener('onReady', this._playerReadyHandle);
       this._internalPlayer.removeEventListener('onError', this._playerErrorHandle);
       this._internalPlayer.removeEventListener('onStateChange', this._stateChangeHandle);
-
-      this._internalPlayer.destroy();
-
-      delete this._playerReadyHandle;
-      delete this._playerErrorHandle;
-      delete this._stateChangeHandle;
     }
+    if (this._internalPlayer) {
+      this._internalPlayer.destroy();
+    }
+
+    delete this._playerReadyHandle;
+    delete this._playerErrorHandle;
+    delete this._stateChangeHandle;
   }
 
   /**
