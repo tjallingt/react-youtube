@@ -27,6 +27,7 @@ Usage
   onPause={func}          // defaults -> noop
   onEnd={func}            // defaults -> noop
   onError={func}          // defaults -> noop
+  onStateChange={func}    // defaults -> noop
 />
 ```
 

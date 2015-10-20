@@ -31,6 +31,7 @@ class YouTube extends React.Component {
     onPlay: React.PropTypes.func,
     onPause: React.PropTypes.func,
     onEnd: React.PropTypes.func,
+    onStateChange: React.PropTypes.func,
   };
 
   static defaultProps = {
@@ -40,6 +41,7 @@ class YouTube extends React.Component {
     onPlay: () => {},
     onPause: () => {},
     onEnd: () => {},
+    onStateChange: () => {},
   };
 
   /**
@@ -145,6 +147,8 @@ class YouTube extends React.Component {
    */
 
   onPlayerStateChange(event) {
+    this.props.onStateChange(event);
+    
     switch (event.data) {
 
     case window.YT.PlayerState.ENDED:
