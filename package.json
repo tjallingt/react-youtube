@@ -20,7 +20,7 @@
   },
   "homepage": "https://github.com/compedit/react-youtube",
   "dependencies": {
-    "random-string": "^0.1.2",
+    "underscore": "^1.8.3",
     "youtube-player": "^2.0.0"
   },
   "devDependencies": {
