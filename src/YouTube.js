@@ -58,8 +58,8 @@ class YouTube extends React.Component {
     // create player
     this._internalPlayer = youtubePlayer( this._containerId, this.props.opts );
     // attach event handlers
-    this._internalPlayer.on( 'ready', this.props.onReady );
-    this._internalPlayer.on( 'error', this.props.onError );
+    this._internalPlayer.on( 'ready', ::this.onPlayerReady );
+    this._internalPlayer.on( 'error', ::this.onPlayerError );
     this._internalPlayer.on( 'stateChange', ::this.onPlayerStateChange );
     // update video
     this.updateVideo();
@@ -75,6 +75,29 @@ class YouTube extends React.Component {
   componentWillUnmount() {
     // needed?
     this._internalPlayer.destroy();
+  }
+
+  /**
+   * https://developers.google.com/youtube/iframe_api_reference#onReady
+   *
+   * @param {Object} event
+   *   @param {Object} target - player object
+   */
+
+  onPlayerReady(event) {
+    this.props.onReady(event);
+  }
+
+  /**
+   * https://developers.google.com/youtube/iframe_api_reference#onError
+   *
+   * @param {Object} event
+   *   @param {Integer} data  - error type
+   *   @param {Object} target - player object
+   */
+
+  onPlayerError(event) {
+    this.props.onError(event);
   }
 
   /**
