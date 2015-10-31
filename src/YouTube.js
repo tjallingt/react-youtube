@@ -62,7 +62,9 @@ class YouTube extends React.Component {
     if (prevProps.url !== this.props.url) {
       this.updateVideo();
     }
-    if (!_.isEqual(prevProps.opts, this.props.opts)) {
+    let prevOpts = _.omit(prevProps.opts, 'events');
+    let currOpts = _.omit(this.props.opts, 'events');
+    if (!_.isEqual(prevOpts, currOpts)) {
       this._internalPlayer
         .destroy()
         .then(::this.createPlayer);
@@ -128,21 +130,21 @@ class YouTube extends React.Component {
 
   createPlayer() {
   	// create player
-    this._internalPlayer = youtubePlayer( this._containerId, this.props.opts );
+    this._internalPlayer = youtubePlayer(this._containerId, _.omit(this.props.opts, 'events'));
     // attach event handlers
-    this._internalPlayer.on( 'ready', ::this.onPlayerReady );
-    this._internalPlayer.on( 'error', ::this.onPlayerError );
-    this._internalPlayer.on( 'stateChange', ::this.onPlayerStateChange );
+    this._internalPlayer.on('ready', ::this.onPlayerReady);
+    this._internalPlayer.on('error', ::this.onPlayerError);
+    this._internalPlayer.on('stateChange', ::this.onPlayerStateChange);
     // update video
     this.updateVideo();
   }
 
   updateVideo() {
     if (this.props.opts.playerVars !== undefined && this.props.opts.playerVars.autoplay === 1) {
-      this._internalPlayer.loadVideoByUrl( this.props.url );
+      this._internalPlayer.loadVideoByUrl(this.props.url);
       return;
     }
-    this._internalPlayer.cueVideoByUrl( this.props.url );
+    this._internalPlayer.cueVideoByUrl(this.props.url);
   }
 
   /**
@@ -151,7 +153,7 @@ class YouTube extends React.Component {
 
   render() {
     return (
-      <div id={this._containerId} className={this.props.className || ''} />
+      <div id={this._containerId} className={this.props.className} />
     );
   }
 }
