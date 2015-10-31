@@ -3,9 +3,8 @@
  */
 
 import React from 'react';
-import globalize from 'random-global';
 import randomize from 'random-string';
-import createPlayer from './lib/createPlayer';
+import youtubePlayer from 'youtube-player';
 
 /**
  * Create a new `YouTube` component.
@@ -53,89 +52,29 @@ class YouTube extends React.Component {
 
     this._containerId = props.id || randomize();
     this._internalPlayer = null;
-    this._playerReadyHandle = null;
-    this._playerErrorHandle = null;
-    this._stateChangeHandle = null;
-
-    this.onPlayerReady = this.onPlayerReady.bind(this);
-    this.onPlayerError = this.onPlayerError.bind(this);
-    this.onPlayerStateChange = this.onPlayerStateChange.bind(this);
   }
 
   componentDidMount() {
-    this.onChangeUrl();
+    // create player
+    this._internalPlayer = youtubePlayer( this._containerId, this.props.opts );
+    // attach event handlers
+    this._internalPlayer.on( 'ready', this.props.onReady );
+    this._internalPlayer.on( 'error', this.props.onError );
+    this._internalPlayer.on( 'stateChange', ::this.onPlayerStateChange );
+    // update video
+    this.updateVideo();
   }
 
-  /**
-   * @param {Object} nextProps
-   * @returns {Boolean}
-   */
-
-  shouldComponentUpdate(nextProps) {
-    return nextProps.url !== this.props.url;
-  }
-
-  componentDidUpdate() {
-    this.onChangeUrl();
+ componentDidUpdate(prevProps) {
+    if (prevProps.url !== this.props.url) {
+      this.updateVideo();
+    }
+    // check changes in other props?
   }
 
   componentWillUnmount() {
-    this.onReset();
-  }
-
-  onChangeUrl() {
-    this.onReset();
-
-    createPlayer(this._containerId, this.props, (player) => {
-      this._internalPlayer = player;
-
-      // YT API requires event handlers to be globalized
-      this._playerReadyHandle = globalize(this.onPlayerReady);
-      this._playerErrorHandle = globalize(this.onPlayerError);
-      this._stateChangeHandle = globalize(this.onPlayerStateChange);
-
-      this._internalPlayer.addEventListener('onReady', this._playerReadyHandle);
-      this._internalPlayer.addEventListener('onError', this._playerErrorHandle);
-      this._internalPlayer.addEventListener('onStateChange', this._stateChangeHandle);
-    });
-  }
-
-  onReset() {
-    if (this._internalPlayer && typeof this._internalPlayer.removeEventListener === 'function') {
-      this._internalPlayer.removeEventListener('onReady', this._playerReadyHandle);
-      this._internalPlayer.removeEventListener('onError', this._playerErrorHandle);
-      this._internalPlayer.removeEventListener('onStateChange', this._stateChangeHandle);
-    }
-    if (this._internalPlayer) {
-      this._internalPlayer.destroy();
-    }
-
-    delete this._playerReadyHandle;
-    delete this._playerErrorHandle;
-    delete this._stateChangeHandle;
-  }
-
-  /**
-   * https://developers.google.com/youtube/iframe_api_reference#onReady
-   *
-   * @param {Object} event
-   *   @param {Object} target - player object
-   */
-
-  onPlayerReady(event) {
-    this.props.onReady(event);
-  }
-
-  /**
-   * https://developers.google.com/youtube/iframe_api_reference#onError
-   *
-   * @param {Object} event
-   *   @param {Integer} data  - error type
-   *   @param {Object} target - player object
-   */
-
-  onPlayerError(event) {
-    this.props.onError(event);
+    // needed?
+    this._internalPlayer.destroy();
   }
 
   /**
@@ -166,6 +105,14 @@ class YouTube extends React.Component {
     default:
       return;
     }
+  }
+
+  updateVideo() {
+    if (this.props.opts.playerVars !== undefined && this.props.opts.playerVars.autoplay === 1) {
+      this._internalPlayer.loadVideoByUrl( this.props.url );
+      return;
+    }
+    this._internalPlayer.cueVideoByUrl( this.props.url );
   }
 
   /**
