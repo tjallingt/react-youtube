@@ -5,6 +5,7 @@
 import React from 'react';
 import _ from 'underscore';
 import youtubePlayer from 'youtube-player';
+import getYouTubeId from 'get-youtube-id';
 
 /**
  * Create a new `YouTube` component.
@@ -142,11 +143,18 @@ class YouTube extends React.Component {
   }
 
   updateVideo() {
+  	// strip youtube video id from url
+    const videoId = getYouTubeId(this.props.url, {fuzzy: false});
+    if (videoId === null) {
+      throw new Error("React-YouTube: Url doesn't contain a youtube video id.");
+    }
+    // if autoplay is enabled loadVideoById
     if (this.props.opts.playerVars !== undefined && this.props.opts.playerVars.autoplay === 1) {
-      this._internalPlayer.loadVideoByUrl(this.props.url);
+      this._internalPlayer.loadVideoById(videoId);
       return;
     }
-    this._internalPlayer.cueVideoByUrl(this.props.url);
+    // default behaviour just cues the video
+    this._internalPlayer.cueVideoById(videoId);
   }
 
   /**
