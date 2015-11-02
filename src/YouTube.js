@@ -4,7 +4,7 @@
 
 import React from 'react';
 import _ from 'underscore';
-import youtubePlayer from 'youtube-player';
+import youTubePlayer from 'youtube-player';
 import getYouTubeId from 'get-youtube-id';
 
 /**
@@ -133,7 +133,7 @@ class YouTube extends React.Component {
 
   createPlayer() {
     // create player
-    this._internalPlayer = youtubePlayer(this._containerId, _.omit(this.props.opts, 'events'));
+    this._internalPlayer = youTubePlayer(this._containerId, _.omit(this.props.opts, 'events'));
     // attach event handlers
     this._internalPlayer.on('ready', ::this.onPlayerReady);
     this._internalPlayer.on('error', ::this.onPlayerError);
