@@ -1,5 +1,6 @@
 jest.dontMock('../YouTube');
 
+import React from 'react';
 import ReactDom from 'react-dom';
 import ReactTestUtils from 'react-addons-test-utils';
 import YouTube from '../YouTube';
