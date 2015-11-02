@@ -64,15 +64,6 @@ class YouTube extends React.Component {
     if (prevProps.url !== this.props.url) {
       this.updateVideo();
     }
-    // check if opts changed and the player needs to be re-instantiated
-    // omit 'events' because they get added to the object by the api and users have access to the events through their respective props
-    const prevOpts = _.omit(prevProps.opts, 'events');
-    const nextOpts = _.omit(this.props.opts, 'events');
-    if (!_.isEqual(prevOpts, nextOpts)) {
-      this._internalPlayer
-        .destroy()
-        .then(::this.createPlayer);
-    }
   }
 
   componentWillUnmount() {
@@ -133,7 +124,7 @@ class YouTube extends React.Component {
 
   createPlayer() {
     // create player
-    this._internalPlayer = youTubePlayer(this._containerId, _.omit(this.props.opts, 'events'));
+    this._internalPlayer = youTubePlayer(this._containerId, this.props.opts);
     // attach event handlers
     this._internalPlayer.on('ready', ::this.onPlayerReady);
     this._internalPlayer.on('error', ::this.onPlayerError);
