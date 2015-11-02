@@ -1,12 +1,9 @@
 jest.dontMock('../YouTube');
 
-import React from 'react/addons';
-import globalize from 'random-global';
-import randomize from 'random-string';
-import createPlayer from '../lib/createPlayer';
+import ReactDom from 'react-dom';
+import ReactTestUtils from 'react-addons-test-utils';
 import YouTube from '../YouTube';
 
-const { TestUtils } = React.addons;
 const url = 'https://www.youtube.com/watch?v=tITYj52gXxU';
 const url2 = 'https://www.youtube.com/watch?v=vW7qFzT7cbA';
 
@@ -41,14 +38,14 @@ describe('YouTube Component', () => {
 
   describe('rendering', () => {
     it('should render a YouTube API ready div', () => {
-      const youtube = TestUtils.renderIntoDocument(<YouTube url={url} />);
-      const div = TestUtils.findRenderedDOMComponentWithTag(youtube, 'div').getDOMNode();
+      const youtube = ReactTestUtils.renderIntoDocument(<YouTube url={url} />);
+      const div = ReactTestUtils.findRenderedDOMComponentWithTag(youtube, 'div').getDOMNode();
       expect(div.getAttribute('id')).toBe('random-id');
     });
 
     it('should render a YouTube API ready div with a custom id', () => {
-      const youtube = TestUtils.renderIntoDocument(<YouTube url={url} id={'custom-id'} />);
-      const div = TestUtils.findRenderedDOMComponentWithTag(youtube, 'div').getDOMNode();
+      const youtube = ReactTestUtils.renderIntoDocument(<YouTube url={url} id={'custom-id'} />);
+      const div = ReactTestUtils.findRenderedDOMComponentWithTag(youtube, 'div').getDOMNode();
       expect(div.getAttribute('id')).toBe('custom-id');
     });
   });
@@ -85,9 +82,9 @@ describe('YouTube Component', () => {
     }
 
     beforeEach(() => {
-      container = TestUtils.renderIntoDocument(<Container />);
-      youtube = TestUtils.findRenderedComponentWithType(container, YouTube);
-      playSecondUrlBtn = TestUtils.findRenderedDOMComponentWithTag(container, 'button');
+      container = ReactTestUtils.renderIntoDocument(<Container />);
+      youtube = ReactTestUtils.findRenderedComponentWithType(container, YouTube);
+      playSecondUrlBtn = ReactTestUtils.findRenderedDOMComponentWithTag(container, 'button');
 
       youtube.onPlayerReady();
     });
@@ -104,24 +101,24 @@ describe('YouTube Component', () => {
     });
 
     it('should load a new url', () => {
-      TestUtils.Simulate.click(playSecondUrlBtn);
+      ReactTestUtils.Simulate.click(playSecondUrlBtn);
       expect(createPlayer.mock.calls[1][1].url).toBe(url2);
     });
 
     it('should *only* load a new url', () => {
       // switch to url2
-      TestUtils.Simulate.click(playSecondUrlBtn);
+      ReactTestUtils.Simulate.click(playSecondUrlBtn);
       expect(createPlayer.mock.calls.length).toBe(2);
 
       // calling it again wont do anything, already on url2
-      TestUtils.Simulate.click(playSecondUrlBtn);
+      ReactTestUtils.Simulate.click(playSecondUrlBtn);
       expect(createPlayer.mock.calls.length).toBe(2);
     });
   });
 
   describe('events', () => {
     it('should attach player event handlers', () => {
-      TestUtils.renderIntoDocument(<YouTube url={url} />);
+      ReactTestUtils.renderIntoDocument(<YouTube url={url} />);
 
       expect(globalize.mock.calls.length).toBe(3);
       expect(playerMock.addEventListener.mock.calls.length).toBe(3);
@@ -140,7 +137,7 @@ describe('YouTube Component', () => {
       const pausedEvent = {data: window.YT.PlayerState.PAUSED, target: playerMock};
       const endedEvent = {data: window.YT.PlayerState.ENDED, target: playerMock};
 
-      const youtube = TestUtils.renderIntoDocument(
+      const youtube = ReactTestUtils.renderIntoDocument(
         <YouTube
           url={url}
           onReady={onReady}
@@ -181,8 +178,8 @@ describe('YouTube Component', () => {
       window.fakeHandler = 'this is a fake event handler.';
       globalize.mockReturnValue('fakeHandler');
 
-      youtube = TestUtils.renderIntoDocument(<YouTube url={url} />);
-      React.unmountComponentAtNode(React.findDOMNode(youtube).parentNode);
+      youtube = ReactTestUtils.renderIntoDocument(<YouTube url={url} />);
+      ReactDom.unmountComponentAtNode(ReactDom.findDOMNode(youtube).parentNode);
     });
 
     it('should destroy event handlers', () => {
