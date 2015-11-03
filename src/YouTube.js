@@ -124,7 +124,7 @@ class YouTube extends React.Component {
 
   createPlayer() {
     // create player
-    this._internalPlayer = youTubePlayer(this._containerId, this.props.opts);
+    this._internalPlayer = youTubePlayer(this._containerId, { ...this.props.opts });
     // attach event handlers
     this._internalPlayer.on('ready', ::this.onPlayerReady);
     this._internalPlayer.on('error', ::this.onPlayerError);
