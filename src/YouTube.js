@@ -3,9 +3,9 @@
  */
 
 import React from 'react';
-import globalize from 'random-global';
-import randomize from 'random-string';
-import createPlayer from './lib/createPlayer';
+import _ from 'underscore';
+import youTubePlayer from 'youtube-player';
+import getYouTubeId from 'get-youtube-id';
 
 /**
  * Create a new `YouTube` component.
@@ -51,68 +51,23 @@ class YouTube extends React.Component {
   constructor(props) {
     super(props);
 
-    this._containerId = props.id || randomize();
+    this._containerId = props.id || _.uniqueId('player_');
     this._internalPlayer = null;
-    this._playerReadyHandle = null;
-    this._playerErrorHandle = null;
-    this._stateChangeHandle = null;
-
-    this.onPlayerReady = this.onPlayerReady.bind(this);
-    this.onPlayerError = this.onPlayerError.bind(this);
-    this.onPlayerStateChange = this.onPlayerStateChange.bind(this);
   }
 
   componentDidMount() {
-    this.onChangeUrl();
+    this.createPlayer();
   }
 
-  /**
-   * @param {Object} nextProps
-   * @returns {Boolean}
-   */
-
-  shouldComponentUpdate(nextProps) {
-    return nextProps.url !== this.props.url;
-  }
-
-  componentDidUpdate() {
-    this.onChangeUrl();
+  componentDidUpdate(prevProps) {
+  	// check if url is changed and update is needed
+    if (prevProps.url !== this.props.url) {
+      this.updateVideo();
+    }
   }
 
   componentWillUnmount() {
-    this.onReset();
-  }
-
-  onChangeUrl() {
-    this.onReset();
-
-    createPlayer(this._containerId, this.props, (player) => {
-      this._internalPlayer = player;
-
-      // YT API requires event handlers to be globalized
-      this._playerReadyHandle = globalize(this.onPlayerReady);
-      this._playerErrorHandle = globalize(this.onPlayerError);
-      this._stateChangeHandle = globalize(this.onPlayerStateChange);
-
-      this._internalPlayer.addEventListener('onReady', this._playerReadyHandle);
-      this._internalPlayer.addEventListener('onError', this._playerErrorHandle);
-      this._internalPlayer.addEventListener('onStateChange', this._stateChangeHandle);
-    });
-  }
-
-  onReset() {
-    if (this._internalPlayer && typeof this._internalPlayer.removeEventListener === 'function') {
-      this._internalPlayer.removeEventListener('onReady', this._playerReadyHandle);
-      this._internalPlayer.removeEventListener('onError', this._playerErrorHandle);
-      this._internalPlayer.removeEventListener('onStateChange', this._stateChangeHandle);
-    }
-    if (this._internalPlayer) {
-      this._internalPlayer.destroy();
-    }
-
-    delete this._playerReadyHandle;
-    delete this._playerErrorHandle;
-    delete this._stateChangeHandle;
+    this._internalPlayer.destroy();
   }
 
   /**
@@ -148,7 +103,6 @@ class YouTube extends React.Component {
 
   onPlayerStateChange(event) {
     this.props.onStateChange(event);
-    
     switch (event.data) {
 
     case window.YT.PlayerState.ENDED:
@@ -168,13 +122,36 @@ class YouTube extends React.Component {
     }
   }
 
+  createPlayer() {
+    // create player
+    this._internalPlayer = youTubePlayer(this._containerId, { ...this.props.opts });
+    // attach event handlers
+    this._internalPlayer.on('ready', ::this.onPlayerReady);
+    this._internalPlayer.on('error', ::this.onPlayerError);
+    this._internalPlayer.on('stateChange', ::this.onPlayerStateChange);
+    // update video
+    this.updateVideo();
+  }
+
+  updateVideo() {
+  	// strip youtube video id from url
+    const videoId = getYouTubeId(this.props.url, {fuzzy: false});
+    // if autoplay is enabled loadVideoById
+    if (this.props.opts.playerVars !== undefined && this.props.opts.playerVars.autoplay === 1) {
+      this._internalPlayer.loadVideoById(videoId);
+      return;
+    }
+    // default behaviour just cues the video
+    this._internalPlayer.cueVideoById(videoId);
+  }
+
   /**
    * @returns Object
    */
 
   render() {
     return (
-      <div id={this._containerId} className={this.props.className || ''} />
+      <div id={this._containerId} className={this.props.className} />
     );
   }
 }
