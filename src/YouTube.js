@@ -137,7 +137,7 @@ class YouTube extends React.Component {
   	// strip youtube video id from url
     const videoId = getYouTubeId(this.props.url, {fuzzy: false});
     // if autoplay is enabled loadVideoById
-    if (this.props.opts.playerVars !== undefined && this.props.opts.playerVars.autoplay === 1) {
+    if (typeof this.props.opts.playerVars !== 'undefined' && this.props.opts.playerVars.autoplay === 1) {
       this._internalPlayer.loadVideoById(videoId);
       return;
     }
