@@ -1,4 +1,4 @@
-react-youtube
+react-youtube [![Build Status](https://travis-ci.org/troybetz/react-youtube.svg?branch=master)](https://travis-ci.org/troybetz/react-youtube)
 =============================
 
 Simple [React](http://facebook.github.io/react/ ) component acting as a thin layer over the [YouTube IFrame Player API](https://developers.google.com/youtube/iframe_api_reference)
