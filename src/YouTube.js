@@ -35,7 +35,6 @@ class YouTube extends React.Component {
   };
 
   static defaultProps = {
-    className: '',
     opts: {},
     onReady: () => {},
     onError: () => {},
