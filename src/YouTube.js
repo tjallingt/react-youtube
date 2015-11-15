@@ -60,7 +60,7 @@ class YouTube extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-  	// check if url is changed and update is needed
+    // check if url is changed and update is needed
     if (prevProps.url !== this.props.url) {
       this.updateVideo();
     }
@@ -134,7 +134,7 @@ class YouTube extends React.Component {
   }
 
   updateVideo() {
-  	// strip youtube video id from url
+    // strip youtube video id from url
     const videoId = getYouTubeId(this.props.url, {fuzzy: false});
     // if autoplay is enabled loadVideoById
     if (typeof this.props.opts.playerVars !== 'undefined' && this.props.opts.playerVars.autoplay === 1) {
