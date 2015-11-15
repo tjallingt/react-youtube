@@ -1,5 +1,4 @@
 import expect from 'expect';
-import React from 'react';
 import shallowRender from './helpers/shallowRender';
 import fullRender from './helpers/fullRender';
 
@@ -10,7 +9,7 @@ describe('YouTube', () => {
       url: 'https://www.youtube.com/watch?v=XxVg_s8xAms',
     });
 
-    expect(output).toEqual(<div id="custom-id" className="" />);
+    expect(output.props.id).toBe('custom-id');
   });
 
   it('should render a div with a custom className', () => {
@@ -20,7 +19,7 @@ describe('YouTube', () => {
       url: 'https://www.youtube.com/watch?v=XxVg_s8xAms',
     });
 
-    expect(output).toEqual(<div id="custom-id" className="custom-class" />);
+    expect(output.props.className).toBe('custom-class');
   });
 
   it('should create and bind a new youtube player when mounted', () => {
