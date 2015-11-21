@@ -60,14 +60,20 @@ class YouTube extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-    // check if url is changed and update is needed
-    if (prevProps.url !== this.props.url) {
+    const urlHasChanged = prevProps.url !== this.props.url;
+    const optsHaveChanged = !(_.isEqual(prevProps.opts, this.props.opts));
+
+    if (optsHaveChanged) {
+      return this.resetPlayer();
+    }
+
+    if (urlHasChanged) {
       this.updateVideo();
     }
   }
 
   componentWillUnmount() {
-    this._internalPlayer.destroy();
+    this.destroyPlayer();
   }
 
   /**
@@ -131,6 +137,16 @@ class YouTube extends React.Component {
     this._internalPlayer.on('stateChange', ::this.onPlayerStateChange);
     // update video
     this.updateVideo();
+  }
+
+  destroyPlayer() {
+    this._internalPlayer.destroy();
+    delete this._internalPlayer;
+  }
+
+  resetPlayer() {
+    this.destroyPlayer();
+    this.createPlayer();
   }
 
   updateVideo() {

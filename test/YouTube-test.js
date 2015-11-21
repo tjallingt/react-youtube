@@ -30,6 +30,86 @@ describe('YouTube', () => {
     expect(playerMock.on.calls.length).toBe(3);
   });
 
+  it('should create and bind a new youtube player when props.opts changes', () => {
+    const { playerMock, rerender } = fullRender({
+      url: 'https://www.youtube.com/watch?v=XxVg_s8xAms',
+      opts: {
+        width: '480px',
+        height: '360px',
+        playerVars: {
+          autoplay: 1,
+        },
+      },
+    });
+
+    rerender({
+      url: 'https://www.youtube.com/watch?v=XxVg_s8xAms',
+      opts: {
+        width: '480px',
+        height: '360px',
+        playerVars: {
+          autoplay: 0, // changed
+        },
+      },
+    });
+
+    // player is destroyed & rebound
+    expect(playerMock.destroy).toHaveBeenCalled();
+  });
+
+  it('should NOT create and bind a new youtube player when props.url changes', () => {
+    const { playerMock, rerender } = fullRender({
+      url: 'https://www.youtube.com/watch?v=XxVg_s8xAms',
+      opts: {
+        width: '480px',
+        height: '360px',
+        playerVars: {
+          autoplay: 1,
+        },
+      },
+    });
+
+    rerender({
+      url: 'https://www.youtube.com/watch?v=-DX3vJiqxm4', // changed
+      opts: {
+        width: '480px',
+        height: '360px',
+        playerVars: {
+          autoplay: 1,
+        },
+      },
+    });
+
+    expect(playerMock.destroy).toNotHaveBeenCalled();
+  });
+
+  it('should create and bind a new youtube player when props.opts AND props.url changes', () => {
+    const { playerMock, rerender } = fullRender({
+      url: 'https://www.youtube.com/watch?v=XxVg_s8xAms',
+      opts: {
+        width: '480px',
+        height: '360px',
+        playerVars: {
+          autoplay: 1,
+        },
+      },
+    });
+
+    rerender({
+      url: 'https://www.youtube.com/watch?v=-DX3vJiqxm4', // changed
+      opts: {
+        width: '480px',
+        height: '360px',
+        playerVars: {
+          autoplay: 0, // changed
+        },
+      },
+    });
+
+    // player is destroyed & rebound
+    expect(playerMock.destroy).toHaveBeenCalled();
+  });
+
   it('should load a url', () => {
     const { playerMock } = fullRender({
       url: 'https://www.youtube.com/watch?v=XxVg_s8xAms',
