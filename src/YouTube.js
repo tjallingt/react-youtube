@@ -140,13 +140,11 @@ class YouTube extends React.Component {
   }
 
   destroyPlayer() {
-    this._internalPlayer.destroy();
-    delete this._internalPlayer;
+    return this._internalPlayer.destroy();
   }
 
   resetPlayer() {
-    this.destroyPlayer();
-    this.createPlayer();
+    this.destroyPlayer().then(this.createPlayer);
   }
 
   updateVideo() {

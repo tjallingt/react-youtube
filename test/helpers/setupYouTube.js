@@ -8,15 +8,17 @@ import proxyquire from 'proxyquire';
 /**
  * Create & provide access to a mocked youtube player used inside `YouTube`
  *
+ * Calling a function returns a promise, see: https://github.com/gajus/youtube-player/blob/59ea18f044401f3b9ca282f47224f967a8df4712/src/index.js#L48
+ *
  * @returns {Object}
  */
 
 const setupYouTube = () => {
   const playerMock = {
-    on: expect.createSpy(),
-    cueVideoById: expect.createSpy(),
-    loadVideoById: expect.createSpy(),
-    destroy: expect.createSpy(),
+    on: expect.createSpy().andReturn(Promise.resolve()),
+    cueVideoById: expect.createSpy().andReturn(Promise.resolve()),
+    loadVideoById: expect.createSpy().andReturn(Promise.resolve()),
+    destroy: expect.createSpy().andReturn(Promise.resolve()),
   };
 
   const YouTube = proxyquire('../../src/YouTube', {
