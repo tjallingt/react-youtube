@@ -18,7 +18,8 @@ Usage
 ----
 ```js
 <YouTube
-  url={string}            // required
+  videoId={string}        // e.g. "XxVg_s8xAms"
+  url={string}            // e.g. "https://www.youtube.com/watch?v=XxVg_s8xAms"
   id={string}             // defaults -> random string
   className={string}      // defaults -> ""
   opts={obj}              // defaults -> {}
