@@ -13,8 +13,10 @@ import getYouTubeId from 'get-youtube-id';
 
 class YouTube extends React.Component {
   static propTypes = {
-    // changing the url will cause a new player to be loaded
-    url: React.PropTypes.string.isRequired,
+    // videoId takes precedence over props.url
+    videoId: React.PropTypes.string,
+
+    url: React.PropTypes.string,
 
     // custom ID for player element
     id: React.PropTypes.string,
@@ -60,14 +62,14 @@ class YouTube extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-    const urlHasChanged = prevProps.url !== this.props.url;
     const optsHaveChanged = !(_.isEqual(prevProps.opts, this.props.opts));
+    const videoHasChanged = this.getVideoId(prevProps) !== this.getVideoId();
 
     if (optsHaveChanged) {
       return this.resetPlayer();
     }
 
-    if (urlHasChanged) {
+    if (videoHasChanged) {
       this.updateVideo();
     }
   }
@@ -128,6 +130,10 @@ class YouTube extends React.Component {
     }
   }
 
+  getVideoId(props = this.props) {
+    return props.videoId || getYouTubeId(props.url, {fuzzy: false});
+  }
+
   createPlayer() {
     // create player
     this._internalPlayer = youTubePlayer(this._containerId, { ...this.props.opts });
@@ -148,8 +154,8 @@ class YouTube extends React.Component {
   }
 
   updateVideo() {
-    // strip youtube video id from url
-    const videoId = getYouTubeId(this.props.url, {fuzzy: false});
+    const videoId = this.getVideoId();
+
     // if autoplay is enabled loadVideoById
     if (typeof this.props.opts.playerVars !== 'undefined' && this.props.opts.playerVars.autoplay === 1) {
       this._internalPlayer.loadVideoById(videoId);

@@ -118,6 +118,14 @@ describe('YouTube', () => {
     expect(playerMock.cueVideoById).toHaveBeenCalledWith('XxVg_s8xAms');
   });
 
+  it('should load a videoId', () => {
+    const { playerMock } = fullRender({
+      videoId: 'XxVg_s8xAms',
+    });
+
+    expect(playerMock.cueVideoById).toHaveBeenCalledWith('XxVg_s8xAms');
+  });
+
   it('should load a new url', () => {
     const { playerMock, rerender } = fullRender({
       url: 'https://www.youtube.com/watch?v=XxVg_s8xAms',
