@@ -18,8 +18,7 @@ Usage
 ----
 ```js
 <YouTube
-  videoId={string}        // e.g. "XxVg_s8xAms"
-  url={string}            // e.g. "https://www.youtube.com/watch?v=XxVg_s8xAms"
+  videoId={string}        // required -> e.g. "XxVg_s8xAms"
   id={string}             // defaults -> random string
   className={string}      // defaults -> ""
   opts={obj}              // defaults -> {}
@@ -48,7 +47,7 @@ class Example extends React.Component {
 
     return (
       <YouTube
-        url={'http://www.youtube.com/watch?v=2g811Eo7K8U'}
+        videoId="2g811Eo7K8U"
         opts={opts}
         onReady={this._onReady}
       />
