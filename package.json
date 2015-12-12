@@ -20,44 +20,38 @@
   },
   "homepage": "https://github.com/compedit/react-youtube",
   "dependencies": {
-    "get-youtube-id": "^1.0.0",
-    "random-global": "^1.0.0",
-    "random-string": "^0.1.2",
-    "youtube-iframe": "^1.0.0"
+    "lodash": "3.x",
+    "youtube-player": "^2.0.0"
   },
   "devDependencies": {
-    "babel": "^5.6.14",
+    "babel-cli": "^6.1.2",
+    "babel-core": "^6.1.2",
     "babel-eslint": "^4.1.1",
-    "babel-jest": "^5.0.1",
+    "babel-loader": "^6.2.0",
+    "babel-preset-es2015": "^6.1.2",
+    "babel-preset-react": "^6.1.2",
+    "babel-preset-stage-0": "^6.1.2",
     "eslint": "^1.3.1",
-    "eslint-config-airbnb": "0.0.8",
+    "eslint-config-airbnb": "^0.1.0",
     "eslint-plugin-react": "^3.3.1",
-    "jest-cli": "^0.5.1",
-    "react": "^0.13.3"
+    "expect": "^1.12.2",
+    "jsdom": "^7.0.2",
+    "mocha": "^2.3.3",
+    "proxyquire": "^1.7.3",
+    "react": "^0.14.1",
+    "react-addons-test-utils": "^0.14.1",
+    "react-dom": "^0.14.1",
+    "webpack": "^1.12.9",
+    "webpack-dev-server": "^1.14.0"
   },
   "peerDependencies": {
-    "react": ">=0.13.0"
+    "react": ">=0.14.1"
   },
   "scripts": {
-    "test": "jest",
+    "test": "mocha",
     "compile": "babel src --out-dir dist",
     "prepublish": "npm run compile",
-    "lint": "eslint ."
-  },
-  "jest": {
-    "scriptPreprocessor": "<rootDir>/node_modules/babel-jest",
-    "testFileExtensions": [
-      "js"
-    ],
-    "moduleFileExtensions": [
-      "js"
-    ],
-    "unmockedModulePathPatterns": [
-      "./node_modules/react",
-      "./src/YouTube"
-    ],
-    "testPathDirs": [
-      "src"
-    ]
+    "lint": "eslint .",
+    "example": "webpack-dev-server --config example/webpack.config.js"
   }
 }

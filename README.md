@@ -1,4 +1,4 @@
-react-youtube
+react-youtube [![Build Status](https://travis-ci.org/troybetz/react-youtube.svg?branch=master)](https://travis-ci.org/troybetz/react-youtube)
 =============================
 
 Simple [React](http://facebook.github.io/react/ ) component acting as a thin layer over the [YouTube IFrame Player API](https://developers.google.com/youtube/iframe_api_reference)
@@ -18,7 +18,7 @@ Usage
 ----
 ```js
 <YouTube
-  url={string}            // required
+  videoId={string}        // required -> e.g. "XxVg_s8xAms"
   id={string}             // defaults -> random string
   className={string}      // defaults -> ""
   opts={obj}              // defaults -> {}
@@ -47,7 +47,7 @@ class Example extends React.Component {
 
     return (
       <YouTube
-        url={'http://www.youtube.com/watch?v=2g811Eo7K8U'}
+        videoId="2g811Eo7K8U"
         opts={opts}
         onReady={this._onReady}
       />
