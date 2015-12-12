@@ -3,7 +3,8 @@
  */
 
 import React from 'react';
-import _ from 'underscore';
+import uniqueId from 'lodash/utility/uniqueId';
+import isEqual from 'lodash/lang/isEqual';
 import youTubePlayer from 'youtube-player';
 
 /**
@@ -49,7 +50,7 @@ class YouTube extends React.Component {
   constructor(props) {
     super(props);
 
-    this._containerId = props.id || _.uniqueId('player_');
+    this._containerId = props.id || uniqueId('player_');
     this._internalPlayer = null;
   }
 
@@ -58,7 +59,7 @@ class YouTube extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-    const optsHaveChanged = !(_.isEqual(prevProps.opts, this.props.opts));
+    const optsHaveChanged = !(isEqual(prevProps.opts, this.props.opts));
     const videoHasChanged = prevProps.videoId !== this.props.videoId;
 
     if (optsHaveChanged) {

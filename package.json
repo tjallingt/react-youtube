@@ -20,7 +20,7 @@
   },
   "homepage": "https://github.com/compedit/react-youtube",
   "dependencies": {
-    "underscore": "^1.8.3",
+    "lodash": "3.x",
     "youtube-player": "^2.0.0"
   },
   "devDependencies": {
