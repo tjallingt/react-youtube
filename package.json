@@ -1,6 +1,6 @@
 {
   "name": "react-youtube",
-  "version": "4.1.2",
+  "version": "5.0.0",
   "description": "react.js powered YouTube player component",
   "main": "dist/YouTube.js",
   "repository": {
