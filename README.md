@@ -71,14 +71,6 @@ You can access & control the player in a way similar to the [official api](https
 > * The event's `target` identifies the video player that corresponds to the event.
 > * The event's `data` specifies a value relevant to the event. Note that the `onReady` event does not specify a `data` property.
 
-**Note:** Whenever a new `url` is passed into the component, the previous player is destroyed and a new one created. Meaning, if you're storing the player inside of `state`,
-you'll want to replace it whenever the `onReady` event handler is called.
-
-
-**Note:**
-`player.addEventListener`, `player.removeEventListener`, and `player.destroy` are used internally, using these outside the component may cause problems.
-
-
 # License
 
   MIT
