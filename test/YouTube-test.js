@@ -115,7 +115,7 @@ describe('YouTube', () => {
       videoId: 'XxVg_s8xAms',
     });
 
-    expect(playerMock.cueVideoById).toHaveBeenCalledWith({ videoId: 'XxVg_s8xAms', startSeconds: null, endSeconds: null });
+    expect(playerMock.cueVideoById).toHaveBeenCalledWith({ videoId: 'XxVg_s8xAms' });
   });
 
   it('should load a new video', () => {
@@ -127,8 +127,8 @@ describe('YouTube', () => {
       videoId: '-DX3vJiqxm4',
     });
 
-    expect(playerMock.cueVideoById).toHaveBeenCalledWith({ videoId: 'XxVg_s8xAms', startSeconds: null, endSeconds: null });
-    expect(playerMock.cueVideoById).toHaveBeenCalledWith({ videoId: '-DX3vJiqxm4', startSeconds: null, endSeconds: null });
+    expect(playerMock.cueVideoById).toHaveBeenCalledWith({ videoId: 'XxVg_s8xAms' });
+    expect(playerMock.cueVideoById).toHaveBeenCalledWith({ videoId: '-DX3vJiqxm4' });
   });
 
   it('should load a video with autoplay enabled', () => {
@@ -142,7 +142,7 @@ describe('YouTube', () => {
     });
 
     expect(playerMock.cueVideoById).toNotHaveBeenCalled();
-    expect(playerMock.loadVideoById).toHaveBeenCalledWith({ videoId: 'XxVg_s8xAms', startSeconds: null, endSeconds: null });
+    expect(playerMock.loadVideoById).toHaveBeenCalledWith({ videoId: 'XxVg_s8xAms' });
   });
 
   it('should load a video with a set starting and ending time', () => {
