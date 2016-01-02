@@ -147,13 +147,31 @@ class YouTube extends React.Component {
   }
 
   updateVideo() {
+    // set queueing options
+    let startSeconds = null;
+    let endSeconds = null;
+    let autoplay = false;
+    if ('playerVars' in this.props.opts) {
+      if ('start' in this.props.opts.playerVars) {
+        startSeconds = this.props.opts.playerVars.start;
+      }
+      if ('end' in this.props.opts.playerVars) {
+        endSeconds = this.props.opts.playerVars.end;
+      }
+      autoplay = this.props.opts.playerVars.autoplay === 1;
+    }
+    const opts = {
+      videoId: this.props.videoId,
+      startSeconds: startSeconds,
+      endSeconds: endSeconds,
+    };
     // if autoplay is enabled loadVideoById
-    if (typeof this.props.opts.playerVars !== 'undefined' && this.props.opts.playerVars.autoplay === 1) {
-      this._internalPlayer.loadVideoById(this.props.videoId);
+    if (autoplay) {
+      this._internalPlayer.loadVideoById(opts);
       return;
     }
     // default behaviour just cues the video
-    this._internalPlayer.cueVideoById(this.props.videoId);
+    this._internalPlayer.cueVideoById(opts);
   }
 
   /**

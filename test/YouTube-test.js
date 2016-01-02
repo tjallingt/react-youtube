@@ -115,7 +115,7 @@ describe('YouTube', () => {
       videoId: 'XxVg_s8xAms',
     });
 
-    expect(playerMock.cueVideoById).toHaveBeenCalledWith('XxVg_s8xAms');
+    expect(playerMock.cueVideoById).toHaveBeenCalledWith({ videoId: 'XxVg_s8xAms', startSeconds: null, endSeconds: null });
   });
 
   it('should load a new video', () => {
@@ -127,8 +127,8 @@ describe('YouTube', () => {
       videoId: '-DX3vJiqxm4',
     });
 
-    expect(playerMock.cueVideoById).toHaveBeenCalledWith('XxVg_s8xAms');
-    expect(playerMock.cueVideoById).toHaveBeenCalledWith('-DX3vJiqxm4');
+    expect(playerMock.cueVideoById).toHaveBeenCalledWith({ videoId: 'XxVg_s8xAms', startSeconds: null, endSeconds: null });
+    expect(playerMock.cueVideoById).toHaveBeenCalledWith({ videoId: '-DX3vJiqxm4', startSeconds: null, endSeconds: null });
   });
 
   it('should load a video with autoplay enabled', () => {
@@ -142,7 +142,21 @@ describe('YouTube', () => {
     });
 
     expect(playerMock.cueVideoById).toNotHaveBeenCalled();
-    expect(playerMock.loadVideoById).toHaveBeenCalledWith('XxVg_s8xAms');
+    expect(playerMock.loadVideoById).toHaveBeenCalledWith({ videoId: 'XxVg_s8xAms', startSeconds: null, endSeconds: null });
+  });
+
+  it('should load a video with a set starting and ending time', () => {
+    const { playerMock } = fullRender({
+      videoId: 'XxVg_s8xAms',
+      opts: {
+        playerVars: {
+          start: 1,
+          end: 2,
+        },
+      },
+    });
+
+    expect(playerMock.cueVideoById).toHaveBeenCalledWith({ videoId: 'XxVg_s8xAms', startSeconds: 1, endSeconds: 2 });
   });
 
   it('should destroy the youtube player', () => {
