@@ -143,7 +143,7 @@ class YouTube extends React.Component {
   }
 
   resetPlayer() {
-    this.destroyPlayer().then(this.createPlayer);
+    this.destroyPlayer().then(::this.createPlayer);
   }
 
   updateVideo() {
