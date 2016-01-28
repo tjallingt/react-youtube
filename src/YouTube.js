@@ -128,6 +128,8 @@ class YouTube extends React.Component {
   }
 
   createPlayer() {
+    // do attempt to create a player server-side, it won't work
+    if (typeof document === 'undefined') return;
     // create player
     this._internalPlayer = youTubePlayer(this._containerId, { ...this.props.opts });
     // attach event handlers
