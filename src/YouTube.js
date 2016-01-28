@@ -3,8 +3,8 @@
  */
 
 import React from 'react';
-import uniqueId from 'lodash/utility/uniqueId';
-import isEqual from 'lodash/lang/isEqual';
+import uniqueId from 'lodash/uniqueId';
+import isEqual from 'lodash/isEqual';
 import youTubePlayer from 'youtube-player';
 
 /**
