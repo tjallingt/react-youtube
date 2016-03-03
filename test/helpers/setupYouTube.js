@@ -2,6 +2,7 @@
  * Module dependencies
  */
 
+import assign from 'lodash/assign';
 import expect from 'expect';
 import proxyquire from 'proxyquire';
 
@@ -14,15 +15,20 @@ import proxyquire from 'proxyquire';
  */
 
 const setupYouTube = () => {
-  const playerMock = {
+  const playerMethods = {
     on: expect.createSpy().andReturn(Promise.resolve()),
     cueVideoById: expect.createSpy().andReturn(Promise.resolve()),
     loadVideoById: expect.createSpy().andReturn(Promise.resolve()),
     destroy: expect.createSpy().andReturn(Promise.resolve()),
   };
+  const playerMock = expect.createSpy().andReturn(playerMethods);
+
+  // Add the mocked methods to the playerMock object too, so they can be
+  // accessed easily by tests.
+  assign(playerMock, playerMethods);
 
   const YouTube = proxyquire('../../src/YouTube', {
-    'youtube-player': () => playerMock,
+    'youtube-player': playerMock,
   }).default;
 
   return {
