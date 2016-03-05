@@ -8,6 +8,63 @@ import isEqual from 'lodash/isEqual';
 import youTubePlayer from 'youtube-player';
 
 /**
+ * Check whether a `props` change should result in the video being updated.
+ *
+ * @param {Object} prevProps
+ * @param {Object} props
+ */
+
+function shouldUpdateVideo(prevProps, props) {
+  // A changing video should always trigger an update
+  if (prevProps.videoId !== props.videoId) {
+    return true;
+  }
+
+  // Otherwise, a change in the start/end time playerVars also requires a player
+  // update.
+  const prevVars = prevProps.opts.playerVars || {};
+  const vars = props.opts.playerVars || {};
+
+  return prevVars.start !== vars.start || prevVars.end !== vars.end;
+}
+
+/**
+ * Neutralise API options that only require a video update, leaving only options
+ * that require a player reset. The results can then be compared to see if a
+ * player reset is necessary.
+ *
+ * @param {Object} opts
+ */
+
+function filterResetOptions(opts) {
+  return {
+    ...opts,
+    playerVars: {
+      ...opts.playerVars,
+      start: 0,
+      end: 0
+    }
+  };
+}
+
+/**
+ * Check whether a `props` change should result in the player being reset.
+ * The player is reset when the `props.opts` change, except if the only change
+ * is in the `start` and `end` playerVars, because a video update can deal with
+ * those.
+ *
+ * @param {Object} prevProps
+ * @param {Object} props
+ */
+
+function shouldResetPlayer(prevProps, props) {
+  return !isEqual(
+    filterResetOptions(prevProps.opts),
+    filterResetOptions(props.opts)
+  );
+}
+
+/**
  * Create a new `YouTube` component.
  */
 
@@ -59,14 +116,11 @@ class YouTube extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-    const optsHaveChanged = !(isEqual(prevProps.opts, this.props.opts));
-    const videoHasChanged = prevProps.videoId !== this.props.videoId;
-
-    if (optsHaveChanged) {
+    if (shouldResetPlayer(prevProps, this.props)) {
       return this.resetPlayer();
     }
 
-    if (videoHasChanged) {
+    if (shouldUpdateVideo(prevProps, this.props)) {
       this.updateVideo();
     }
   }
