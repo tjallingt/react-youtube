@@ -70,7 +70,7 @@ function shouldResetPlayer(prevProps, props) {
 
 class YouTube extends React.Component {
   static propTypes = {
-    videoId: React.PropTypes.string.isRequired,
+    videoId: React.PropTypes.string,
 
     // custom ID for player element
     id: React.PropTypes.string,
@@ -206,6 +206,11 @@ class YouTube extends React.Component {
   }
 
   updateVideo() {
+    if (typeof this.props.videoId === 'undefined' || this.props.videoId === null) {
+      this._internalPlayer.stopVideo();
+      return;
+    }
+
     // set queueing options
     let autoplay = false;
     const opts = {
