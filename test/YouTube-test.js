@@ -142,6 +142,28 @@ describe('YouTube', () => {
     expect(playerMock.cueVideoById).toHaveBeenCalledWith({ videoId: '-DX3vJiqxm4' });
   });
 
+  it('should not load a video when props.videoId is null', () => {
+    const { playerMock } = fullRender({
+      videoId: null,
+    });
+
+    expect(playerMock.cueVideoById).toNotHaveBeenCalled();
+  });
+
+  it('should stop a video when props.videoId changes to null', () => {
+    const { playerMock, rerender } = fullRender({
+      videoId: 'XxVg_s8xAms',
+    });
+
+    expect(playerMock).toHaveBeenCalled();
+
+    rerender({
+      videoId: null,
+    });
+
+    expect(playerMock.stopVideo).toHaveBeenCalled();
+  });
+
   it('should load a video with autoplay enabled', () => {
     const { playerMock } = fullRender({
       id: 'should-load-autoplay',
@@ -210,13 +232,13 @@ describe('YouTube', () => {
     });
 
     rerender({
-      videoId: 'KYzlpRvWZ6c'
+      videoId: 'KYzlpRvWZ6c',
     });
 
     expect(playerMock.cueVideoById).toHaveBeenCalledWith({
       videoId: 'KYzlpRvWZ6c',
       startSeconds: 1,
-      endSeconds: 2
+      endSeconds: 2,
     });
   });
 
