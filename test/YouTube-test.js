@@ -38,6 +38,7 @@ describe('YouTube', () => {
         height: '360px',
         playerVars: {
           autoplay: 1,
+          start: 0,
         },
       },
     });
@@ -48,7 +49,8 @@ describe('YouTube', () => {
         width: '480px',
         height: '360px',
         playerVars: {
-          autoplay: 0, // changed
+          autoplay: 0, // changed, forces destroy & rebind
+          start: 10, // changed, but does not destroy & rebind
         },
       },
     });
@@ -57,7 +59,7 @@ describe('YouTube', () => {
     expect(playerMock.destroy).toHaveBeenCalled();
   });
 
-  it('should NOT create and bind a new youtube player when props.videoId changes', () => {
+  it('should NOT create and bind a new youtube player when props.videoId, playerVars.start, or playerVars.end change', () => {
     const { playerMock, rerender } = fullRender({
       videoId: 'XxVg_s8xAms',
       opts: {
@@ -65,6 +67,8 @@ describe('YouTube', () => {
         height: '360px',
         playerVars: {
           autoplay: 1,
+          start: 0,
+          end: 50,
         },
       },
     });
@@ -76,11 +80,16 @@ describe('YouTube', () => {
         height: '360px',
         playerVars: {
           autoplay: 1,
+          start: 10, // changed, does not force destroy & rebind
+          end: 20, // changed, does not force destroy & rebind
         },
       },
     });
 
+    // player is NOT destroyed & rebound, despite the changes
     expect(playerMock.destroy).toNotHaveBeenCalled();
+    // instead only the video is updated
+    expect(playerMock.loadVideoById).toHaveBeenCalled();
   });
 
   it('should create and bind a new youtube player when props.opts AND props.videoId change', () => {
