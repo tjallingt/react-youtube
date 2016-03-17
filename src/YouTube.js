@@ -131,13 +131,16 @@ class YouTube extends React.Component {
     // do not attempt to create a player server-side, it won't work
     if (typeof document === 'undefined') return;
     // create player
-    this._internalPlayer = youTubePlayer(this._containerId, { ...this.props.opts });
+    const playerOpts = {
+      ...this.props.opts,
+      // preload the `videoId` video if one is already given
+      videoId: this.props.videoId
+    };
+    this._internalPlayer = youTubePlayer(this._containerId, playerOpts);
     // attach event handlers
     this._internalPlayer.on('ready', ::this.onPlayerReady);
     this._internalPlayer.on('error', ::this.onPlayerError);
     this._internalPlayer.on('stateChange', ::this.onPlayerStateChange);
-    // update video
-    this.updateVideo();
   }
 
   destroyPlayer() {
