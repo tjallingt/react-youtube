@@ -42,8 +42,8 @@ function filterResetOptions(opts) {
     playerVars: {
       ...opts.playerVars,
       start: 0,
-      end: 0
-    }
+      end: 0,
+    },
   };
 }
 
@@ -188,7 +188,7 @@ class YouTube extends React.Component {
     const playerOpts = {
       ...this.props.opts,
       // preload the `videoId` video if one is already given
-      videoId: this.props.videoId
+      videoId: this.props.videoId,
     };
     this._internalPlayer = youTubePlayer(this._containerId, playerOpts);
     // attach event handlers

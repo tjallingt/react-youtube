@@ -182,7 +182,7 @@ describe('YouTube', () => {
     });
 
     rerender({
-      videoId: 'something'
+      videoId: 'something',
     });
 
     expect(playerMock.cueVideoById).toNotHaveBeenCalled();
