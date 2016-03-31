@@ -88,6 +88,7 @@ class YouTube extends React.Component {
     onPause: React.PropTypes.func,
     onEnd: React.PropTypes.func,
     onStateChange: React.PropTypes.func,
+    onPlaybackRateChange: React.PropTypes.func,
   };
 
   static defaultProps = {
@@ -98,6 +99,7 @@ class YouTube extends React.Component {
     onPause: () => {},
     onEnd: () => {},
     onStateChange: () => {},
+    onPlaybackRateChange: () => {},
   };
 
   /**
@@ -181,6 +183,17 @@ class YouTube extends React.Component {
     }
   }
 
+  /**
+   * https://developers.google.com/youtube/iframe_api_reference#onPlaybackRateChange
+   *
+   * @param {Object} event
+   *   @param {Float} data    - playback rate
+   *   @param {Object} target - actual YT player
+   */
+  onPlayerPlaybackRateChange(event) {
+    this.props.onPlaybackRateChange(event);
+  }
+
   createPlayer() {
     // do not attempt to create a player server-side, it won't work
     if (typeof document === 'undefined') return;
@@ -195,6 +208,7 @@ class YouTube extends React.Component {
     this._internalPlayer.on('ready', ::this.onPlayerReady);
     this._internalPlayer.on('error', ::this.onPlayerError);
     this._internalPlayer.on('stateChange', ::this.onPlayerStateChange);
+    this._internalPlayer.on('playbackRateChange', ::this.onPlayerPlaybackRateChange);
   }
 
   destroyPlayer() {
