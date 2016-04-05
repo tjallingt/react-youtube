@@ -27,7 +27,7 @@ describe('YouTube', () => {
       videoId: 'XxVg_s8xAms',
     });
 
-    expect(playerMock.on.calls.length).toBe(4);
+    expect(playerMock.on.calls.length).toBe(5);
   });
 
   it('should create and bind a new youtube player when props.opts changes', () => {
