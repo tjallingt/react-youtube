@@ -17,7 +17,7 @@ const shallowRender = (props) => {
   const { YouTube } = setupYouTube();
 
   const renderer = TestUtils.createRenderer();
-  renderer.render(<YouTube { ...props }/>);
+  renderer.render(<YouTube { ...props } />);
 
   const output = renderer.getRenderOutput();
 

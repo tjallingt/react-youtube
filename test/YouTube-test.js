@@ -1,3 +1,4 @@
+/* eslint max-len: 0 */
 import expect from 'expect';
 import shallowRender from './helpers/shallowRender';
 import fullRender from './helpers/fullRender';

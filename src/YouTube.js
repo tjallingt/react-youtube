@@ -121,7 +121,7 @@ class YouTube extends React.Component {
 
   componentDidUpdate(prevProps) {
     if (shouldResetPlayer(prevProps, this.props)) {
-      return this.resetPlayer();
+      this.resetPlayer();
     }
 
     if (shouldUpdateVideo(prevProps, this.props)) {
@@ -168,20 +168,20 @@ class YouTube extends React.Component {
     this.props.onStateChange(event);
     switch (event.data) {
 
-    case window.YT.PlayerState.ENDED:
-      this.props.onEnd(event);
-      break;
+      case window.YT.PlayerState.ENDED:
+        this.props.onEnd(event);
+        break;
 
-    case window.YT.PlayerState.PLAYING:
-      this.props.onPlay(event);
-      break;
+      case window.YT.PlayerState.PLAYING:
+        this.props.onPlay(event);
+        break;
 
-    case window.YT.PlayerState.PAUSED:
-      this.props.onPause(event);
-      break;
+      case window.YT.PlayerState.PAUSED:
+        this.props.onPause(event);
+        break;
 
-    default:
-      return;
+      default:
+        return;
     }
   }
 
