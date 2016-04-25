@@ -3,7 +3,6 @@
  */
 
 import React from 'react';
-import uniqueId from 'lodash/uniqueId';
 import isEqual from 'lodash/isEqual';
 import youTubePlayer from 'youtube-player';
 
@@ -111,7 +110,7 @@ class YouTube extends React.Component {
   constructor(props) {
     super(props);
 
-    this._containerId = props.id || uniqueId('player_');
+    this._container = null;
     this._internalPlayer = null;
   }
 
@@ -216,7 +215,7 @@ class YouTube extends React.Component {
       // preload the `videoId` video if one is already given
       videoId: this.props.videoId,
     };
-    this._internalPlayer = youTubePlayer(this._containerId, playerOpts);
+    this._internalPlayer = youTubePlayer(this._container, playerOpts);
     // attach event handlers
     this._internalPlayer.on('ready', ::this.onPlayerReady);
     this._internalPlayer.on('error', ::this.onPlayerError);
@@ -263,13 +262,19 @@ class YouTube extends React.Component {
     this._internalPlayer.cueVideoById(opts);
   }
 
+  refContainer = (container) => {
+    this._container = container;
+  };
+
   /**
    * @returns Object
    */
 
   render() {
     return (
-      <div id={this._containerId} className={this.props.className} />
+      <span>
+        <div id={this.props.id} className={this.props.className} ref={this.refContainer} />
+      </span>
     );
   }
 }
