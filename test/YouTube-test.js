@@ -4,23 +4,27 @@ import shallowRender from './helpers/shallowRender';
 import fullRender from './helpers/fullRender';
 
 describe('YouTube', () => {
+  // See helpers/setupEnvironment.
+  const HTMLDivElement = window.HTMLDivElement;
+
   it('should render a div with a custom id', () => {
     const { output } = shallowRender({
       id: 'custom-id',
       videoId: 'XxVg_s8xAms',
     });
 
-    expect(output.props.id).toBe('custom-id');
+    const div = output.props.children;
+    expect(div.props.id).toBe('custom-id');
   });
 
   it('should render a div with a custom className', () => {
     const { output } = shallowRender({
-      id: 'custom-id',
       className: 'custom-class',
       videoId: 'XxVg_s8xAms',
     });
 
-    expect(output.props.className).toBe('custom-class');
+    const div = output.props.children;
+    expect(div.props.className).toBe('custom-class');
   });
 
   it('should create and bind a new youtube player when mounted', () => {
@@ -126,7 +130,8 @@ describe('YouTube', () => {
       videoId: 'XxVg_s8xAms',
     });
 
-    expect(playerMock).toHaveBeenCalledWith('should-load-a-video', { videoId: 'XxVg_s8xAms' });
+    expect(playerMock).toHaveBeenCalled();
+    expect(playerMock.calls[0].arguments[1]).toEqual({ videoId: 'XxVg_s8xAms' });
   });
 
   it('should load a new video', () => {
@@ -139,7 +144,9 @@ describe('YouTube', () => {
       videoId: '-DX3vJiqxm4',
     });
 
-    expect(playerMock).toHaveBeenCalledWith('new-video', { videoId: 'XxVg_s8xAms' });
+    expect(playerMock).toHaveBeenCalled();
+    expect(playerMock.calls[0].arguments[0]).toBeAn(HTMLDivElement);
+    expect(playerMock.calls[0].arguments[1]).toEqual({ videoId: 'XxVg_s8xAms' });
     expect(playerMock.cueVideoById).toHaveBeenCalledWith({ videoId: '-DX3vJiqxm4' });
   });
 
@@ -178,7 +185,8 @@ describe('YouTube', () => {
 
     expect(playerMock.cueVideoById).toNotHaveBeenCalled();
     expect(playerMock.loadVideoById).toNotHaveBeenCalled();
-    expect(playerMock).toHaveBeenCalledWith('should-load-autoplay', {
+    expect(playerMock).toHaveBeenCalled();
+    expect(playerMock.calls[0].arguments[1]).toEqual({
       videoId: 'XxVg_s8xAms',
       playerVars: {
         autoplay: 1,
@@ -197,7 +205,8 @@ describe('YouTube', () => {
       },
     });
 
-    expect(playerMock).toHaveBeenCalledWith('should-load-new-autoplay', {
+    expect(playerMock).toHaveBeenCalled();
+    expect(playerMock.calls[0].arguments[1]).toEqual({
       videoId: 'XxVg_s8xAms',
       playerVars: {
         autoplay: 1,
@@ -214,7 +223,6 @@ describe('YouTube', () => {
 
   it('should load a video with a set starting and ending time', () => {
     const { playerMock, rerender } = fullRender({
-      id: 'start-and-end',
       videoId: 'XxVg_s8xAms',
       opts: {
         playerVars: {
@@ -224,7 +232,8 @@ describe('YouTube', () => {
       },
     });
 
-    expect(playerMock).toHaveBeenCalledWith('start-and-end', {
+    expect(playerMock).toHaveBeenCalled();
+    expect(playerMock.calls[0].arguments[1]).toEqual({
       videoId: 'XxVg_s8xAms',
       playerVars: {
         start: 1,
