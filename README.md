@@ -19,8 +19,8 @@ Usage
 ```js
 <YouTube
   videoId={string}                  // defaults -> null
-  id={string}                       // defaults -> unique id starting with "player_"
-  className={string}                // defaults -> ""
+  id={string}                       // defaults -> null
+  className={string}                // defaults -> null
   opts={obj}                        // defaults -> {}
   onReady={func}                    // defaults -> noop
   onPlay={func}                     // defaults -> noop
