@@ -110,8 +110,8 @@ class YouTube extends React.Component {
   constructor(props) {
     super(props);
 
-    this._container = null;
-    this._internalPlayer = null;
+    this.container = null;
+    this.internalPlayer = null;
   }
 
   componentDidMount() {
@@ -215,17 +215,17 @@ class YouTube extends React.Component {
       // preload the `videoId` video if one is already given
       videoId: this.props.videoId,
     };
-    this._internalPlayer = youTubePlayer(this._container, playerOpts);
+    this.internalPlayer = youTubePlayer(this.container, playerOpts);
     // attach event handlers
-    this._internalPlayer.on('ready', ::this.onPlayerReady);
-    this._internalPlayer.on('error', ::this.onPlayerError);
-    this._internalPlayer.on('stateChange', ::this.onPlayerStateChange);
-    this._internalPlayer.on('playbackRateChange', ::this.onPlayerPlaybackRateChange);
-    this._internalPlayer.on('playbackQualityChange', ::this.onPlayerPlaybackQualityChange);
+    this.internalPlayer.on('ready', ::this.onPlayerReady);
+    this.internalPlayer.on('error', ::this.onPlayerError);
+    this.internalPlayer.on('stateChange', ::this.onPlayerStateChange);
+    this.internalPlayer.on('playbackRateChange', ::this.onPlayerPlaybackRateChange);
+    this.internalPlayer.on('playbackQualityChange', ::this.onPlayerPlaybackQualityChange);
   }
 
   destroyPlayer() {
-    return this._internalPlayer.destroy();
+    return this.internalPlayer.destroy();
   }
 
   resetPlayer() {
@@ -234,7 +234,7 @@ class YouTube extends React.Component {
 
   updateVideo() {
     if (typeof this.props.videoId === 'undefined' || this.props.videoId === null) {
-      this._internalPlayer.stopVideo();
+      this.internalPlayer.stopVideo();
       return;
     }
 
@@ -255,15 +255,15 @@ class YouTube extends React.Component {
 
     // if autoplay is enabled loadVideoById
     if (autoplay) {
-      this._internalPlayer.loadVideoById(opts);
+      this.internalPlayer.loadVideoById(opts);
       return;
     }
     // default behaviour just cues the video
-    this._internalPlayer.cueVideoById(opts);
+    this.internalPlayer.cueVideoById(opts);
   }
 
   refContainer = (container) => {
-    this._container = container;
+    this.container = container;
   };
 
   /**
