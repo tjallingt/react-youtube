@@ -53,7 +53,7 @@
     "test": "mocha",
     "compile": "babel src --out-dir dist",
     "prepublish": "npm run compile",
-    "lint": "eslint .",
+    "lint": "eslint src",
     "example": "webpack-dev-server --config example/webpack.config.js"
   }
 }
