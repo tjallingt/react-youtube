@@ -1,7 +1,3 @@
-/**
- * Module dependencies
- */
-
 import React from 'react';
 import isEqual from 'lodash/isEqual';
 import youTubePlayer from 'youtube-player';
@@ -12,7 +8,6 @@ import youTubePlayer from 'youtube-player';
  * @param {Object} prevProps
  * @param {Object} props
  */
-
 function shouldUpdateVideo(prevProps, props) {
   // A changing video should always trigger an update
   if (prevProps.videoId !== props.videoId) {
@@ -34,7 +29,6 @@ function shouldUpdateVideo(prevProps, props) {
  *
  * @param {Object} opts
  */
-
 function filterResetOptions(opts) {
   return {
     ...opts,
@@ -55,17 +49,12 @@ function filterResetOptions(opts) {
  * @param {Object} prevProps
  * @param {Object} props
  */
-
 function shouldResetPlayer(prevProps, props) {
   return !isEqual(
     filterResetOptions(prevProps.opts),
     filterResetOptions(props.opts)
   );
 }
-
-/**
- * Create a new `YouTube` component.
- */
 
 class YouTube extends React.Component {
   static propTypes = {
@@ -103,10 +92,6 @@ class YouTube extends React.Component {
     onPlaybackQualityChange: () => {},
   };
 
-  /**
-   * @param {Object} props
-   */
-
   constructor(props) {
     super(props);
 
@@ -129,7 +114,13 @@ class YouTube extends React.Component {
   }
 
   componentWillUnmount() {
-    this.destroyPlayer();
+     /**
+      * Note: The `youtube-player` package that is used promisifies all Youtube
+      * Player API calls, which introduces a delay of a tick before it actually
+      * gets destroyed. Since React attempts to remove the element instantly
+      * this method isn't quick enough to reset the container element.
+      */
+    this.internalPlayer.destroy();
   }
 
   /**
@@ -138,10 +129,7 @@ class YouTube extends React.Component {
    * @param {Object} event
    *   @param {Object} target - player object
    */
-
-  onPlayerReady(event) {
-    this.props.onReady(event);
-  }
+  onPlayerReady = (event) => this.props.onReady(event);
 
   /**
    * https://developers.google.com/youtube/iframe_api_reference#onError
@@ -150,10 +138,7 @@ class YouTube extends React.Component {
    *   @param {Integer} data  - error type
    *   @param {Object} target - player object
    */
-
-  onPlayerError(event) {
-    this.props.onError(event);
-  }
+  onPlayerError = (event) => this.props.onError(event);
 
   /**
    * https://developers.google.com/youtube/iframe_api_reference#onStateChange
@@ -162,8 +147,7 @@ class YouTube extends React.Component {
    *   @param {Integer} data  - status change type
    *   @param {Object} target - actual YT player
    */
-
-  onPlayerStateChange(event) {
+  onPlayerStateChange = (event) => {
     this.props.onStateChange(event);
     switch (event.data) {
 
@@ -182,7 +166,7 @@ class YouTube extends React.Component {
       default:
         return;
     }
-  }
+  };
 
   /**
    * https://developers.google.com/youtube/iframe_api_reference#onPlaybackRateChange
@@ -191,9 +175,7 @@ class YouTube extends React.Component {
    *   @param {Float} data    - playback rate
    *   @param {Object} target - actual YT player
    */
-  onPlayerPlaybackRateChange(event) {
-    this.props.onPlaybackRateChange(event);
-  }
+  onPlayerPlaybackRateChange = (event) => this.props.onPlaybackRateChange(event);
 
   /**
    * https://developers.google.com/youtube/iframe_api_reference#onPlaybackQualityChange
@@ -202,11 +184,12 @@ class YouTube extends React.Component {
    *   @param {String} data   - playback quality
    *   @param {Object} target - actual YT player
    */
-  onPlayerPlaybackQualityChange(event) {
-    this.props.onPlaybackQualityChange(event);
-  }
+  onPlayerPlaybackQualityChange = (event) => this.props.onPlaybackQualityChange(event);
 
-  createPlayer() {
+  /**
+   * Initialize the Youtube Player API on the container and attach event handlers
+   */
+  createPlayer = () => {
     // do not attempt to create a player server-side, it won't work
     if (typeof document === 'undefined') return;
     // create player
@@ -217,22 +200,24 @@ class YouTube extends React.Component {
     };
     this.internalPlayer = youTubePlayer(this.container, playerOpts);
     // attach event handlers
-    this.internalPlayer.on('ready', ::this.onPlayerReady);
-    this.internalPlayer.on('error', ::this.onPlayerError);
-    this.internalPlayer.on('stateChange', ::this.onPlayerStateChange);
-    this.internalPlayer.on('playbackRateChange', ::this.onPlayerPlaybackRateChange);
-    this.internalPlayer.on('playbackQualityChange', ::this.onPlayerPlaybackQualityChange);
-  }
+    this.internalPlayer.on('ready', this.onPlayerReady);
+    this.internalPlayer.on('error', this.onPlayerError);
+    this.internalPlayer.on('stateChange', this.onPlayerStateChange);
+    this.internalPlayer.on('playbackRateChange', this.onPlayerPlaybackRateChange);
+    this.internalPlayer.on('playbackQualityChange', this.onPlayerPlaybackQualityChange);
+  };
 
-  destroyPlayer() {
-    return this.internalPlayer.destroy();
-  }
+  /**
+   * Shorthand for destroying and then re-creating the Youtube Player
+   */
+  resetPlayer = () => this.internalPlayer.destroy().then(this.createPlayer);
 
-  resetPlayer() {
-    this.destroyPlayer().then(::this.createPlayer);
-  }
-
-  updateVideo() {
+  /**
+   * Call Youtube Player API methods to update the currently playing video.
+   * Depeding on the `opts.playerVars.autoplay` this function uses one of two
+   * Youtube Player API methods to update the video.
+   */
+  updateVideo = () => {
     if (typeof this.props.videoId === 'undefined' || this.props.videoId === null) {
       this.internalPlayer.stopVideo();
       return;
@@ -260,15 +245,11 @@ class YouTube extends React.Component {
     }
     // default behaviour just cues the video
     this.internalPlayer.cueVideoById(opts);
-  }
+  };
 
   refContainer = (container) => {
     this.container = container;
   };
-
-  /**
-   * @returns Object
-   */
 
   render() {
     return (
@@ -278,9 +259,5 @@ class YouTube extends React.Component {
     );
   }
 }
-
-/**
- * Expose `YouTube`
- */
 
 export default YouTube;
