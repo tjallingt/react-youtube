@@ -56,6 +56,18 @@ function shouldResetPlayer(prevProps, props) {
   );
 }
 
+/**
+ * Check whether a props change should result in an id or className update.
+ *
+ * @param {Object} prevProps
+ * @param {Object} props
+ */
+function shouldUpdatePlayer(prevProps, props) {
+  return (
+     prevProps.id === props.id || prevProps.className === props.className
+  );
+}
+
 class YouTube extends React.Component {
   static propTypes = {
     videoId: React.PropTypes.string,
@@ -104,6 +116,10 @@ class YouTube extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
+    if (shouldUpdatePlayer(prevProps, this.props)) {
+      this.updatePlayer();
+    }
+
     if (shouldResetPlayer(prevProps, this.props)) {
       this.resetPlayer();
     }
@@ -211,6 +227,18 @@ class YouTube extends React.Component {
    * Shorthand for destroying and then re-creating the Youtube Player
    */
   resetPlayer = () => this.internalPlayer.destroy().then(this.createPlayer);
+
+  /**
+   * Method to update the id and class of the Youtube Player iframe.
+   * React should update this automatically but since the Youtube Player API
+   * replaced the DIV that is mounted by React we need to do this manually.
+   */
+  updatePlayer = () => {
+    this.internalPlayer.getIframe().then((iframe) => {
+      iframe.setAttribute('id', this.props.id);
+      iframe.setAttribute('class', this.props.className);
+    });
+  };
 
   /**
    * Call Youtube Player API methods to update the currently playing video.

@@ -27,6 +27,34 @@ describe('YouTube', () => {
     expect(div.props.className).toBe('custom-class');
   });
 
+  it('should update an id', () => {
+    const { playerMock, rerender } = fullRender({
+      id: 'custom-id',
+      videoId: 'XxVg_s8xAms',
+    });
+
+    rerender({
+      id: 'custom-id2',
+      videoId: 'XxVg_s8xAms',
+    });
+
+    expect(playerMock.getIframe).toHaveBeenCalled();
+  });
+
+  it('should update a className', () => {
+    const { playerMock, rerender } = fullRender({
+      className: 'custom-class1',
+      videoId: 'XxVg_s8xAms',
+    });
+
+    rerender({
+      className: 'custom-class2',
+      videoId: 'XxVg_s8xAms',
+    });
+
+    expect(playerMock.getIframe).toHaveBeenCalled();
+  });
+
   it('should create and bind a new youtube player when mounted', () => {
     const { playerMock } = fullRender({
       videoId: 'XxVg_s8xAms',
