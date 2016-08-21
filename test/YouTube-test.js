@@ -2,10 +2,17 @@
 import expect from 'expect';
 import shallowRender from './helpers/shallowRender';
 import fullRender from './helpers/fullRender';
+import YouTube from '../src/YouTube';
 
 describe('YouTube', () => {
   // See helpers/setupEnvironment.
   const HTMLDivElement = window.HTMLDivElement;
+
+  it('should expose player state constants', () => {
+    expect(YouTube.PlayerState)
+      .toExist()
+      .toContainKeys(['UNSTARTED', 'ENDED', 'PLAYING', 'PAUSED', 'BUFFERING', 'CUED']);
+  });
 
   it('should render a div with a custom id', () => {
     const { output } = shallowRender({

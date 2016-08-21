@@ -33,6 +33,9 @@ Usage
 />
 ```
 
+For convenience it is also possible to access the PlayerState constants through react-youtube:
+`YouTube.PlayerState` contains the values that are used by the [YouTube IFrame Player API](https://developers.google.com/youtube/iframe_api_reference#onStateChange).
+
 Example
 -----
 
