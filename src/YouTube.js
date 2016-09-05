@@ -34,8 +34,9 @@ function filterResetOptions(opts) {
     ...opts,
     playerVars: {
       ...opts.playerVars,
+      autoplay: 0,
       start: 0,
-      end: 0,
+      end: 0
     },
   };
 }
