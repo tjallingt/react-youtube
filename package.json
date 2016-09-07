@@ -38,7 +38,7 @@
     "eslint-plugin-react": "^5.0.0",
     "expect": "^1.12.2",
     "jsdom": "^9.0.0",
-    "mocha": "^2.3.3",
+    "mocha": "^3.0.0",
     "proxyquire": "^1.7.3",
     "react": "^15.0.0",
     "react-addons-test-utils": "^15.0.0",
