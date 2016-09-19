@@ -77,7 +77,7 @@ describe('YouTube', () => {
         width: '480px',
         height: '360px',
         playerVars: {
-          autoplay: 1,
+          controls: 1,
           start: 0,
         },
       },
@@ -89,7 +89,7 @@ describe('YouTube', () => {
         width: '480px',
         height: '360px',
         playerVars: {
-          autoplay: 0, // changed, forces destroy & rebind
+          controls: 0, // changed, forces destroy & rebind
           start: 10, // changed, but does not destroy & rebind
         },
       },
@@ -99,14 +99,14 @@ describe('YouTube', () => {
     expect(playerMock.destroy).toHaveBeenCalled();
   });
 
-  it('should NOT create and bind a new youtube player when props.videoId, playerVars.start, or playerVars.end change', () => {
+  it('should NOT create and bind a new youtube player when props.videoId, playerVars.autoplay, playerVars.start, or playerVars.end change', () => {
     const { playerMock, rerender } = fullRender({
       videoId: 'XxVg_s8xAms',
       opts: {
         width: '480px',
         height: '360px',
         playerVars: {
-          autoplay: 1,
+          autoplay: 0,
           start: 0,
           end: 50,
         },
@@ -119,7 +119,7 @@ describe('YouTube', () => {
         width: '480px',
         height: '360px',
         playerVars: {
-          autoplay: 1,
+          autoplay: 1, // changed, does not force destroy & rebind
           start: 10, // changed, does not force destroy & rebind
           end: 20, // changed, does not force destroy & rebind
         },
@@ -139,7 +139,7 @@ describe('YouTube', () => {
         width: '480px',
         height: '360px',
         playerVars: {
-          autoplay: 1,
+          controls: 1,
         },
       },
     });
@@ -150,7 +150,7 @@ describe('YouTube', () => {
         width: '480px',
         height: '360px',
         playerVars: {
-          autoplay: 0, // changed
+          controls: 0, // changed
         },
       },
     });
