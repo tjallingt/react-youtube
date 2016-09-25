@@ -36,7 +36,7 @@ function filterResetOptions(opts) {
       ...opts.playerVars,
       autoplay: 0,
       start: 0,
-      end: 0
+      end: 0,
     },
   };
 }
@@ -160,7 +160,7 @@ class YouTube extends React.Component {
    * @param {Object} event
    *   @param {Object} target - player object
    */
-  onPlayerReady = (event) => this.props.onReady(event);
+  onPlayerReady = event => this.props.onReady(event);
 
   /**
    * https://developers.google.com/youtube/iframe_api_reference#onError
@@ -169,7 +169,7 @@ class YouTube extends React.Component {
    *   @param {Integer} data  - error type
    *   @param {Object} target - player object
    */
-  onPlayerError = (event) => this.props.onError(event);
+  onPlayerError = event => this.props.onError(event);
 
   /**
    * https://developers.google.com/youtube/iframe_api_reference#onStateChange
@@ -206,7 +206,7 @@ class YouTube extends React.Component {
    *   @param {Float} data    - playback rate
    *   @param {Object} target - actual YT player
    */
-  onPlayerPlaybackRateChange = (event) => this.props.onPlaybackRateChange(event);
+  onPlayerPlaybackRateChange = event => this.props.onPlaybackRateChange(event);
 
   /**
    * https://developers.google.com/youtube/iframe_api_reference#onPlaybackQualityChange
@@ -215,7 +215,7 @@ class YouTube extends React.Component {
    *   @param {String} data   - playback quality
    *   @param {Object} target - actual YT player
    */
-  onPlayerPlaybackQualityChange = (event) => this.props.onPlaybackQualityChange(event);
+  onPlayerPlaybackQualityChange = event => this.props.onPlaybackQualityChange(event);
 
   /**
    * Initialize the Youtube Player API on the container and attach event handlers
