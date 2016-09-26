@@ -31,7 +31,7 @@ const setupYouTube = () => {
 
   const YouTube = proxyquire('../../src/YouTube', {
     'youtube-player': playerMock,
-  }).default;
+  });
 
   return {
     playerMock,
