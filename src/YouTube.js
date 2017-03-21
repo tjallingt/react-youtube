@@ -91,6 +91,8 @@ class YouTube extends React.Component {
     onStateChange: React.PropTypes.func,
     onPlaybackRateChange: React.PropTypes.func,
     onPlaybackQualityChange: React.PropTypes.func,
+    rootStyle: React.PropTypes.Object,
+    rootClassName: React.PropTypes.String,
   };
 
   static defaultProps = {
@@ -103,6 +105,8 @@ class YouTube extends React.Component {
     onStateChange: () => {},
     onPlaybackRateChange: () => {},
     onPlaybackQualityChange: () => {},
+    rootStyle: {},
+    rootClassName: ""
   };
 
  /**
@@ -296,7 +300,7 @@ class YouTube extends React.Component {
 
   render() {
     return (
-      <span>
+      <span style={this.props.rootStyle} className={this.props.rootClassName}>
         <div id={this.props.id} className={this.props.className} ref={this.refContainer} />
       </span>
     );
