@@ -2,7 +2,7 @@
  * Module dependencies
  */
 
-import assign from 'lodash/assign';
+import assign from 'lodash.assign';
 import expect from 'expect';
 import proxyquire from 'proxyquire';
 
