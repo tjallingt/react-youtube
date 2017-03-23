@@ -21,7 +21,6 @@
   },
   "homepage": "https://github.com/compedit/react-youtube",
   "dependencies": {
-    "lodash.assign": "^4.2.0",
     "lodash.isequal": "^4.4.0",
     "youtube-player": "^4.0.1"
   },
@@ -41,6 +40,7 @@
     "eslint-plugin-react": "^6.3.0",
     "expect": "^1.20.2",
     "jsdom": "^9.5.0",
+    "lodash.assign": "^4.2.0",
     "mocha": "^3.1.0",
     "npm-run-all": "^4.0.2",
     "proxyquire": "^1.7.10",
