@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types'
 import React from 'react';
 import isEqual from 'lodash.isequal';
 import youTubePlayer from 'youtube-player';
@@ -71,26 +72,26 @@ function shouldUpdatePlayer(prevProps, props) {
 
 class YouTube extends React.Component {
   static propTypes = {
-    videoId: React.PropTypes.string,
+    videoId: PropTypes.string,
 
     // custom ID for player element
-    id: React.PropTypes.string,
+    id: PropTypes.string,
 
     // custom class name for player element
-    className: React.PropTypes.string,
+    className: PropTypes.string,
 
     // https://developers.google.com/youtube/iframe_api_reference#Loading_a_Video_Player
-    opts: React.PropTypes.object,
+    opts: PropTypes.object,
 
     // event subscriptions
-    onReady: React.PropTypes.func,
-    onError: React.PropTypes.func,
-    onPlay: React.PropTypes.func,
-    onPause: React.PropTypes.func,
-    onEnd: React.PropTypes.func,
-    onStateChange: React.PropTypes.func,
-    onPlaybackRateChange: React.PropTypes.func,
-    onPlaybackQualityChange: React.PropTypes.func,
+    onReady: PropTypes.func,
+    onError: PropTypes.func,
+    onPlay: PropTypes.func,
+    onPause: PropTypes.func,
+    onEnd: PropTypes.func,
+    onStateChange: PropTypes.func,
+    onPlaybackRateChange: PropTypes.func,
+    onPlaybackQualityChange: PropTypes.func,
   };
 
   static defaultProps = {
