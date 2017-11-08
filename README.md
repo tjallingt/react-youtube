@@ -41,7 +41,7 @@ Example
 
 ```js
 import React from 'react';
-var YouTube = require('react-youtube').default
+import YouTube from 'react-youtube';
 
 class Example extends React.Component {
   render() {
