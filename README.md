@@ -40,6 +40,9 @@ Example
 -----
 
 ```js
+import React from 'react';
+var YouTube = require('react-youtube').default
+
 class Example extends React.Component {
   render() {
     const opts = {
