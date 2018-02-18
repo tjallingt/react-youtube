@@ -21,6 +21,7 @@ Usage
   videoId={string}                  // defaults -> null
   id={string}                       // defaults -> null
   className={string}                // defaults -> null
+  containerClassName={string}       // defaults -> ''
   opts={obj}                        // defaults -> {}
   onReady={func}                    // defaults -> noop
   onPlay={func}                     // defaults -> noop
