@@ -79,6 +79,8 @@ class YouTube extends React.Component {
 
     // custom class name for player element
     className: PropTypes.string,
+    // custom class name for player container element
+    containerClassName: PropTypes.string,
 
     // https://developers.google.com/youtube/iframe_api_reference#Loading_a_Video_Player
     opts: PropTypes.object,
@@ -98,6 +100,7 @@ class YouTube extends React.Component {
     id: null,
     className: null,
     opts: {},
+    containerClassName: '',
     onReady: () => {},
     onError: () => {},
     onPlay: () => {},
@@ -303,7 +306,7 @@ class YouTube extends React.Component {
 
   render() {
     return (
-      <span>
+      <span className={this.props.containerClassName}>
         <div id={this.props.id} className={this.props.className} ref={this.refContainer} />
       </span>
     );
