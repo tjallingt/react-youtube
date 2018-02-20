@@ -95,6 +95,8 @@ class YouTube extends React.Component {
   };
 
   static defaultProps = {
+    id: null,
+    className: null,
     opts: {},
     onReady: () => {},
     onError: () => {},
@@ -251,8 +253,12 @@ class YouTube extends React.Component {
    */
   updatePlayer = () => {
     this.internalPlayer.getIframe().then((iframe) => {
-      iframe.setAttribute('id', this.props.id);
-      iframe.setAttribute('class', this.props.className);
+      this.props.id
+        ? iframe.setAttribute('id', this.props.id)
+        : iframe.removeAttribute('id');
+      this.props.className
+        ? iframe.setAttribute('class', this.props.className)
+        : iframe.removeAttribute('class');
     });
   };
 
