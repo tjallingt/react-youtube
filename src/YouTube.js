@@ -47,12 +47,13 @@ function filterResetOptions(opts) {
  * The player is reset when the `props.opts` change, except if the only change
  * is in the `start` and `end` playerVars, because a video update can deal with
  * those.
+ * The player is also reset if the host is changed.
  *
  * @param {Object} prevProps
  * @param {Object} props
  */
 function shouldResetPlayer(prevProps, props) {
-  return !isEqual(
+  return (prevProps.host !== props.host) || !isEqual(
     filterResetOptions(prevProps.opts),
     filterResetOptions(props.opts)
   );
@@ -84,6 +85,7 @@ class YouTube extends React.Component {
 
     // https://developers.google.com/youtube/iframe_api_reference#Loading_a_Video_Player
     opts: PropTypes.object,
+    host: PropTypes.string,
 
     // event subscriptions
     onReady: PropTypes.func,
@@ -100,6 +102,7 @@ class YouTube extends React.Component {
     id: null,
     className: null,
     opts: {},
+    host: null,
     containerClassName: '',
     onReady: () => {},
     onError: () => {},
@@ -234,6 +237,7 @@ class YouTube extends React.Component {
       ...this.props.opts,
       // preload the `videoId` video if one is already given
       videoId: this.props.videoId,
+      host: this.props.host,
     };
     this.internalPlayer = youTubePlayer(this.container, playerOpts);
     // attach event handlers

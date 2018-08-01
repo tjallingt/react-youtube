@@ -166,7 +166,7 @@ describe('YouTube', () => {
     });
 
     expect(playerMock).toHaveBeenCalled();
-    expect(playerMock.calls[0].arguments[1]).toEqual({ videoId: 'XxVg_s8xAms' });
+    expect(playerMock.calls[0].arguments[1]).toEqual({ videoId: 'XxVg_s8xAms', host: null });
   });
 
   it('should load a new video', () => {
@@ -181,7 +181,7 @@ describe('YouTube', () => {
 
     expect(playerMock).toHaveBeenCalled();
     expect(playerMock.calls[0].arguments[0]).toBeAn(HTMLDivElement);
-    expect(playerMock.calls[0].arguments[1]).toEqual({ videoId: 'XxVg_s8xAms' });
+    expect(playerMock.calls[0].arguments[1]).toEqual({ videoId: 'XxVg_s8xAms', host: null });
     expect(playerMock.cueVideoById).toHaveBeenCalledWith({ videoId: '-DX3vJiqxm4' });
   });
 
@@ -196,6 +196,7 @@ describe('YouTube', () => {
   it('should stop a video when props.videoId changes to null', () => {
     const { playerMock, rerender } = fullRender({
       videoId: 'XxVg_s8xAms',
+      host: null,
     });
 
     expect(playerMock).toHaveBeenCalled();
@@ -223,6 +224,7 @@ describe('YouTube', () => {
     expect(playerMock).toHaveBeenCalled();
     expect(playerMock.calls[0].arguments[1]).toEqual({
       videoId: 'XxVg_s8xAms',
+      host: null,
       playerVars: {
         autoplay: 1,
       },
@@ -243,6 +245,7 @@ describe('YouTube', () => {
     expect(playerMock).toHaveBeenCalled();
     expect(playerMock.calls[0].arguments[1]).toEqual({
       videoId: 'XxVg_s8xAms',
+      host: null,
       playerVars: {
         autoplay: 1,
       },
@@ -270,6 +273,7 @@ describe('YouTube', () => {
     expect(playerMock).toHaveBeenCalled();
     expect(playerMock.calls[0].arguments[1]).toEqual({
       videoId: 'XxVg_s8xAms',
+      host: null,
       playerVars: {
         start: 1,
         end: 2,
@@ -285,6 +289,34 @@ describe('YouTube', () => {
       startSeconds: 1,
       endSeconds: 2,
     });
+  });
+
+  it('should load a video with a custom host', () => {
+    const { playerMock } = fullRender({
+      videoId: 'XxVg_s8xAms',
+      host: 'https://www.invalid-youtube-host.com',
+    });
+
+    expect(playerMock).toHaveBeenCalled();
+    expect(playerMock.calls[0].arguments[1]).toEqual({
+      videoId: 'XxVg_s8xAms',
+      host: 'https://www.invalid-youtube-host.com',
+    });
+  })
+
+  it('should create and bind a new youtube player when props.host changes', () => {
+    const { playerMock, rerender } = fullRender({
+      videoId: 'XxVg_s8xAms',
+      host: 'https://invalid-youtube-host.com',
+    });
+
+    rerender({
+      videoId: 'XxVg_s8xAms',
+      host: 'https://youtube.com',
+    });
+
+    // player is destroyed & rebound
+    expect(playerMock.destroy).toHaveBeenCalled();
   });
 
   it('should destroy the youtube player', () => {
