@@ -1,4 +1,4 @@
-import PropTypes from 'prop-types'
+import PropTypes from 'prop-types';
 import React from 'react';
 import isEqual from 'lodash/isEqual';
 import youTubePlayer from 'youtube-player';
@@ -54,7 +54,7 @@ function filterResetOptions(opts) {
 function shouldResetPlayer(prevProps, props) {
   return !isEqual(
     filterResetOptions(prevProps.opts),
-    filterResetOptions(props.opts)
+    filterResetOptions(props.opts),
   );
 }
 
@@ -72,7 +72,7 @@ function shouldUpdatePlayer(prevProps, props) {
 
 class YouTube extends React.Component {
   static propTypes = {
-    videoId: PropTypes.string,
+    videoId: PropTypes.string.isRequired,
 
     // custom ID for player element
     id: PropTypes.string,
@@ -83,7 +83,7 @@ class YouTube extends React.Component {
     containerClassName: PropTypes.string,
 
     // https://developers.google.com/youtube/iframe_api_reference#Loading_a_Video_Player
-    opts: PropTypes.object,
+    opts: PropTypes.objectOf(PropTypes.any),
 
     // event subscriptions
     onReady: PropTypes.func,
@@ -201,7 +201,6 @@ class YouTube extends React.Component {
         break;
 
       default:
-        return;
     }
   };
 
@@ -256,12 +255,10 @@ class YouTube extends React.Component {
    */
   updatePlayer = () => {
     this.internalPlayer.getIframe().then((iframe) => {
-      this.props.id
-        ? iframe.setAttribute('id', this.props.id)
-        : iframe.removeAttribute('id');
-      this.props.className
-        ? iframe.setAttribute('class', this.props.className)
-        : iframe.removeAttribute('class');
+      if (this.props.id) iframe.setAttribute('id', this.props.id);
+      else iframe.removeAttribute('id');
+      if (this.props.className) iframe.setAttribute('class', this.props.className);
+      else iframe.removeAttribute('class');
     });
   };
 
