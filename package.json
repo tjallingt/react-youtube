@@ -21,7 +21,7 @@
   },
   "homepage": "https://github.com/compedit/react-youtube",
   "dependencies": {
-    "lodash": "^4.17.4",
+    "fast-deep-equal": "^2.0.1",
     "prop-types": "^15.5.3",
     "youtube-player": "^5.5.1"
   },
