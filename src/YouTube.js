@@ -66,7 +66,7 @@ function shouldResetPlayer(prevProps, props) {
  */
 function shouldUpdatePlayer(prevProps, props) {
   return (
-     prevProps.id === props.id || prevProps.className === props.className
+     prevProps.id !== props.id || prevProps.className !== props.className
   );
 }
 

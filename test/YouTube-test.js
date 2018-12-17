@@ -62,6 +62,22 @@ describe('YouTube', () => {
     expect(playerMock.getIframe).toHaveBeenCalled();
   });
 
+  it('should not update id and className when no change in them', () => {
+    const className = 'custom-class';
+    const videoId = 'XxVg_s8xAms';
+    const { playerMock, rerender } = fullRender({
+      className,
+      videoId,
+    });
+
+    rerender({
+      className,
+      videoId,
+    });
+
+    expect(playerMock.getIframe.calls.length).toEqual(0);
+  });
+
   it('should create and bind a new youtube player when mounted', () => {
     const { playerMock } = fullRender({
       videoId: 'XxVg_s8xAms',
