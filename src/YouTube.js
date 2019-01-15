@@ -72,7 +72,7 @@ function shouldUpdatePlayer(prevProps, props) {
 
 class YouTube extends React.Component {
   static propTypes = {
-    videoId: PropTypes.string.isRequired,
+    videoId: PropTypes.string,
 
     // custom ID for player element
     id: PropTypes.string,
