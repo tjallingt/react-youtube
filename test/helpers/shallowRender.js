@@ -3,7 +3,7 @@
  */
 
 import React from 'react';
-import TestUtils from 'react-dom/test-utils';
+import ShallowRenderer from 'react-test-renderer/shallow';
 import setupYouTube from './setupYouTube';
 
 /**
@@ -16,7 +16,7 @@ import setupYouTube from './setupYouTube';
 const shallowRender = (props) => {
   const { YouTube } = setupYouTube();
 
-  const renderer = TestUtils.createRenderer();
+  const renderer = new ShallowRenderer();
   renderer.render(<YouTube { ...props } />);
 
   const output = renderer.getRenderOutput();

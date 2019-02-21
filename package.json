@@ -44,8 +44,9 @@
     "mocha": "^3.1.0",
     "npm-run-all": "^4.0.2",
     "proxyquire": "^1.7.10",
-    "react": "^15.3.2",
-    "react-dom": "^15.3.2",
+    "react": "^16.8.2",
+    "react-dom": "^16.8.2",
+    "react-test-renderer": "^16.8.2",
     "webpack": "^2.3.3",
     "webpack-dev-server": "^2.4.2"
   },
