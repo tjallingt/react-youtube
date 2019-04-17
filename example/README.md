@@ -1,7 +1,8 @@
 # react-youtube example
 
-```
-$ npm run example
+```sh
+# auto open http://localhost:8080/
+$ npm run example && open http://localhost:8080/
 ```
 
-& open http://localhost:8080/
+
