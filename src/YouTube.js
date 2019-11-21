@@ -56,13 +56,17 @@ function shouldResetPlayer(prevProps, props) {
 }
 
 /**
- * Check whether a props change should result in an id or className update.
+ * Check whether a props change should result in an id, className or frameClassName update.
  *
  * @param {Object} prevProps
  * @param {Object} props
  */
 function shouldUpdatePlayer(prevProps, props) {
-  return prevProps.id !== props.id || prevProps.className !== props.className;
+  return (
+    prevProps.id !== props.id ||
+    prevProps.className !== props.className ||
+    prevProps.frameClassName !== props.frameClassName
+  );
 }
 
 class YouTube extends React.Component {
@@ -211,8 +215,9 @@ class YouTube extends React.Component {
     this.internalPlayer.getIframe().then((iframe) => {
       if (this.props.id) iframe.setAttribute('id', this.props.id);
       else iframe.removeAttribute('id');
-      if (this.props.className) iframe.setAttribute('class', this.props.className);
-      else iframe.removeAttribute('class');
+      if (this.props.frameClassName) {
+        iframe.setAttribute('class', this.props.frameClassName);
+      } else iframe.removeAttribute('class');
     });
   };
 
@@ -257,8 +262,8 @@ class YouTube extends React.Component {
 
   render() {
     return (
-      <div className={this.props.containerClassName}>
-        <div id={this.props.id} className={this.props.className} ref={this.refContainer} />
+      <div className={this.props.className}>
+        <div id={this.props.id} className={this.props.frameClassName} ref={this.refContainer} />
       </div>
     );
   }
@@ -266,14 +271,12 @@ class YouTube extends React.Component {
 
 YouTube.propTypes = {
   videoId: PropTypes.string,
-
   // custom ID for player element
   id: PropTypes.string,
-
-  // custom class name for player element
-  className: PropTypes.string,
   // custom class name for player container element
-  containerClassName: PropTypes.string,
+  className: PropTypes.string,
+  // custom class name for player element
+  frameClassName: PropTypes.string,
 
   // https://developers.google.com/youtube/iframe_api_reference#Loading_a_Video_Player
   opts: PropTypes.objectOf(PropTypes.any),
@@ -292,9 +295,9 @@ YouTube.propTypes = {
 YouTube.defaultProps = {
   videoId: null,
   id: null,
-  className: null,
+  className: '',
+  frameClassName: null,
   opts: {},
-  containerClassName: '',
   onReady: () => {},
   onError: () => {},
   onPlay: () => {},
