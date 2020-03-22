@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useState, useEffect } from 'react';
 import YouTube from 'youtube-player';
 import { YouTubePlayer, Options } from 'youtube-player/dist/types';
 
@@ -6,7 +6,7 @@ export function useYouTube(
   ref: React.RefObject<HTMLElement>,
   options: Options = {}
 ): YouTubePlayer | null {
-  const [player, setPlayer] = React.useState<YouTubePlayer | null>(null);
+  const [player, setPlayer] = useState<YouTubePlayer | null>(null);
 
   // TODO
   //
@@ -21,9 +21,9 @@ export function useYouTube(
   // We will need to list all individual options in the dependency array that
   // require us to recreate the player.
   // Then in order to "sync" the options that don't require us to recreate the
-  // YouTube player we will need to add other seperate effects.
+  // YouTube player we will need to add other separate effects.
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (ref.current === null) return;
 
     const instance = YouTube(ref.current, options);

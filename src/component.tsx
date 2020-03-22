@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useRef, useEffect } from 'react';
 import { Options, YouTubePlayer } from 'youtube-player/dist/types';
 import { useYouTube } from './hook';
 // import isEqual from 'fast-deep-equal';
@@ -13,11 +13,13 @@ type YouTubeProps = {
   /** custom class name for player container element */
   containerClassName?: string;
   /**
-   * Player options to customize the behaviour.
+   * Player options to customize the behavior.
    * See playerVars documentation:
    * https://developers.google.com/youtube/iframe_api_reference#Loading_a_Video_Player
    */
-  opts?: Options;
+  options?: Options;
+
+  onReady?: (event: any) => void;
 };
 
 /**
@@ -26,16 +28,19 @@ type YouTubeProps = {
  * @param {Object} prevProps
  * @param {Object} props
  */
-function shouldUpdatePlayerIfame(prevProps: YouTubeProps, props: YouTubeProps) {
+function shouldUpdatePlayerIframe(
+  prevProps: YouTubeProps,
+  props: YouTubeProps
+) {
   return prevProps.id !== props.id || prevProps.className !== props.className;
 }
 
 /**
- * Method to update the id and class of the Youtube Player iframe.
- * React should update this automatically but since the Youtube Player API
+ * Method to update the id and class of the YouTube Player iframe.
+ * React should update this automatically but since the YouTube Player API
  * replaced the DIV that is mounted by React we need to do this manually.
  */
-function updatePlayerIfame(
+function updatePlayerIframe(
   player: YouTubePlayer,
   attributes: { id?: string; className?: string }
 ) {
@@ -67,9 +72,9 @@ type LoadCueVideoOptions = {
 };
 
 /**
- * Call Youtube Player API methods to update the currently playing video.
- * Depeding on the `opts.playerVars.autoplay` this function uses one of two
- * Youtube Player API methods to update the video.
+ * Call YouTube Player API methods to update the currently playing video.
+ * Depending on the `opts.playerVars.autoplay` this function uses one of two
+ * YouTube Player API methods to update the video.
  */
 function updateVideo(
   player: YouTubePlayer,
@@ -99,12 +104,12 @@ function updateVideo(
     player.loadVideoById(loadCueOptions);
     return;
   }
-  // default behaviour just cues the video
+  // default behavior just cues the video
   player.cueVideoById(loadCueOptions);
 }
 
 // /**
-//  * Neutralise API options that only require a video update, leaving only options
+//  * Neutralize API options that only require a video update, leaving only options
 //  * that require a player reset. The results can then be compared to see if a
 //  * player reset is necessary.
 //  */
@@ -126,7 +131,7 @@ function updateVideo(
 //  * is in the `start` and `end` playerVars, because a video update can deal with
 //  * those.
 //  */
-// function shouldRecreateYoutube(prevOpts: Options, opts: Options) {
+// function shouldRecreateYouTube(prevOpts: Options, opts: Options) {
 //   return !isEqual(filterResetOptions(prevOpts), filterResetOptions(opts));
 // }
 
@@ -152,32 +157,31 @@ export function YouTube(props: YouTubeProps) {
     id,
     className,
     containerClassName,
-
-    opts = emptyObject,
+    options = emptyObject,
   } = props;
 
-  const previousVideoIdRef = React.useRef<string | undefined>(undefined);
-  const previousOptsRef = React.useRef<Options>({});
-  const containerRef = React.useRef(null);
+  const previousVideoIdRef = useRef<string | undefined>(undefined);
+  const previousOptionsRef = useRef<Options>({});
+  const containerRef = useRef(null);
 
   // TODO add events
-  const player = useYouTube(containerRef, previousOptsRef.current);
+  const player = useYouTube(containerRef, previousOptionsRef.current);
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (!player) return;
 
-    if (shouldUpdatePlayerIfame(previousOptsRef.current, opts)) {
-      updatePlayerIfame(player, opts);
+    if (shouldUpdatePlayerIframe(previousOptionsRef.current, options)) {
+      updatePlayerIframe(player, options);
     }
 
     if (
       previousVideoIdRef.current !== videoId ||
-      shouldUpdateVideo(previousOptsRef.current, opts)
+      shouldUpdateVideo(previousOptionsRef.current, options)
     ) {
-      updateVideo(player, videoId, opts);
+      updateVideo(player, videoId, options);
     }
 
-    previousOptsRef.current = opts;
+    previousOptionsRef.current = options;
   });
 
   return (

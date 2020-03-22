@@ -1,15 +1,18 @@
 {
+  "name": "react-youtube",
   "version": "0.1.0",
   "license": "MIT",
   "main": "dist/index.js",
+  "module": "dist/index.esm.js",
   "typings": "dist/index.d.ts",
+  "author": {
+    "name": "Tjalling Tolle",
+    "email": "tjallingt@gmail.com"
+  },
   "files": [
     "dist",
     "src"
   ],
-  "engines": {
-    "node": ">=10"
-  },
   "scripts": {
     "start": "tsdx watch",
     "build": "tsdx build",
@@ -17,8 +20,9 @@
     "lint": "tsdx lint",
     "prepare": "tsdx build"
   },
-  "peerDependencies": {
-    "react": ">=16"
+  "engines": {
+    "node": "^12.14.0",
+    "yarn": "^1.19.0"
   },
   "husky": {
     "hooks": {
@@ -31,23 +35,24 @@
     "singleQuote": true,
     "trailingComma": "es5"
   },
-  "name": "react-youtube-test",
-  "author": "tjallingt",
-  "module": "dist/react-youtube-test.esm.js",
-  "devDependencies": {
-    "@types/jest": "^25.1.4",
-    "@types/react": "^16.9.25",
-    "@types/react-dom": "^16.9.5",
-    "@types/youtube-player": "^5.5.2",
-    "husky": "^4.2.3",
-    "react": "^16.13.1",
-    "react-dom": "^16.13.1",
-    "tsdx": "^0.13.0",
-    "tslib": "^1.11.1",
-    "typescript": "^3.8.3"
-  },
   "dependencies": {
-    "fast-deep-equal": "^3.1.1",
-    "youtube-player": "^5.5.2"
+    "fast-deep-equal": "3.1.1",
+    "youtube-player": "5.5.2"
+  },
+  "devDependencies": {
+    "@types/jest": "25.1.4",
+    "@types/react": "16.9.25",
+    "@types/react-dom": "16.9.5",
+    "@types/youtube-player": "5.5.2",
+    "@types/youtube": "0.0.38",
+    "husky": "4.2.3",
+    "react": "16.13.1",
+    "react-dom": "16.13.1",
+    "tsdx": "0.13.0",
+    "tslib": "1.11.1",
+    "typescript": "3.8.3"
+  },
+  "peerDependencies": {
+    "react": ">=16"
   }
 }

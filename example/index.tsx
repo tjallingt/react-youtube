@@ -12,7 +12,7 @@ const options = {
     fs: 0,
     modestbranding: 1,
   },
-} as const;
+} as any;
 
 const HooksExample = () => {
   const ref = React.useRef(null);
@@ -29,8 +29,8 @@ const HooksExample = () => {
       <div>
         <div ref={ref} />
       </div>
-      <button onClick={() => player!.playVideo()}>Play</button>
-      <button onClick={() => player!.pauseVideo()}>Pause</button>
+      <button onClick={() => player?.playVideo()}>Play</button>
+      <button onClick={() => player?.pauseVideo()}>Pause</button>
       <button onClick={() => setIndex((index + 1) % VIDEOS.length)}>
         Change Video
       </button>
@@ -83,7 +83,7 @@ class ComponentExample extends React.Component<any, any> {
         <YouTube
           videoId={this.state.videoId}
           onReady={this.onReady}
-          opts={{
+          options={{
             playerVars: {
               controls: 0,
               fs: 0,

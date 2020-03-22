@@ -1,5 +1,4 @@
 {
-  "include": ["src", "types", "test"],
   "compilerOptions": {
     "module": "esnext",
     "lib": ["dom", "esnext"],
@@ -24,6 +23,9 @@
       "*": ["src/*", "node_modules/*"]
     },
     "jsx": "react",
-    "esModuleInterop": true
-  }
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true
+  },
+  "exclude": ["node_modules"],
+  "include": ["src", "test"]
 }
