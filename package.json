@@ -1,64 +1,53 @@
 {
-  "name": "react-youtube",
-  "version": "7.9.0",
-  "description": "react.js powered YouTube player component",
-  "main": "dist/YouTube.js",
-  "module": "es/YouTube.js",
-  "repository": {
-    "type": "git",
-    "url": "git@github.com:compedit/react-youtube.git"
-  },
-  "keywords": [
-    "react",
-    "youtube",
-    "player",
-    "react-component"
-  ],
-  "author": "troy betz <troybetz@gmail.com>",
+  "version": "0.1.0",
   "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/compedit/react-youtube/issues"
-  },
-  "homepage": "https://github.com/compedit/react-youtube",
-  "dependencies": {
-    "fast-deep-equal": "^2.0.1",
-    "prop-types": "^15.5.3",
-    "youtube-player": "^5.5.1"
-  },
-  "devDependencies": {
-    "babel-cli": "^6.16.0",
-    "babel-core": "^6.16.0",
-    "babel-eslint": "^7.0.0",
-    "babel-loader": "^6.2.5",
-    "babel-preset-es2015": "^6.16.0",
-    "babel-preset-react": "^6.16.0",
-    "babel-preset-stage-0": "^6.16.0",
-    "cross-env": "^4.0.0",
-    "eslint": "^3.6.1",
-    "eslint-config-airbnb": "^14.1.0",
-    "eslint-plugin-import": "^2.0.0",
-    "eslint-plugin-jsx-a11y": "^4.0.0",
-    "eslint-plugin-react": "^6.3.0",
-    "expect": "^1.20.2",
-    "jsdom": "^9.5.0",
-    "mocha": "^3.1.0",
-    "npm-run-all": "^4.0.2",
-    "proxyquire": "^1.7.10",
-    "react": "^15.3.2",
-    "react-dom": "^15.3.2",
-    "webpack": "^2.3.3",
-    "webpack-dev-server": "^2.4.2"
-  },
-  "peerDependencies": {
-    "react": ">=0.14.1"
+  "main": "dist/index.js",
+  "typings": "dist/index.d.ts",
+  "files": [
+    "dist",
+    "src"
+  ],
+  "engines": {
+    "node": ">=10"
   },
   "scripts": {
-    "test": "mocha",
-    "compile:cjs": "babel src --out-dir dist",
-    "compile:es": "cross-env BABEL_ENV=es babel src --out-dir es",
-    "compile": "npm-run-all --parallel compile:cjs compile:es",
-    "prepublish": "npm run compile",
-    "lint": "eslint src",
-    "example": "webpack-dev-server --config example/webpack.config.js"
+    "start": "tsdx watch",
+    "build": "tsdx build",
+    "test": "tsdx test --passWithNoTests",
+    "lint": "tsdx lint",
+    "prepare": "tsdx build"
+  },
+  "peerDependencies": {
+    "react": ">=16"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "tsdx lint"
+    }
+  },
+  "prettier": {
+    "printWidth": 80,
+    "semi": true,
+    "singleQuote": true,
+    "trailingComma": "es5"
+  },
+  "name": "react-youtube-test",
+  "author": "tjallingt",
+  "module": "dist/react-youtube-test.esm.js",
+  "devDependencies": {
+    "@types/jest": "^25.1.4",
+    "@types/react": "^16.9.25",
+    "@types/react-dom": "^16.9.5",
+    "@types/youtube-player": "^5.5.2",
+    "husky": "^4.2.3",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
+    "tsdx": "^0.13.0",
+    "tslib": "^1.11.1",
+    "typescript": "^3.8.3"
+  },
+  "dependencies": {
+    "fast-deep-equal": "^3.1.1",
+    "youtube-player": "^5.5.2"
   }
 }
