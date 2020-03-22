@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { Options, YouTubePlayer } from 'youtube-player/dist/types';
 import { useYouTube } from './hook';
+// import isEqual from 'fast-deep-equal';
 
 type YouTubeProps = {
   videoId?: string;
@@ -17,15 +18,6 @@ type YouTubeProps = {
    * https://developers.google.com/youtube/iframe_api_reference#Loading_a_Video_Player
    */
   opts?: Options;
-
-  onReady?: (event: any) => void;
-  onError?: (event: any) => void;
-  onPlay?: (event: any) => void;
-  onPause?: (event: any) => void;
-  onEnd?: (event: any) => void;
-  onStateChange?: (event: any) => void;
-  onPlaybackRateChange?: (event: any) => void;
-  onPlaybackQualityChange?: (event: any) => void;
 };
 
 /**
@@ -111,7 +103,32 @@ function updateVideo(
   player.cueVideoById(loadCueOptions);
 }
 
+// /**
+//  * Neutralise API options that only require a video update, leaving only options
+//  * that require a player reset. The results can then be compared to see if a
+//  * player reset is necessary.
+//  */
+// function filterResetOptions(options: Options) {
+//   return {
+//     ...options,
+//     playerVars: {
+//       ...options.playerVars,
+//       autoplay: 0,
+//       start: 0,
+//       end: 0,
+//     },
+//   };
+// }
 
+// /**
+//  * Check whether a change should result in the player being reset.
+//  * The player is reset when the `options` change, except if the only change
+//  * is in the `start` and `end` playerVars, because a video update can deal with
+//  * those.
+//  */
+// function shouldRecreateYoutube(prevOpts: Options, opts: Options) {
+//   return !isEqual(filterResetOptions(prevOpts), filterResetOptions(opts));
+// }
 
 /**
  * Expose PlayerState constants for convenience. These constants can also be
@@ -128,7 +145,6 @@ export const PlayerState = {
 };
 
 const emptyObject = {};
-const noOp = () => {};
 
 export function YouTube(props: YouTubeProps) {
   const {
@@ -138,21 +154,13 @@ export function YouTube(props: YouTubeProps) {
     containerClassName,
 
     opts = emptyObject,
-
-    onReady = noOp,
-    onError = noOp,
-    onStateChange = noOp,
-    onPlay = noOp,
-    onPause = noOp,
-    onEnd = noOp,
-    onPlaybackRateChange = noOp,
-    onPlaybackQualityChange = noOp,
   } = props;
 
   const previousVideoIdRef = React.useRef<string | undefined>(undefined);
   const previousOptsRef = React.useRef<Options>({});
   const containerRef = React.useRef(null);
 
+  // TODO add events
   const player = useYouTube(containerRef, previousOptsRef.current);
 
   React.useEffect(() => {
@@ -171,24 +179,6 @@ export function YouTube(props: YouTubeProps) {
 
     previousOptsRef.current = opts;
   });
-
-  /**
-   * Attach event handlers
-   */
-  React.useEffect(() => {
-    if (!player) return;
-
-    player.on('ready', onReady);
-    player.on('error', onError);
-    player.on('stateChange', event => {
-      onStateChange(event);
-      if (event.data === YouTube.PlayerState.PLAYING) onPlay(event);
-      if (event.data === YouTube.PlayerState.PAUSED) onPause(event);
-      if (event.data === YouTube.PlayerState.ENDED) onEnd(event);
-    });
-    player.on('playbackRateChange', onPlaybackRateChange);
-    player.on('playbackQualityChange', onPlaybackQualityChange);
-  }, [player]);
 
   return (
     <div className={containerClassName}>
