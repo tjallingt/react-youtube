@@ -1,12 +1,10 @@
-/* eslint-disable no-var */
-
-var path = require('path');
+const path = require('path');
 
 module.exports = {
-  entry: path.join(__dirname, '../example/example.js'),
+  entry: path.join(__dirname, 'example.js'),
 
   output: {
-    path: path.join(__dirname, '../example/build'),
+    path: path.join(__dirname, 'build'),
     filename: 'bundle.js',
   },
 
@@ -23,7 +21,7 @@ module.exports = {
   devtool: 'source-map',
 
   devServer: {
-    contentBase: path.join(__dirname, '../example/'),
+    contentBase: path.join(__dirname),
     publicPath: '/build/',
     historyApiFallback: true,
   },
