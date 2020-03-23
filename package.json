@@ -36,6 +36,8 @@
     "@babel/plugin-proposal-class-properties": "7.8.3",
     "@babel/preset-env": "7.9.0",
     "@babel/preset-react": "7.9.1",
+    "@commitlint/cli": "8.3.5",
+    "@commitlint/config-conventional": "8.3.4",
     "babel-eslint": "10.1.0",
     "babel-loader": "8.1.0",
     "cross-env": "7.0.2",
@@ -46,7 +48,9 @@
     "eslint-plugin-react": "7.19.0",
     "eslint-plugin-react-hooks": "2.5.1",
     "expect": "^1.20.2",
+    "husky": "4.2.3",
     "jsdom": "^9.5.0",
+    "lint-staged": "10.0.8",
     "mocha": "^3.1.0",
     "npm-run-all": "4.1.5",
     "proxyquire": "1.8.0",
@@ -59,6 +63,10 @@
   "peerDependencies": {
     "react": ">=0.14.1"
   },
+  "engines": {
+    "node": "^12.14.0",
+    "yarn": "^1.19.0"
+  },
   "scripts": {
     "test": "mocha",
     "compile:cjs": "babel src/YouTube.js --out-file dist/index.js",
@@ -67,5 +75,14 @@
     "prepublish": "npm run compile",
     "lint": "eslint src example",
     "example": "webpack-dev-server --config example/webpack.config.js"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged",
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
+    }
+  },
+  "lint-staged": {
+    "*.js": "eslint --fix"
   }
 }
