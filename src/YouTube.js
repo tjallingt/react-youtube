@@ -52,10 +52,7 @@ function filterResetOptions(opts) {
  * @param {Object} props
  */
 function shouldResetPlayer(prevProps, props) {
-  return !isEqual(
-    filterResetOptions(prevProps.opts),
-    filterResetOptions(props.opts),
-  );
+  return !isEqual(filterResetOptions(prevProps.opts), filterResetOptions(props.opts));
 }
 
 /**
@@ -65,9 +62,7 @@ function shouldResetPlayer(prevProps, props) {
  * @param {Object} props
  */
 function shouldUpdatePlayer(prevProps, props) {
-  return (
-    prevProps.id !== props.id || prevProps.className !== props.className
-  );
+  return prevProps.id !== props.id || prevProps.className !== props.className;
 }
 
 class YouTube extends React.Component {
@@ -112,11 +107,11 @@ class YouTube extends React.Component {
 
   componentWillUnmount() {
     /**
-      * Note: The `youtube-player` package that is used promisifies all YouTube
-      * Player API calls, which introduces a delay of a tick before it actually
-      * gets destroyed. Since React attempts to remove the element instantly
-      * this method isn't quick enough to reset the container element.
-      */
+     * Note: The `youtube-player` package that is used promisifies all YouTube
+     * Player API calls, which introduces a delay of a tick before it actually
+     * gets destroyed. Since React attempts to remove the element instantly
+     * this method isn't quick enough to reset the container element.
+     */
     this.internalPlayer.destroy();
   }
 

@@ -45,9 +45,15 @@ class Example extends React.Component {
     return (
       <div>
         <YouTube videoId={this.state.videoId} onReady={this.onReady} />
-        <button type="button" onClick={this.onPlayVideo}>Play</button>
-        <button type="button" onClick={this.onPauseVideo}>Pause</button>
-        <button type="button" onClick={this.onChangeVideo}>Change Video</button>
+        <button type="button" onClick={this.onPlayVideo}>
+          Play
+        </button>
+        <button type="button" onClick={this.onPauseVideo}>
+          Pause
+        </button>
+        <button type="button" onClick={this.onChangeVideo}>
+          Change Video
+        </button>
       </div>
     );
   }

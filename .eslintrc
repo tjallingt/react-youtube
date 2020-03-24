@@ -1,10 +1,12 @@
 {
   "parser": "babel-eslint",
-  "extends": "airbnb",
+  "extends": ["airbnb", "prettier"],
+  "plugins": ["prettier"],
   "rules": {
     "linebreak-style": 0,
     "react/jsx-filename-extension": 0,
-    "react/destructuring-assignment": 0
+    "react/destructuring-assignment": 0,
+    "prettier/prettier": "error"
   },
   "env": {
     "browser": true
