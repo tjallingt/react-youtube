@@ -8,7 +8,7 @@ import Player, { playerMock } from './__mocks__/youtube-player';
 describe('YouTube', () => {
   beforeEach(() => {
     jest.clearAllMocks();
-    jest.mock('YouTube-player');
+    jest.mock('youtube-player');
   });
 
   it('should expose player state constants', () => {
