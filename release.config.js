@@ -11,5 +11,5 @@ module.exports = {
     ],
     '@semantic-release/npm',
   ],
-  branches: ['master'],
+  branches: ['master', { name: 'canary', prerelease: true }],
 };
