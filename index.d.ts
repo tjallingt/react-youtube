@@ -43,14 +43,14 @@ export interface YouTubeProps {
     className?: string;
     containerClassName?: string;
     opts?: Options;
-    onReady?(event: { target: any }): void;
-    onError?(event: { target: any, data: number }): void;
-    onPlay?(event: { target: any, data: number }): void;
-    onPause?(event: { target: any, data: number }): void;
-    onEnd?(event: { target: any, data: number }): void;
-    onStateChange?(event: { target: any, data: number }): void;
-    onPlaybackRateChange?(event: { target: any, data: number }): void;
-    onPlaybackQualityChange?(event: { target: any, data: string }): void;
+    onReady?(event: { target: YT.Player }): void;
+    onError?(event: { target: YT.Player, data: number }): void;
+    onPlay?(event: { target: YT.Player, data: number }): void;
+    onPause?(event: { target: YT.Player, data: number }): void;
+    onEnd?(event: { target: YT.Player, data: number }): void;
+    onStateChange?(event: { target: YT.Player, data: number }): void;
+    onPlaybackRateChange?(event: { target: YT.Player, data: number }): void;
+    onPlaybackQualityChange?(event: { target: YT.Player, data: string }): void;
 }
 
 export default class YouTube extends React.Component<YouTubeProps> {}

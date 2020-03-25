@@ -65,6 +65,7 @@
     "webpack-dev-server": "3.10.3"
   },
   "peerDependencies": {
+    "@types/youtube": "0.0.38",
     "react": ">=0.14.1"
   },
   "engines": {
