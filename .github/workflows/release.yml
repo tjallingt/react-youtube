@@ -7,7 +7,7 @@ on:
       - canary
 
 jobs:
-  build:
+  release:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -17,7 +17,7 @@ jobs:
         with:
           node-version: 12.x
       - name: Install dependencies
-        run: yarn install --frozen-lockfile
+        run: yarn install --frozen-lockfile &> /dev/null
       - name: Run tests
         run: yarn test
       - name: Build
