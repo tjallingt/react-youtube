@@ -40,10 +40,13 @@
     "@commitlint/config-conventional": "8.3.4",
     "@testing-library/jest-dom": "5.1.1",
     "@testing-library/react": "10.0.1",
+    "@types/youtube": "0.0.38",
     "babel-eslint": "10.1.0",
     "babel-jest": "25.1.0",
     "babel-loader": "8.1.0",
+    "commitizen": "4.0.3",
     "cross-env": "7.0.2",
+    "cz-conventional-changelog": "3.1.0",
     "eslint": "6.8.0",
     "eslint-config-airbnb": "18.1.0",
     "eslint-config-prettier": "6.10.1",
@@ -80,7 +83,8 @@
     "compile": "npm-run-all --parallel compile:*",
     "prepublish": "npm run compile",
     "lint": "eslint src example",
-    "example": "webpack-dev-server --config example/webpack.config.js"
+    "example": "webpack-dev-server --config example/webpack.config.js",
+    "commit": "git-cz"
   },
   "husky": {
     "hooks": {
@@ -90,5 +94,10 @@
   },
   "lint-staged": {
     "*.js": "eslint --fix"
+  },
+  "config": {
+    "commitizen": {
+      "path": "cz-conventional-changelog"
+    }
   }
 }
