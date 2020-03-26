@@ -6,6 +6,7 @@
     "linebreak-style": 0,
     "react/jsx-filename-extension": 0,
     "react/destructuring-assignment": 0,
+    "import/no-extraneous-dependencies": 0,
     "prettier/prettier": "error"
   },
   "env": {

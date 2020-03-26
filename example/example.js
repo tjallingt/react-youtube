@@ -1,5 +1,5 @@
-import React from '../node_modules/react';
-import ReactDOM from '../node_modules/react-dom';
+import React from 'react';
+import ReactDOM from 'react-dom';
 import YouTube from '../src/YouTube';
 
 const videoIdA = 'XxVg_s8xAms';
