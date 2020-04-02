@@ -24,7 +24,7 @@ function shouldUpdateVideo(prevProps, props) {
 }
 
 /**
- * Neutralise API options that only require a video update, leaving only options
+ * Neutralize API options that only require a video update, leaving only options
  * that require a player reset. The results can then be compared to see if a
  * player reset is necessary.
  *
@@ -52,10 +52,7 @@ function filterResetOptions(opts) {
  * @param {Object} props
  */
 function shouldResetPlayer(prevProps, props) {
-  return !isEqual(
-    filterResetOptions(prevProps.opts),
-    filterResetOptions(props.opts),
-  );
+  return !isEqual(filterResetOptions(prevProps.opts), filterResetOptions(props.opts));
 }
 
 /**
@@ -65,53 +62,11 @@ function shouldResetPlayer(prevProps, props) {
  * @param {Object} props
  */
 function shouldUpdatePlayer(prevProps, props) {
-  return (
-     prevProps.id !== props.id || prevProps.className !== props.className
-  );
+  return prevProps.id !== props.id || prevProps.className !== props.className;
 }
 
 class YouTube extends React.Component {
-  static propTypes = {
-    videoId: PropTypes.string,
-
-    // custom ID for player element
-    id: PropTypes.string,
-
-    // custom class name for player element
-    className: PropTypes.string,
-    // custom class name for player container element
-    containerClassName: PropTypes.string,
-
-    // https://developers.google.com/youtube/iframe_api_reference#Loading_a_Video_Player
-    opts: PropTypes.objectOf(PropTypes.any),
-
-    // event subscriptions
-    onReady: PropTypes.func,
-    onError: PropTypes.func,
-    onPlay: PropTypes.func,
-    onPause: PropTypes.func,
-    onEnd: PropTypes.func,
-    onStateChange: PropTypes.func,
-    onPlaybackRateChange: PropTypes.func,
-    onPlaybackQualityChange: PropTypes.func,
-  };
-
-  static defaultProps = {
-    id: null,
-    className: null,
-    opts: {},
-    containerClassName: '',
-    onReady: () => {},
-    onError: () => {},
-    onPlay: () => {},
-    onPause: () => {},
-    onEnd: () => {},
-    onStateChange: () => {},
-    onPlaybackRateChange: () => {},
-    onPlaybackQualityChange: () => {},
-  };
-
- /**
+  /**
    * Expose PlayerState constants for convenience. These constants can also be
    * accessed through the global YT object after the YouTube IFrame API is instantiated.
    * https://developers.google.com/youtube/iframe_api_reference#onStateChange
@@ -151,12 +106,12 @@ class YouTube extends React.Component {
   }
 
   componentWillUnmount() {
-     /**
-      * Note: The `youtube-player` package that is used promisifies all Youtube
-      * Player API calls, which introduces a delay of a tick before it actually
-      * gets destroyed. Since React attempts to remove the element instantly
-      * this method isn't quick enough to reset the container element.
-      */
+    /**
+     * Note: The `youtube-player` package that is used promisifies all YouTube
+     * Player API calls, which introduces a delay of a tick before it actually
+     * gets destroyed. Since React attempts to remove the element instantly
+     * this method isn't quick enough to reset the container element.
+     */
     this.internalPlayer.destroy();
   }
 
@@ -166,7 +121,7 @@ class YouTube extends React.Component {
    * @param {Object} event
    *   @param {Object} target - player object
    */
-  onPlayerReady = event => this.props.onReady(event);
+  onPlayerReady = (event) => this.props.onReady(event);
 
   /**
    * https://developers.google.com/youtube/iframe_api_reference#onError
@@ -175,7 +130,7 @@ class YouTube extends React.Component {
    *   @param {Integer} data  - error type
    *   @param {Object} target - player object
    */
-  onPlayerError = event => this.props.onError(event);
+  onPlayerError = (event) => this.props.onError(event);
 
   /**
    * https://developers.google.com/youtube/iframe_api_reference#onStateChange
@@ -187,7 +142,6 @@ class YouTube extends React.Component {
   onPlayerStateChange = (event) => {
     this.props.onStateChange(event);
     switch (event.data) {
-
       case YouTube.PlayerState.ENDED:
         this.props.onEnd(event);
         break;
@@ -211,7 +165,7 @@ class YouTube extends React.Component {
    *   @param {Float} data    - playback rate
    *   @param {Object} target - actual YT player
    */
-  onPlayerPlaybackRateChange = event => this.props.onPlaybackRateChange(event);
+  onPlayerPlaybackRateChange = (event) => this.props.onPlaybackRateChange(event);
 
   /**
    * https://developers.google.com/youtube/iframe_api_reference#onPlaybackQualityChange
@@ -220,10 +174,10 @@ class YouTube extends React.Component {
    *   @param {String} data   - playback quality
    *   @param {Object} target - actual YT player
    */
-  onPlayerPlaybackQualityChange = event => this.props.onPlaybackQualityChange(event);
+  onPlayerPlaybackQualityChange = (event) => this.props.onPlaybackQualityChange(event);
 
   /**
-   * Initialize the Youtube Player API on the container and attach event handlers
+   * Initialize the YouTube Player API on the container and attach event handlers
    */
   createPlayer = () => {
     // do not attempt to create a player server-side, it won't work
@@ -244,13 +198,13 @@ class YouTube extends React.Component {
   };
 
   /**
-   * Shorthand for destroying and then re-creating the Youtube Player
+   * Shorthand for destroying and then re-creating the YouTube Player
    */
   resetPlayer = () => this.internalPlayer.destroy().then(this.createPlayer);
 
   /**
-   * Method to update the id and class of the Youtube Player iframe.
-   * React should update this automatically but since the Youtube Player API
+   * Method to update the id and class of the YouTube Player iframe.
+   * React should update this automatically but since the YouTube Player API
    * replaced the DIV that is mounted by React we need to do this manually.
    */
   updatePlayer = () => {
@@ -263,9 +217,9 @@ class YouTube extends React.Component {
   };
 
   /**
-   * Call Youtube Player API methods to update the currently playing video.
-   * Depeding on the `opts.playerVars.autoplay` this function uses one of two
-   * Youtube Player API methods to update the video.
+   * Call YouTube Player API methods to update the currently playing video.
+   * Depending on the `opts.playerVars.autoplay` this function uses one of two
+   * YouTube Player API methods to update the video.
    */
   updateVideo = () => {
     if (typeof this.props.videoId === 'undefined' || this.props.videoId === null) {
@@ -309,5 +263,46 @@ class YouTube extends React.Component {
     );
   }
 }
+
+YouTube.propTypes = {
+  videoId: PropTypes.string,
+
+  // custom ID for player element
+  id: PropTypes.string,
+
+  // custom class name for player element
+  className: PropTypes.string,
+  // custom class name for player container element
+  containerClassName: PropTypes.string,
+
+  // https://developers.google.com/youtube/iframe_api_reference#Loading_a_Video_Player
+  opts: PropTypes.objectOf(PropTypes.any),
+
+  // event subscriptions
+  onReady: PropTypes.func,
+  onError: PropTypes.func,
+  onPlay: PropTypes.func,
+  onPause: PropTypes.func,
+  onEnd: PropTypes.func,
+  onStateChange: PropTypes.func,
+  onPlaybackRateChange: PropTypes.func,
+  onPlaybackQualityChange: PropTypes.func,
+};
+
+YouTube.defaultProps = {
+  videoId: null,
+  id: null,
+  className: null,
+  opts: {},
+  containerClassName: '',
+  onReady: () => {},
+  onError: () => {},
+  onPlay: () => {},
+  onPause: () => {},
+  onEnd: () => {},
+  onStateChange: () => {},
+  onPlaybackRateChange: () => {},
+  onPlaybackQualityChange: () => {},
+};
 
 export default YouTube;

@@ -1,21 +1,23 @@
-react-youtube [![Build Status](https://travis-ci.org/troybetz/react-youtube.svg?branch=master)](https://travis-ci.org/troybetz/react-youtube)
-=============================
+![Release Status](https://github.com/tjallingt/react-youtube/workflows/release/badge.svg) ![Tests Status](https://github.com/tjallingt/react-youtube/workflows/tests/badge.svg)
 
-Simple [React](http://facebook.github.io/react/ ) component acting as a thin layer over the [YouTube IFrame Player API](https://developers.google.com/youtube/iframe_api_reference)
+# react-youtube
+
+Simple [React](http://facebook.github.io/react/) component acting as a thin layer over the [YouTube IFrame Player API](https://developers.google.com/youtube/iframe_api_reference)
 
 ## Features
+
 - url playback
 - [playback event bindings](https://developers.google.com/youtube/iframe_api_reference#Events)
 - [customizable player options](https://developers.google.com/youtube/player_parameters)
 
 ## Installation
 
-```
+```bash
 $ npm install react-youtube
 ```
 
-Usage
-----
+## Usage
+
 ```js
 <YouTube
   videoId={string}                  // defaults -> null
@@ -37,8 +39,7 @@ Usage
 For convenience it is also possible to access the PlayerState constants through react-youtube:
 `YouTube.PlayerState` contains the values that are used by the [YouTube IFrame Player API](https://developers.google.com/youtube/iframe_api_reference#onStateChange).
 
-Example
------
+## Example
 
 ```js
 import React from 'react';
@@ -49,18 +50,13 @@ class Example extends React.Component {
     const opts = {
       height: '390',
       width: '640',
-      playerVars: { // https://developers.google.com/youtube/player_parameters
-        autoplay: 1
-      }
+      playerVars: {
+        // https://developers.google.com/youtube/player_parameters
+        autoplay: 1,
+      },
     };
 
-    return (
-      <YouTube
-        videoId="2g811Eo7K8U"
-        opts={opts}
-        onReady={this._onReady}
-      />
-    );
+    return <YouTube videoId="2g811Eo7K8U" opts={opts} onReady={this._onReady} />;
   }
 
   _onReady(event) {
@@ -68,18 +64,17 @@ class Example extends React.Component {
     event.target.pauseVideo();
   }
 }
-
 ```
 
 ## Controlling the player
 
 You can access & control the player in a way similar to the [official api](https://developers.google.com/youtube/iframe_api_reference#Events):
 
-> The ~~API~~ *component* will pass an event object as the sole argument to each of ~~those functions~~ *the event handler props*. The event object has the following properties:
-
-> * The event's `target` identifies the video player that corresponds to the event.
-> * The event's `data` specifies a value relevant to the event. Note that the `onReady` event does not specify a `data` property.
+> The ~~API~~ _component_ will pass an event object as the sole argument to each of ~~those functions~~ _the event handler props_. The event object has the following properties:
+>
+> - The event's `target` identifies the video player that corresponds to the event.
+> - The event's `data` specifies a value relevant to the event. Note that the `onReady` event does not specify a `data` property.
 
 # License
 
-  MIT
+MIT
