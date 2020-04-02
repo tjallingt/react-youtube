@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import YouTube from '../';
+import YouTube from '../src/YouTube';
 
 const videoIdA = 'XxVg_s8xAms';
 const videoIdB = '-DX3vJiqxm4';
@@ -36,18 +36,24 @@ class Example extends React.Component {
   }
 
   onChangeVideo() {
-    this.setState({
-      videoId: this.state.videoId === videoIdA ? videoIdB : videoIdA,
-    });
+    this.setState((state) => ({
+      videoId: state.videoId === videoIdA ? videoIdB : videoIdA,
+    }));
   }
 
   render() {
     return (
       <div>
         <YouTube videoId={this.state.videoId} onReady={this.onReady} />
-        <button onClick={this.onPlayVideo}>Play</button>
-        <button onClick={this.onPauseVideo}>Pause</button>
-        <button onClick={this.onChangeVideo}>Change Video</button>
+        <button type="button" onClick={this.onPlayVideo}>
+          Play
+        </button>
+        <button type="button" onClick={this.onPauseVideo}>
+          Pause
+        </button>
+        <button type="button" onClick={this.onChangeVideo}>
+          Change Video
+        </button>
       </div>
     );
   }
