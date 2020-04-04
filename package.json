@@ -72,7 +72,7 @@
     "react": ">=0.14.1"
   },
   "engines": {
-    "node": "^10.13.0 || ^12.x",
+    "node": ">= 10.x",
     "yarn": "^1.16.0"
   },
   "scripts": {
@@ -81,7 +81,7 @@
     "compile:cjs": "babel src/YouTube.js --out-file dist/index.js",
     "compile:es": "cross-env BABEL_ENV=es babel src/YouTube.js --out-file dist/index.esm.js",
     "compile": "npm-run-all --parallel compile:*",
-    "prepublish": "npm run compile",
+    "prepublishOnly": "npm run compile",
     "lint": "eslint src example",
     "example": "webpack-dev-server --config example/webpack.config.js",
     "commit": "git-cz"
