@@ -1,7 +1,7 @@
 import '@testing-library/jest-dom';
 import React from 'react';
 import { render, queryByAttribute } from '@testing-library/react';
-import YouTube from './YouTube';
+import YouTube from '../src/YouTube';
 
 import Player, { playerMock } from './__mocks__/youtube-player';
 
