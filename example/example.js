@@ -1,62 +1,46 @@
-import React from 'react';
+import React, { useState } from 'react';
 import ReactDOM from 'react-dom';
 import YouTube from '../src/YouTube';
 
 const videoIdA = 'XxVg_s8xAms';
 const videoIdB = '-DX3vJiqxm4';
 
-class Example extends React.Component {
-  constructor(props) {
-    super(props);
+function Example() {
+  const [videoId, setVideoId] = useState(videoIdA);
+  const [player, setPlayer] = useState(null);
 
-    this.state = {
-      videoId: videoIdA,
-      player: null,
-    };
+  const onReady = (event) => {
+    // eslint-disable-next-line
+    console.log(`YouTube Player object for videoId: "${videoId}" has been saved to state.`);
+    setPlayer(event.target);
+  };
 
-    this.onReady = this.onReady.bind(this);
-    this.onChangeVideo = this.onChangeVideo.bind(this);
-    this.onPlayVideo = this.onPlayVideo.bind(this);
-    this.onPauseVideo = this.onPauseVideo.bind(this);
-  }
+  const onPlayVideo = () => {
+    player.playVideo();
+  };
 
-  onReady(event) {
-    console.log(`YouTube Player object for videoId: "${this.state.videoId}" has been saved to state.`); // eslint-disable-line
-    this.setState({
-      player: event.target,
-    });
-  }
+  const onPauseVideo = () => {
+    player.pauseVideo();
+  };
 
-  onPlayVideo() {
-    this.state.player.playVideo();
-  }
+  const onChangeVideo = () => {
+    setVideoId(videoId === videoIdA ? videoIdB : videoIdA);
+  };
 
-  onPauseVideo() {
-    this.state.player.pauseVideo();
-  }
-
-  onChangeVideo() {
-    this.setState((state) => ({
-      videoId: state.videoId === videoIdA ? videoIdB : videoIdA,
-    }));
-  }
-
-  render() {
-    return (
-      <div>
-        <YouTube videoId={this.state.videoId} onReady={this.onReady} />
-        <button type="button" onClick={this.onPlayVideo}>
-          Play
-        </button>
-        <button type="button" onClick={this.onPauseVideo}>
-          Pause
-        </button>
-        <button type="button" onClick={this.onChangeVideo}>
-          Change Video
-        </button>
-      </div>
-    );
-  }
+  return (
+    <div>
+      <YouTube videoId={videoId} onReady={onReady} />
+      <button type="button" onClick={onPlayVideo} disabled={!player}>
+        Play
+      </button>
+      <button type="button" onClick={onPauseVideo} disabled={!player}>
+        Pause
+      </button>
+      <button type="button" onClick={onChangeVideo} disabled={!player}>
+        Change Video
+      </button>
+    </div>
+  );
 }
 
 ReactDOM.render(<Example />, document.getElementById('root'));

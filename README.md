@@ -1,4 +1,4 @@
-![Release](https://github.com/tjallingt/react-youtube/workflows/Release/badge.svg) ![Tests](https://github.com/tjallingt/react-youtube/workflows/Tests/badge.svg)
+![Release](https://github.com/tjallingt/react-youtube/workflows/Release/badge.svg) ![Tests](https://github.com/tjallingt/react-youtube/workflows/Tests/badge.svg) ![Example](https://github.com/tjallingt/react-youtube/workflows/Example/badge.svg)
 
 # react-youtube
 

@@ -1,7 +1,13 @@
 # react-youtube example
 
-```
+Run with NPM:
+
+```bash
 $ npm run example
 ```
 
-& open http://localhost:8080/
+or with Yarn:
+
+```bash
+$ yarn example
+```
