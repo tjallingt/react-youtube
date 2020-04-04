@@ -59,21 +59,19 @@
     "jest": "25.2.6",
     "lint-staged": "10.1.1",
     "npm-run-all": "4.1.5",
+    "parcel-bundler": "1.12.4",
     "prettier": "2.0.2",
     "react": "16.13.1",
     "react-dom": "16.13.1",
-    "semantic-release": "17.0.4",
-    "webpack": "4.42.1",
-    "webpack-cli": "3.3.11",
-    "webpack-dev-server": "3.10.3"
+    "semantic-release": "17.0.4"
   },
   "peerDependencies": {
     "@types/youtube": "0.0.38",
     "react": ">=0.14.1"
   },
   "engines": {
-    "node": "^12.14.0",
-    "yarn": "^1.19.0"
+    "node": ">= 10.x",
+    "yarn": "^1.16.0"
   },
   "scripts": {
     "test": "jest",
@@ -81,9 +79,10 @@
     "compile:cjs": "babel src/YouTube.js --out-file dist/index.js",
     "compile:es": "cross-env BABEL_ENV=es babel src/YouTube.js --out-file dist/index.esm.js",
     "compile": "npm-run-all --parallel compile:*",
-    "prepublish": "npm run compile",
+    "prepublishOnly": "npm run compile",
     "lint": "eslint src example",
-    "example": "webpack-dev-server --config example/webpack.config.js",
+    "example": "parcel example/index.html --open",
+    "example:build": "parcel build example/index.html --out-dir build",
     "commit": "git-cz"
   },
   "husky": {
@@ -93,7 +92,8 @@
     }
   },
   "lint-staged": {
-    "*.js": "eslint --fix"
+    "*.js": "eslint --fix",
+    "*.{html,json}": "prettier --write"
   },
   "config": {
     "commitizen": {
