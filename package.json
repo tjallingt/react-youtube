@@ -70,8 +70,7 @@
     "react": ">=0.14.1"
   },
   "engines": {
-    "node": ">= 10.x",
-    "yarn": "^1.16.0"
+    "node": ">= 10.x"
   },
   "scripts": {
     "test": "jest",
