@@ -1,14 +1,5 @@
 {
-  "parser": "babel-eslint",
-  "extends": ["airbnb", "prettier"],
-  "plugins": ["prettier"],
-  "rules": {
-    "linebreak-style": 0,
-    "react/jsx-filename-extension": 0,
-    "react/destructuring-assignment": 0,
-    "import/no-extraneous-dependencies": 0,
-    "prettier/prettier": "error"
-  },
+  "extends": ["react-app", "plugin:prettier/recommended", "prettier/react"],
   "env": {
     "browser": true,
     "jest": true
