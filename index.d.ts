@@ -62,4 +62,5 @@ export default class YouTube extends React.Component<YouTubeProps> {
         BUFFERING: 3,
         CUED: 5,
     };
+    getInternalPlayer(): YT.Player;
 }
