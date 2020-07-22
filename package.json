@@ -3,7 +3,7 @@
   "version": "7.9.0",
   "description": "React.js powered YouTube player component",
   "main": "dist/index.js",
-  "module": "dist/index.esm.js",
+  "module": "dist/index.mjs",
   "types": "index.d.ts",
   "files": [
     "dist",
@@ -78,8 +78,8 @@
   "scripts": {
     "test": "jest",
     "test:ci": "jest --ci --runInBand",
-    "compile:cjs": "babel src/YouTube.js --out-file dist/index.js",
-    "compile:es": "cross-env BABEL_ENV=es babel src/YouTube.js --out-file dist/index.esm.js",
+    "compile:cjs": "babel src --out-dir dist",
+    "compile:es": "cross-env BABEL_ENV=es babel src --out-dir dist --out-file-extension .mjs",
     "compile": "npm-run-all --parallel compile:*",
     "prepublishOnly": "npm run compile",
     "lint": "eslint src example",
