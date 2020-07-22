@@ -54,12 +54,12 @@ export interface YouTubeProps {
 }
 
 export default class YouTube extends React.Component<YouTubeProps> {
-    static PlayerState = {
-        UNSTARTED: -1,
-        ENDED: 0,
-        PLAYING: 1,
-        PAUSED: 2,
-        BUFFERING: 3,
-        CUED: 5,
+    static PlayerState: {
+        UNSTARTED: number,
+        ENDED: number,
+        PLAYING: number,
+        PAUSED: number,
+        BUFFERING: number,
+        CUED: number,
     };
 }
