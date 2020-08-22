@@ -34,6 +34,7 @@ export interface PlayerVars {
 export interface Options {
     height?: string;
     width?: string;
+    host?: string;
     playerVars?: PlayerVars;
 }
 
