@@ -217,6 +217,13 @@ class YouTube extends React.Component {
   };
 
   /**
+   *  Method to return the internalPlayer object.
+   */
+  getInternalPlayer = () => {
+    return this.internalPlayer;
+  };
+
+  /**
    * Call YouTube Player API methods to update the currently playing video.
    * Depending on the `opts.playerVars.autoplay` this function uses one of two
    * YouTube Player API methods to update the video.
