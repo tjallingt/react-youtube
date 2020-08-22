@@ -14,9 +14,9 @@ jobs:
       - name: Use Node.js 12
         uses: actions/setup-node@v1
         with:
-          node-version: 12.x
+          node-version: "12"
       - name: Install dependencies
-        run: yarn install --frozen-lockfile &> /dev/null
+        uses: bahmutov/npm-install@v1
       - name: Build example
         run: yarn example:build
       - name: Deploy to GitHub pages
