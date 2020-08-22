@@ -5,18 +5,18 @@ on: pull_request
 jobs:
   test:
     runs-on: ubuntu-latest
+    name: Node.js ${{ matrix.node }}
     strategy:
       matrix:
-        node: ["10.x", "11.x", "12.x", "13.x"]
-    name: Node.js ${{ matrix.node }}
+        node: ["10.x", "11.x", "12.x", "13.x", "14.x"]
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-      - name: Setup Node.js
+      - name: Setup Node.js ${{ matrix.node }}
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node }}
       - name: Install dependencies
-        run: yarn install --frozen-lockfile &> /dev/null
+        uses: bahmutov/npm-install@v1
       - name: Run tests
         run: yarn test:ci

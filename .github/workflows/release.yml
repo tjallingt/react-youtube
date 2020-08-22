@@ -17,7 +17,7 @@ jobs:
         with:
           node-version: 12.x
       - name: Install dependencies
-        run: yarn install --frozen-lockfile &> /dev/null
+        uses: bahmutov/npm-install@v1
       - name: Run tests
         run: yarn test
       - name: Build
