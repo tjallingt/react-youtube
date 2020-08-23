@@ -81,8 +81,8 @@
     "compile": "npm-run-all --parallel compile:*",
     "prepublishOnly": "npm run compile",
     "lint": "eslint src example",
-    "example": "parcel example/index.html --open",
-    "example:build": "parcel build example/index.html --out-dir build",
+    "example": "parcel example/index.html --public-url /react-youtube/ --open",
+    "example:build": "parcel build example/index.html --public-url /react-youtube/ --out-dir build",
     "commit": "git-cz"
   },
   "husky": {
