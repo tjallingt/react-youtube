@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { YouTubePlayer } from 'youtube-player/dist/types';
 
 export interface PlayerVars {
   autoplay?: 0 | 1;
@@ -37,14 +38,14 @@ export interface YouTubeProps {
   className?: string;
   containerClassName?: string;
   opts?: Options;
-  onReady?(event: { target: YT.Player }): void;
-  onError?(event: { target: YT.Player; data: number }): void;
-  onPlay?(event: { target: YT.Player; data: number }): void;
-  onPause?(event: { target: YT.Player; data: number }): void;
-  onEnd?(event: { target: YT.Player; data: number }): void;
-  onStateChange?(event: { target: YT.Player; data: number }): void;
-  onPlaybackRateChange?(event: { target: YT.Player; data: number }): void;
-  onPlaybackQualityChange?(event: { target: YT.Player; data: string }): void;
+  onReady?(event: { target: YouTubePlayer }): void;
+  onError?(event: { target: YouTubePlayer; data: number }): void;
+  onPlay?(event: { target: YouTubePlayer; data: number }): void;
+  onPause?(event: { target: YouTubePlayer; data: number }): void;
+  onEnd?(event: { target: YouTubePlayer; data: number }): void;
+  onStateChange?(event: { target: YouTubePlayer; data: number }): void;
+  onPlaybackRateChange?(event: { target: YouTubePlayer; data: number }): void;
+  onPlaybackQualityChange?(event: { target: YouTubePlayer; data: string }): void;
 }
 
 export default class YouTube extends React.Component<YouTubeProps> {
@@ -56,5 +57,5 @@ export default class YouTube extends React.Component<YouTubeProps> {
     BUFFERING: number;
     CUED: number;
   };
-  getInternalPlayer(): YT.Player;
+  getInternalPlayer(): YouTubePlayer;
 }
