@@ -1,4 +1,4 @@
-![Release](https://github.com/tjallingt/react-youtube/workflows/Release/badge.svg) ![Tests](https://github.com/tjallingt/react-youtube/workflows/Tests/badge.svg) ![Example](https://github.com/tjallingt/react-youtube/workflows/Example/badge.svg)
+![Release](https://github.com/tjallingt/react-youtube/workflows/Release/badge.svg) ![Tests](https://github.com/tjallingt/react-youtube/workflows/Tests/badge.svg) ![Example](https://github.com/tjallingt/react-youtube/workflows/Example/badge.svg) [![Meercode CI Score](https://meercode.io/badge/tjallingt/react-youtube?type=ci-score&branch=canary)](https://meercode.io/tjallingt/react-youtube)
 
 # react-youtube
 
