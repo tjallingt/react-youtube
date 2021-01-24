@@ -68,7 +68,6 @@
     "semantic-release": "17.3.7"
   },
   "peerDependencies": {
-    "@types/youtube": "^0.0.38",
     "react": ">=0.14.1"
   },
   "engines": {
