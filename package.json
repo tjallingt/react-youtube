@@ -65,7 +65,7 @@
     "prettier": "2.1.2",
     "react": "16.14.0",
     "react-dom": "16.14.0",
-    "semantic-release": "17.2.1"
+    "semantic-release": "17.2.3"
   },
   "peerDependencies": {
     "@types/youtube": "^0.0.38",
