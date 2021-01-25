@@ -24,6 +24,7 @@ $ npm install react-youtube
   id={string}                       // defaults -> null
   className={string}                // defaults -> null
   containerClassName={string}       // defaults -> ''
+  iframeAttrs={iframeAttrs}         // defaults -> {}
   opts={obj}                        // defaults -> {}
   onReady={func}                    // defaults -> noop
   onPlay={func}                     // defaults -> noop

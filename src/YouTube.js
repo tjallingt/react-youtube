@@ -121,7 +121,21 @@ class YouTube extends React.Component {
    * @param {Object} event
    *   @param {Object} target - player object
    */
-  onPlayerReady = (event) => this.props.onReady(event);
+  onPlayerReady = (event) => {
+    if (!this.props.iframeAttrs) {
+      this.props.onReady(event);
+      return;
+    }
+
+    this.internalPlayer
+      .getIframe()
+      .then((iframe) => {
+        for (const [key, value] of Object.entries(this.props.iframeAttrs)) {
+          iframe.setAttribute(key, value);
+        }
+      })
+      .then(() => this.props.onReady(event));
+  };
 
   /**
    * https://developers.google.com/youtube/iframe_api_reference#onError
@@ -281,6 +295,9 @@ YouTube.propTypes = {
   className: PropTypes.string,
   // custom class name for player container element
   containerClassName: PropTypes.string,
+
+  // HTML attributes to setAttribute on the iframe, if any
+  iframeAttrs: PropTypes.objectOf(PropTypes.oneOfType([PropTypes.number, PropTypes.string])),
 
   // https://developers.google.com/youtube/iframe_api_reference#Loading_a_Video_Player
   opts: PropTypes.objectOf(PropTypes.any),

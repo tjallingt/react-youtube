@@ -29,7 +29,7 @@ function Example() {
 
   return (
     <div>
-      <YouTube videoId={videoId} onReady={onReady} />
+      <YouTube iframeAttrs={{ tabIndex: 0 }} videoId={videoId} onReady={onReady} />
       <button type="button" onClick={onPlayVideo} disabled={!player}>
         Play
       </button>
