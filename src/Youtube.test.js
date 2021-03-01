@@ -129,6 +129,43 @@ describe('YouTube', () => {
 
     // player is destroyed & rebound, despite the changes
     expect(playerMock.destroy).toHaveBeenCalled();
+    // and the video is updated
+    expect(playerMock.loadVideoById).toHaveBeenCalled();
+  });
+
+  it('should not create and bind a new YouTube player when only playerVars.autoplay, playerVars.start, or playerVars.end change', () => {
+    const { rerender } = render(
+      <YouTube
+        videoId="XxVg_s8xAms"
+        opts={{
+          width: '480px',
+          height: '360px',
+          playerVars: {
+            autoplay: 0,
+            start: 0,
+            end: 50,
+          },
+        }}
+      />,
+    );
+
+    rerender(
+      <YouTube
+        videoId="XxVg_s8xAms"
+        opts={{
+          width: '480px',
+          height: '360px',
+          playerVars: {
+            autoplay: 1, // changed, does not force destroy & rebind
+            start: 10, // changed, does not force destroy & rebind
+            end: 20, // changed, does not force destroy & rebind
+          },
+        }}
+      />,
+    );
+
+    // player is destroyed & rebound, despite the changes
+    expect(playerMock.destroy).not.toHaveBeenCalled();
     // instead only the video is updated
     expect(playerMock.loadVideoById).toHaveBeenCalled();
   });

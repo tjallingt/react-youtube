@@ -54,7 +54,9 @@ function filterResetOptions(opts) {
  * @param {Object} props
  */
 function shouldResetPlayer(prevProps, props) {
-  return !isEqual(filterResetOptions(prevProps.opts), filterResetOptions(props.opts));
+  return (
+    prevProps.videoId !== props.videoId || !isEqual(filterResetOptions(prevProps.opts), filterResetOptions(props.opts))
+  );
 }
 
 /**
