@@ -33,11 +33,13 @@ function shouldUpdateVideo(prevProps, props) {
 function filterResetOptions(opts) {
   return {
     ...opts,
+    height: 0,
+    width: 0,
     playerVars: {
+      ...opts.playerVars,
       autoplay: 0,
       start: 0,
       end: 0,
-      ...opts.playerVars,
     },
   };
 }
@@ -62,7 +64,8 @@ function shouldResetPlayer(prevProps, props) {
  * @param {Object} props
  */
 function shouldUpdatePlayer(prevProps, props) {
-  return prevProps.id !== props.id || prevProps.className !== props.className;
+  return prevProps.id !== props.id || prevProps.className !== props.className
+    || prevProps.opts.width !== props.opts.width || prevProps.opts.height !== props.opts.height;
 }
 
 class YouTube extends React.Component {
@@ -213,6 +216,10 @@ class YouTube extends React.Component {
       else iframe.removeAttribute('id');
       if (this.props.className) iframe.setAttribute('class', this.props.className);
       else iframe.removeAttribute('class');
+      if (this.props.opts && this.props.opts.width) iframe.setAttribute('width', this.props.opts.width);
+      else iframe.removeAttribute('width');
+      if (this.props.opts && this.props.opts.height) iframe.setAttribute('height', this.props.opts.height);
+      else iframe.removeAttribute('height');
     });
   };
 
