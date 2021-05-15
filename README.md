@@ -42,6 +42,7 @@ For convenience it is also possible to access the PlayerState constants through 
 ## Example
 
 ```js
+// js
 import React from 'react';
 import YouTube from 'react-youtube';
 
@@ -63,6 +64,23 @@ class Example extends React.Component {
     // access to player in all event handlers via event.target
     event.target.pauseVideo();
   }
+}
+```
+
+```tsx
+// ts
+import React from 'react';
+import YouTube from 'react-youtube';
+import { YouTubePlayer } from "youtube-player/dist/types";
+
+function Example() {
+
+  function onPlayerReady(event: { target: YouTubePlayer }) {
+    // access to player in all event handlers via event.target
+    event.target.pauseVideo();
+  }
+
+  return <YouTube videoId="dQw4w9WgXcQ" onReady={onPlayerReady} />;
 }
 ```
 
