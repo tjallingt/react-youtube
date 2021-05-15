@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { YouTubePlayer } from 'youtube-player/dist/types';
 
 export interface PlayerVars {
   autoplay?: 0 | 1;
@@ -38,14 +37,63 @@ export interface YouTubeProps {
   className?: string;
   containerClassName?: string;
   opts?: Options;
-  onReady?(event: { target: YouTubePlayer }): void;
-  onError?(event: { target: YouTubePlayer; data: number }): void;
-  onPlay?(event: { target: YouTubePlayer; data: number }): void;
-  onPause?(event: { target: YouTubePlayer; data: number }): void;
-  onEnd?(event: { target: YouTubePlayer; data: number }): void;
-  onStateChange?(event: { target: YouTubePlayer; data: number }): void;
-  onPlaybackRateChange?(event: { target: YouTubePlayer; data: number }): void;
-  onPlaybackQualityChange?(event: { target: YouTubePlayer; data: string }): void;
+  /**
+   * https://developers.google.com/youtube/iframe_api_reference#onReady
+   *
+   * @param {Object} event
+   *   @param {Object} target - player object
+   */
+  onReady?(event: { target: import('youtube-player/dist/types').YouTubePlayer }): void;
+  /**
+   * https://developers.google.com/youtube/iframe_api_reference#onError
+   *
+   * @param {Object} event
+   *   @param {Object} target - player object
+   *   @param {Integer} data  - error type
+   */
+  onError?(event: { target: import('youtube-player/dist/types').YouTubePlayer; data: number }): void;
+  /**
+   * Called when onPlayerStateChange trigger YouTube.PlayerState.PLAYING
+   * @param event 
+   */
+  onPlay?(event: { target: import('youtube-player/dist/types').YouTubePlayer; data: number }): void;
+  /**
+   * Called when onPlayerStateChange trigger YouTube.PlayerState.PAUSED
+   * @param event 
+   */
+  onPause?(event: { target: import('youtube-player/dist/types').YouTubePlayer; data: number }): void;
+  /**
+   * Called when onPlayerStateChange trigger YouTube.PlayerState.ENDED
+   * @param event 
+   */
+  onEnd?(event: { target: import('youtube-player/dist/types').YouTubePlayer; data: number }): void;
+  /**
+   * https://developers.google.com/youtube/iframe_api_reference#onStateChange
+   *
+   * @param {Object} event
+   *   @param {Object} target - actual YT player
+   *   @param {Integer} data  - status change type
+   */
+  onStateChange?(event: { target: import('youtube-player/dist/types').YouTubePlayer; data: number }): void;
+  /**
+   * https://developers.google.com/youtube/iframe_api_reference#onPlaybackRateChange
+   *
+   * @param {Object} event
+   *   @param {Object} target - actual YT player
+   *   @param {Float} data    - playback rate
+   */
+  onPlaybackRateChange?(event: { target: import('youtube-player/dist/types').YouTubePlayer; data: number }): void;
+  /**
+   * https://developers.google.com/youtube/iframe_api_reference#onPlaybackQualityChange
+   *
+   * @param {Object} event
+   *   @param {Object} target - actual YT player
+   *   @param {String} data   - playback quality
+   */
+   onPlaybackQualityChange?(event: {
+    target: import('youtube-player/dist/types').YouTubePlayer;
+    data: 'small' | 'medium' | 'large' | 'hd720' | 'hd1080' | 'highres';
+  }): void;
 }
 
 export default class YouTube extends React.Component<YouTubeProps> {
@@ -57,5 +105,5 @@ export default class YouTube extends React.Component<YouTubeProps> {
     BUFFERING: number;
     CUED: number;
   };
-  getInternalPlayer(): YouTubePlayer;
+  getInternalPlayer(): import('youtube-player/dist/types').YouTubePlayer;
 }
