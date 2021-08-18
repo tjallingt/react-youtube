@@ -37,6 +37,7 @@ export interface YouTubeProps {
   id?: string;
   className?: string;
   containerClassName?: string;
+  loading?: string;
   opts?: Options;
   onReady?(event: { target: YouTubePlayer }): void;
   onError?(event: { target: YouTubePlayer; data: number }): void;
