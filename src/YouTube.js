@@ -296,7 +296,7 @@ YouTube.propTypes = {
   containerClassName: PropTypes.string,
 
   // custom loading for player element
-  loading: PropTypes.string,
+  loading: PropTypes.oneOf(['lazy', 'eager', 'auto']),
 
   // https://developers.google.com/youtube/iframe_api_reference#Loading_a_Video_Player
   opts: PropTypes.objectOf(PropTypes.any),
@@ -316,7 +316,7 @@ YouTube.defaultProps = {
   videoId: null,
   id: null,
   className: null,
-  loading: '',
+  loading: null,
   opts: {},
   containerClassName: '',
   onReady: () => {},
