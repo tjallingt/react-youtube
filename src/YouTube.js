@@ -66,8 +66,12 @@ function shouldResetPlayer(prevProps, props) {
  * @param {Object} props
  */
 function shouldUpdatePlayer(prevProps, props) {
-  return prevProps.id !== props.id || prevProps.className !== props.className
-    || prevProps.opts.width !== props.opts.width || prevProps.opts.height !== props.opts.height;
+  return (
+    prevProps.id !== props.id ||
+    prevProps.className !== props.className ||
+    prevProps.opts.width !== props.opts.width ||
+    prevProps.opts.height !== props.opts.height
+  );
 }
 
 class YouTube extends React.Component {
@@ -274,7 +278,7 @@ class YouTube extends React.Component {
   render() {
     return (
       <div className={this.props.containerClassName}>
-        <div id={this.props.id} className={this.props.className} ref={this.refContainer} />
+        <div id={this.props.id} className={this.props.className} ref={this.refContainer} loading={this.props.loading} />
       </div>
     );
   }
@@ -290,6 +294,9 @@ YouTube.propTypes = {
   className: PropTypes.string,
   // custom class name for player container element
   containerClassName: PropTypes.string,
+
+  // custom loading for player element
+  loading: PropTypes.oneOf(['lazy', 'eager', 'auto']),
 
   // https://developers.google.com/youtube/iframe_api_reference#Loading_a_Video_Player
   opts: PropTypes.objectOf(PropTypes.any),
@@ -309,6 +316,7 @@ YouTube.defaultProps = {
   videoId: null,
   id: null,
   className: null,
+  loading: null,
   opts: {},
   containerClassName: '',
   onReady: () => {},
