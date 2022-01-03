@@ -44,6 +44,22 @@ describe('YouTube', () => {
     expect(playerMock.getIframe).toHaveBeenCalled();
   });
 
+  it('should update the title when modified', () => {
+    const { rerender } = render(<YouTube title="Video about a cat" videoId="XxVg_s8xAms" />);
+
+    rerender(<YouTube title="Video about a dancing cat" videoId="XxVg_s8xAms" />);
+
+    expect(playerMock.getIframe).toHaveBeenCalled();
+  });
+
+  it('should update the title when removed', () => {
+    const { rerender } = render(<YouTube title="Video about a cat" videoId="XxVg_s8xAms" />);
+
+    rerender(<YouTube videoId="XxVg_s8xAms" />);
+
+    expect(playerMock.getIframe).toHaveBeenCalled();
+  });
+
   it('should not update id and className when no change in them', () => {
     const className = 'custom-class';
     const videoId = 'XxVg_s8xAms';
