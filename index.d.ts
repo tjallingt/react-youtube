@@ -37,6 +37,7 @@ export interface YouTubeProps {
   id?: string;
   className?: string;
   containerClassName?: string;
+  containerStyle?: React.CSSProperties;
   title?: string;
   loading?: 'lazy' | 'eager' | 'auto';
   opts?: Options;
