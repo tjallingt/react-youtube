@@ -33,11 +33,13 @@ function shouldUpdateVideo(prevProps, props) {
 function filterResetOptions(opts) {
   return {
     ...opts,
+    height: 0,
+    width: 0,
     playerVars: {
+      ...opts.playerVars,
       autoplay: 0,
       start: 0,
       end: 0,
-      ...opts.playerVars,
     },
   };
 }
@@ -52,7 +54,9 @@ function filterResetOptions(opts) {
  * @param {Object} props
  */
 function shouldResetPlayer(prevProps, props) {
-  return !isEqual(filterResetOptions(prevProps.opts), filterResetOptions(props.opts));
+  return (
+    prevProps.videoId !== props.videoId || !isEqual(filterResetOptions(prevProps.opts), filterResetOptions(props.opts))
+  );
 }
 
 /**
@@ -62,7 +66,13 @@ function shouldResetPlayer(prevProps, props) {
  * @param {Object} props
  */
 function shouldUpdatePlayer(prevProps, props) {
-  return prevProps.id !== props.id || prevProps.className !== props.className;
+  return (
+    prevProps.id !== props.id ||
+    prevProps.className !== props.className ||
+    prevProps.opts.width !== props.opts.width ||
+    prevProps.opts.height !== props.opts.height ||
+    prevProps.title !== props.title
+  );
 }
 
 class YouTube extends React.Component {
@@ -213,6 +223,12 @@ class YouTube extends React.Component {
       else iframe.removeAttribute('id');
       if (this.props.className) iframe.setAttribute('class', this.props.className);
       else iframe.removeAttribute('class');
+      if (this.props.opts && this.props.opts.width) iframe.setAttribute('width', this.props.opts.width);
+      else iframe.removeAttribute('width');
+      if (this.props.opts && this.props.opts.height) iframe.setAttribute('height', this.props.opts.height);
+      else iframe.removeAttribute('height');
+      if (typeof this.props.title === 'string') iframe.setAttribute('title', this.props.title);
+      else iframe.setAttribute('title', 'YouTube video player');
     });
   };
 
@@ -265,7 +281,7 @@ class YouTube extends React.Component {
   render() {
     return (
       <div className={this.props.containerClassName}>
-        <div id={this.props.id} className={this.props.className} ref={this.refContainer} />
+        <div id={this.props.id} className={this.props.className} ref={this.refContainer} loading={this.props.loading} />
       </div>
     );
   }
@@ -281,6 +297,11 @@ YouTube.propTypes = {
   className: PropTypes.string,
   // custom class name for player container element
   containerClassName: PropTypes.string,
+  // custom title for the iFrame, see https://www.w3.org/TR/WCAG20-TECHS/H64.html
+  title: PropTypes.string,
+
+  // custom loading for player element
+  loading: PropTypes.oneOf(['lazy', 'eager', 'auto']),
 
   // https://developers.google.com/youtube/iframe_api_reference#Loading_a_Video_Player
   opts: PropTypes.objectOf(PropTypes.any),
@@ -300,6 +321,7 @@ YouTube.defaultProps = {
   videoId: null,
   id: null,
   className: null,
+  loading: null,
   opts: {},
   containerClassName: '',
   onReady: () => {},
@@ -310,6 +332,7 @@ YouTube.defaultProps = {
   onStateChange: () => {},
   onPlaybackRateChange: () => {},
   onPlaybackQualityChange: () => {},
+  title: null,
 };
 
 export default YouTube;
