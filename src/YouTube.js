@@ -70,7 +70,8 @@ function shouldUpdatePlayer(prevProps, props) {
     prevProps.id !== props.id ||
     prevProps.className !== props.className ||
     prevProps.opts.width !== props.opts.width ||
-    prevProps.opts.height !== props.opts.height
+    prevProps.opts.height !== props.opts.height ||
+    prevProps.title !== props.title
   );
 }
 
@@ -226,6 +227,8 @@ class YouTube extends React.Component {
       else iframe.removeAttribute('width');
       if (this.props.opts && this.props.opts.height) iframe.setAttribute('height', this.props.opts.height);
       else iframe.removeAttribute('height');
+      if (typeof this.props.title === 'string') iframe.setAttribute('title', this.props.title);
+      else iframe.setAttribute('title', 'YouTube video player');
     });
   };
 
@@ -294,6 +297,8 @@ YouTube.propTypes = {
   className: PropTypes.string,
   // custom class name for player container element
   containerClassName: PropTypes.string,
+  // custom title for the iFrame, see https://www.w3.org/TR/WCAG20-TECHS/H64.html
+  title: PropTypes.string,
 
   // custom loading for player element
   loading: PropTypes.oneOf(['lazy', 'eager', 'auto']),
@@ -327,6 +332,7 @@ YouTube.defaultProps = {
   onStateChange: () => {},
   onPlaybackRateChange: () => {},
   onPlaybackQualityChange: () => {},
+  title: null,
 };
 
 export default YouTube;
