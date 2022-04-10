@@ -3,6 +3,7 @@ import { YouTubePlayer } from 'youtube-player/dist/types';
 
 export interface PlayerVars {
   autoplay?: 0 | 1;
+  cc_lang_pref?: string;
   cc_load_policy?: 1;
   color?: 'red' | 'white';
   controls?: 0 | 1 | 2;
@@ -37,6 +38,7 @@ export interface YouTubeProps {
   id?: string;
   className?: string;
   containerClassName?: string;
+  containerStyle?: React.CSSProperties;
   title?: string;
   loading?: 'lazy' | 'eager' | 'auto';
   opts?: Options;

@@ -8,12 +8,12 @@ jobs:
     name: Node.js ${{ matrix.node }}
     strategy:
       matrix:
-        node: ['10.x', '11.x', '12.x', '13.x', '14.x', '15.x', '16.x', '17.x']
+        node: ['14.x', '16.x', '17.x']
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name: Setup Node.js ${{ matrix.node }}
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node }}
           cache: 'yarn'
