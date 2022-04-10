@@ -70,7 +70,7 @@
     "react": ">=0.14.1"
   },
   "engines": {
-    "node": ">= 10.x"
+    "node": ">= 14.x"
   },
   "scripts": {
     "test": "jest",

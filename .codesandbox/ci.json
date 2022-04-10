@@ -1,3 +1,4 @@
 {
-  "buildCommand": "compile"
+  "buildCommand": "compile",
+  "node": "16"
 }
