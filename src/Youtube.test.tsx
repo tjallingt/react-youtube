@@ -3,6 +3,7 @@ import React from 'react';
 import { render, queryByAttribute } from '@testing-library/react';
 import YouTube from './YouTube';
 
+// @ts-ignore
 import Player, { playerMock } from './__mocks__/youtube-player';
 
 describe('YouTube', () => {
@@ -133,8 +134,6 @@ describe('YouTube', () => {
           width: '480px',
           height: '360px',
           playerVars: {
-            height: 0, // changed, does not force destroy & rebind
-            width: 0, // changed, does not force destroy & rebind
             autoplay: 1, // changed, does not force destroy & rebind
             start: 10, // changed, does not force destroy & rebind
             end: 20, // changed, does not force destroy & rebind
@@ -236,6 +235,7 @@ describe('YouTube', () => {
   });
 
   it('should not load a video when props.videoId is null', () => {
+    // @ts-ignore
     render(<YouTube videoId={null} />);
 
     expect(playerMock.cueVideoById).not.toHaveBeenCalled();
@@ -246,6 +246,7 @@ describe('YouTube', () => {
 
     expect(Player).toHaveBeenCalled();
 
+    // @ts-ignore
     rerender(<YouTube videoId={null} />);
 
     expect(playerMock.stopVideo).toHaveBeenCalled();

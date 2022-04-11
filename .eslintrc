@@ -1,5 +1,5 @@
 {
-  "extends": ["react-app", "plugin:prettier/recommended", "prettier"],
+  "extends": ["react-app", "plugin:prettier/recommended"],
   "env": {
     "browser": true,
     "jest": true

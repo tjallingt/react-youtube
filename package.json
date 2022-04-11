@@ -2,12 +2,17 @@
   "name": "react-youtube",
   "version": "1.0.0-semantic-release",
   "description": "React.js powered YouTube player component",
-  "main": "dist/index.js",
-  "module": "dist/index.esm.js",
-  "types": "index.d.ts",
+  "main": "dist/YouTube.js",
+  "module": "dist/YouTube.mjs",
+  "types": "dist/YouTube.d.ts",
+  "targets": {
+    "main": false,
+    "module": false,
+    "types": false
+  },
+  "sideEffects": false,
   "files": [
-    "dist",
-    "index.d.ts"
+    "dist/**"
   ],
   "repository": {
     "type": "git",
@@ -31,40 +36,30 @@
     "youtube-player": "5.5.2"
   },
   "devDependencies": {
-    "@babel/cli": "7.17.6",
-    "@babel/core": "7.17.9",
-    "@babel/plugin-proposal-class-properties": "7.16.7",
-    "@babel/preset-env": "7.16.11",
-    "@babel/preset-react": "7.16.7",
     "@commitlint/cli": "16.2.3",
     "@commitlint/config-conventional": "16.2.1",
     "@testing-library/jest-dom": "5.16.4",
     "@testing-library/react": "12.1.4",
+    "@types/jest": "27.4.1",
     "@types/youtube-player": "5.5.6",
-    "babel-eslint": "10.1.0",
-    "babel-jest": "27.5.1",
-    "babel-loader": "8.2.4",
     "commitizen": "4.2.4",
     "cross-env": "7.0.3",
     "cz-conventional-changelog": "3.3.0",
     "eslint": "8.13.0",
     "eslint-config-prettier": "8.5.0",
     "eslint-config-react-app": "7.0.0",
-    "eslint-plugin-flowtype": "8.0.3",
-    "eslint-plugin-import": "2.26.0",
-    "eslint-plugin-jsx-a11y": "6.5.1",
     "eslint-plugin-prettier": "4.0.0",
-    "eslint-plugin-react": "7.29.4",
-    "eslint-plugin-react-hooks": "4.4.0",
     "husky": "7.0.4",
     "jest": "27.5.1",
     "lint-staged": "12.3.7",
-    "npm-run-all": "4.1.5",
-    "parcel-bundler": "1.12.5",
+    "parcel": "2.4.1",
     "prettier": "2.6.2",
+    "process": "0.11.10",
     "react": "17.0.2",
     "react-dom": "17.0.2",
-    "semantic-release": "19.0.2"
+    "ts-jest": "27.1.4",
+    "tsup": "5.12.4",
+    "typescript": "4.6.3"
   },
   "peerDependencies": {
     "react": ">=0.14.1"
@@ -75,18 +70,16 @@
   "scripts": {
     "test": "jest",
     "test:ci": "jest --ci --runInBand",
-    "compile:cjs": "babel src/YouTube.js --out-file dist/index.js",
-    "compile:es": "cross-env BABEL_ENV=es babel src/YouTube.js --out-file dist/index.esm.js",
-    "compile": "npm-run-all --parallel compile:*",
+    "compile": "tsup src/YouTube.tsx --format esm,cjs --dts --external react",
     "prepublishOnly": "npm run compile",
-    "lint": "eslint src example",
+    "lint": "eslint src example --ext .ts,.tsx,.js,.jsx",
     "example": "parcel example/index.html --public-url /react-youtube/ --open",
-    "example:build": "parcel build example/index.html --public-url /react-youtube/ --out-dir build",
+    "example:build": "parcel build example/index.html --public-url /react-youtube/ --dist-dir build",
     "commit": "git-cz",
     "prepare": "husky install"
   },
   "lint-staged": {
-    "*.js": "eslint --fix",
+    "*.js": "eslint --ext .ts,.tsx,.js,.jsx --fix",
     "*.{html,json}": "prettier --write"
   },
   "config": {
@@ -95,6 +88,7 @@
     }
   },
   "jest": {
-    "testEnvironment": "jsdom"
+    "testEnvironment": "jsdom",
+    "preset": "ts-jest"
   }
 }
