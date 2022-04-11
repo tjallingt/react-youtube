@@ -66,21 +66,80 @@ function shouldUpdatePlayer(prevProps: YouTubeProps, props: YouTubeProps) {
 }
 
 type YouTubeProps = {
+  /**
+   * The YouTube video ID.
+   *
+   * Examples
+   * - https://www.youtube.com/watch?v=XxVg_s8xAms (`XxVg_s8xAms` is the ID)
+   * - https://www.youtube.com/embed/-DX3vJiqxm4 (`-DX3vJiqxm4` is the ID)
+   */
   videoId?: string;
+  /**
+   * Custom ID for the player element
+   */
   id?: string;
+  /**
+   * Custom class name for the player element
+   */
   className?: string;
+  /**
+   * Custom class name for the player container element
+   */
   containerClassName?: string;
+  /**
+   * Custom styles for the player container element
+   */
   containerStyle?: React.CSSProperties;
-  title?: string;
-  loading?: 'lazy' | 'eager' | 'auto';
+  /**
+   * Title of the video for the iframe's title tag.
+   */
+  title?: React.IframeHTMLAttributes<HTMLIFrameElement>['title'];
+  /**
+   * Indicates how the browser should load the iframe
+   * {@link https://developer.mozilla.org/en-US/docs/Web/HTML/Element/iframe#attr-loading}
+   */
+  loading?: React.IframeHTMLAttributes<HTMLIFrameElement>['loading'];
+  /**
+   * An object that specifies player options
+   * {@link https://developers.google.com/youtube/iframe_api_reference#Loading_a_Video_Player}
+   */
   opts?: Options;
+  /**
+   * This event fires whenever a player has finished loading and is ready to begin receiving API calls.
+   * {@link https://developers.google.com/youtube/iframe_api_reference#onReady}
+   */
   onReady?: (event: CustomEvent) => void;
+  /**
+   * This event fires if an error occurs in the player.
+   * {@link https://developers.google.com/youtube/iframe_api_reference#onError}
+   */
   onError?: (event: CustomEvent) => void;
+  /**
+   * This event fires when the layer's state changes to PlayerState.PLAYING.
+   */
   onPlay?: (event: CustomEvent) => void;
+  /**
+   * This event fires when the layer's state changes to PlayerState.PAUSED.
+   */
   onPause?: (event: CustomEvent) => void;
+  /**
+   * This event fires when the layer's state changes to PlayerState.ENDED.
+   */
   onEnd?: (event: CustomEvent) => void;
+  /**
+   * This event fires whenever the player's state changes.
+   * {@link https://developers.google.com/youtube/iframe_api_reference#onStateChange}
+   */
   onStateChange?: (event: CustomEvent) => void;
+  /**
+   * This event fires whenever the video playback quality changes.
+   * {@link https://developers.google.com/youtube/iframe_api_reference#onPlaybackRateChange}
+   */
   onPlaybackRateChange?: (event: CustomEvent) => void;
+  /**
+   * This event fires whenever the video playback rate changes.
+   * {@link https://developers.google.com/youtube/iframe_api_reference#onPlaybackQualityChange}
+   */
   onPlaybackQualityChange?: (event: CustomEvent) => void;
 } & typeof defaultProps;
 
@@ -88,7 +147,7 @@ const defaultProps = {
   videoId: '',
   id: '',
   className: '',
-  loading: 'auto',
+  loading: undefined,
   opts: {},
   containerClassName: '',
   containerStyle: {},
@@ -105,26 +164,13 @@ const defaultProps = {
 
 const propTypes = {
   videoId: PropTypes.string,
-
-  // custom ID for player element
   id: PropTypes.string,
-
-  // custom class name for player element
   className: PropTypes.string,
-  // custom class name for player container element
   containerClassName: PropTypes.string,
-  // custom style for play container element
   containerStyle: PropTypes.object,
-  // custom title for the iFrame, see https://www.w3.org/TR/WCAG20-TECHS/H64.html
   title: PropTypes.string,
-
-  // custom loading for player element
   loading: PropTypes.oneOf(['lazy', 'eager', 'auto']),
-
-  // https://developers.google.com/youtube/iframe_api_reference#Loading_a_Video_Player
   opts: PropTypes.objectOf(PropTypes.any),
-
-  // event subscriptions
   onReady: PropTypes.func,
   onError: PropTypes.func,
   onPlay: PropTypes.func,
@@ -192,16 +238,19 @@ class YouTube extends React.Component<YouTubeProps> {
   }
 
   /**
+   * This event fires whenever a player has finished loading and is ready to begin receiving API calls.
    * https://developers.google.com/youtube/iframe_api_reference#onReady
    */
   onPlayerReady = (event: CustomEvent) => this.props.onReady?.(event);
 
   /**
+   * This event fires if an error occurs in the player.
    * https://developers.google.com/youtube/iframe_api_reference#onError
    */
   onPlayerError = (event: CustomEvent) => this.props.onError?.(event);
 
   /**
+   * This event fires whenever the video playback quality changes.
    * https://developers.google.com/youtube/iframe_api_reference#onStateChange
    */
   onPlayerStateChange = (event: CustomEvent) => {
@@ -225,11 +274,13 @@ class YouTube extends React.Component<YouTubeProps> {
   };
 
   /**
+   * This event fires whenever the video playback quality changes.
    * https://developers.google.com/youtube/iframe_api_reference#onPlaybackRateChange
    */
   onPlayerPlaybackRateChange = (event: CustomEvent) => this.props.onPlaybackRateChange?.(event);
 
   /**
+   * This event fires whenever the video playback rate changes.
    * https://developers.google.com/youtube/iframe_api_reference#onPlaybackQualityChange
    */
   onPlayerPlaybackQualityChange = (event: CustomEvent) => this.props.onPlaybackQualityChange?.(event);
