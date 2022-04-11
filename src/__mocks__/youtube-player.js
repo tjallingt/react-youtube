@@ -1,6 +1,6 @@
 const iframe = document.createElement('iframe');
 
-export const playerMock = {
+const playerMock = {
   on: jest.fn(() => Promise.resolve()),
   cueVideoById: jest.fn(() => Promise.resolve()),
   loadVideoById: jest.fn(() => Promise.resolve()),
@@ -9,4 +9,5 @@ export const playerMock = {
   destroy: jest.fn(() => Promise.resolve()),
 };
 
-export default jest.fn(() => playerMock);
+module.exports = jest.fn(() => playerMock);
+module.exports.playerMock = playerMock;
