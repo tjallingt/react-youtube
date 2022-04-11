@@ -65,7 +65,7 @@ function shouldUpdatePlayer(prevProps: YouTubeProps, props: YouTubeProps) {
   );
 }
 
-type YouTubeProps = {
+export type YouTubeProps = {
   /**
    * The YouTube video ID.
    *
