@@ -3,6 +3,7 @@ import React from 'react';
 import { render, queryByAttribute } from '@testing-library/react';
 import YouTube from './YouTube';
 
+// @ts-ignore
 import Player, { playerMock } from './__mocks__/youtube-player';
 
 describe('YouTube', () => {
@@ -40,6 +41,22 @@ describe('YouTube', () => {
     const { rerender } = render(<YouTube className="custom-class1" videoId="XxVg_s8xAms" />);
 
     rerender(<YouTube className="custom-class2" videoId="XxVg_s8xAms" />);
+
+    expect(playerMock.getIframe).toHaveBeenCalled();
+  });
+
+  it('should update the title when modified', () => {
+    const { rerender } = render(<YouTube title="Video about a cat" videoId="XxVg_s8xAms" />);
+
+    rerender(<YouTube title="Video about a dancing cat" videoId="XxVg_s8xAms" />);
+
+    expect(playerMock.getIframe).toHaveBeenCalled();
+  });
+
+  it('should update the title when removed', () => {
+    const { rerender } = render(<YouTube title="Video about a cat" videoId="XxVg_s8xAms" />);
+
+    rerender(<YouTube videoId="XxVg_s8xAms" />);
 
     expect(playerMock.getIframe).toHaveBeenCalled();
   });
@@ -94,7 +111,7 @@ describe('YouTube', () => {
     expect(playerMock.destroy).toHaveBeenCalled();
   });
 
-  it('should NOT create and bind a new YouTube player when props.videoId, playerVars.autoplay, playerVars.start, or playerVars.end change', () => {
+  it('should create and bind a new YouTube player when props.videoId, playerVars.autoplay, playerVars.start, or playerVars.end change', () => {
     const { rerender } = render(
       <YouTube
         videoId="XxVg_s8xAms"
@@ -125,7 +142,44 @@ describe('YouTube', () => {
       />,
     );
 
-    // player is NOT destroyed & rebound, despite the changes
+    // player is destroyed & rebound, despite the changes
+    expect(playerMock.destroy).toHaveBeenCalled();
+    // and the video is updated
+    expect(playerMock.loadVideoById).toHaveBeenCalled();
+  });
+
+  it('should not create and bind a new YouTube player when only playerVars.autoplay, playerVars.start, or playerVars.end change', () => {
+    const { rerender } = render(
+      <YouTube
+        videoId="XxVg_s8xAms"
+        opts={{
+          width: '480px',
+          height: '360px',
+          playerVars: {
+            autoplay: 0,
+            start: 0,
+            end: 50,
+          },
+        }}
+      />,
+    );
+
+    rerender(
+      <YouTube
+        videoId="XxVg_s8xAms"
+        opts={{
+          width: '480px',
+          height: '360px',
+          playerVars: {
+            autoplay: 1, // changed, does not force destroy & rebind
+            start: 10, // changed, does not force destroy & rebind
+            end: 20, // changed, does not force destroy & rebind
+          },
+        }}
+      />,
+    );
+
+    // player is destroyed & rebound, despite the changes
     expect(playerMock.destroy).not.toHaveBeenCalled();
     // instead only the video is updated
     expect(playerMock.loadVideoById).toHaveBeenCalled();
@@ -181,6 +235,7 @@ describe('YouTube', () => {
   });
 
   it('should not load a video when props.videoId is null', () => {
+    // @ts-ignore
     render(<YouTube videoId={null} />);
 
     expect(playerMock.cueVideoById).not.toHaveBeenCalled();
@@ -191,6 +246,7 @@ describe('YouTube', () => {
 
     expect(Player).toHaveBeenCalled();
 
+    // @ts-ignore
     rerender(<YouTube videoId={null} />);
 
     expect(playerMock.stopVideo).toHaveBeenCalled();

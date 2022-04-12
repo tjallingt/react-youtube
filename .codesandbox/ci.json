@@ -1,4 +1,5 @@
 {
   "buildCommand": "compile",
-  "sandboxes": ["/example"]
+  "sandboxes": ["/example"],
+  "node": "16"
 }

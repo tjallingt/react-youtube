@@ -12,18 +12,35 @@ Simple [React](http://facebook.github.io/react/) component acting as a thin laye
 
 ## Installation
 
+### NPM
+
 ```bash
-$ npm install react-youtube
+npm install react-youtube
+```
+
+### Yarn
+
+```bash
+yarn add react-youtube
+```
+
+### PNPM
+
+```bash
+pnpm add react-youtube
 ```
 
 ## Usage
 
 ```js
 <YouTube
-  videoId={string}                  // defaults -> null
-  id={string}                       // defaults -> null
-  className={string}                // defaults -> null
+  videoId={string}                  // defaults -> ''
+  id={string}                       // defaults -> ''
+  className={string}                // defaults -> ''
   containerClassName={string}       // defaults -> ''
+  containerStyle={object}           // defaults -> {}
+  title={string}                    // defaults -> ''
+  loading={string}                  // defaults -> undefined
   opts={obj}                        // defaults -> {}
   onReady={func}                    // defaults -> noop
   onPlay={func}                     // defaults -> noop
@@ -41,7 +58,8 @@ For convenience it is also possible to access the PlayerState constants through 
 
 ## Example
 
-```js
+```jsx
+// js
 import React from 'react';
 import YouTube from 'react-youtube';
 
@@ -63,6 +81,30 @@ class Example extends React.Component {
     // access to player in all event handlers via event.target
     event.target.pauseVideo();
   }
+}
+```
+
+```tsx
+// ts
+import React from 'react';
+import YouTube, { YouTubeProps } from 'react-youtube';
+
+function Example() {
+  const onPlayerReady: YouTubeProps['onReady'] = (event) => {
+    // access to player in all event handlers via event.target
+    event.target.pauseVideo();
+  }
+
+  const opts: YouTubeProps['opts'] = {
+    height: '390',
+    width: '640',
+    playerVars: {
+      // https://developers.google.com/youtube/player_parameters
+      autoplay: 1,
+    },
+  };
+
+  return <YouTube videoId="2g811Eo7K8U" opts={opts} onReady={onPlayerReady} />;
 }
 ```
 

@@ -3,4 +3,5 @@ npm-debug.log
 dist/
 .vscode/
 .cache/
+.parcel-cache/
 build/
