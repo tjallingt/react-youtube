@@ -1,0 +1,65 @@
+{
+  "name": "react-youtube",
+  "version": "0.0.0",
+  "description": "React.js powered YouTube player component",
+  "main": "dist/YouTube.js",
+  "module": "dist/YouTube.mjs",
+  "types": "dist/YouTube.d.ts",
+  "sideEffects": false,
+  "files": [
+    "dist/**"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:tjallingt/react-youtube.git",
+    "directory": "packages/react-youtube"
+  },
+  "keywords": [
+    "react",
+    "youtube",
+    "player",
+    "react-component"
+  ],
+  "author": "Tjalling Tolle <tjallingt@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/tjallingt/react-youtube/issues"
+  },
+  "homepage": "https://github.com/tjallingt/react-youtube",
+  "dependencies": {
+    "fast-deep-equal": "3.1.3",
+    "prop-types": "15.8.1",
+    "youtube-player": "5.5.2"
+  },
+  "devDependencies": {
+    "@testing-library/jest-dom": "5.16.4",
+    "@testing-library/react": "12.1.4",
+    "@types/jest": "27.4.1",
+    "@types/youtube-player": "5.5.6",
+    "jest": "27.5.1",
+    "react": "17.0.2",
+    "react-dom": "17.0.2",
+    "semantic-release": "19.0.2",
+    "semantic-release-monorepo": "7.0.5",
+    "ts-jest": "27.1.4",
+    "tsup": "5.12.5"
+  },
+  "peerDependencies": {
+    "react": ">=0.14.1"
+  },
+  "engines": {
+    "node": ">= 14.x"
+  },
+  "scripts": {
+    "test": "jest",
+    "dev": "tsup src/YouTube.tsx --format esm,cjs --watch --dts --external react",
+    "build": "tsup src/YouTube.tsx --format esm,cjs --dts --external react",
+    "clean": "rm -rf .turbo && rm -rf node_modules && rm -rf dist",
+    "release": "semantic-release",
+    "prepublishOnly": "npm run build"
+  },
+  "jest": {
+    "testEnvironment": "jsdom",
+    "preset": "ts-jest"
+  }
+}
