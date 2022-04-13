@@ -1,0 +1,24 @@
+{
+  "name": "react-youtube-example",
+  "version": "1.0.0",
+  "description": "react-youtube example starter project",
+  "scripts": {
+    "dev": "parcel index.html --public-url /react-youtube/ --open",
+    "build": "parcel build index.html --public-url /react-youtube/ --dist-dir build",
+    "clean": "rm -rf .turbo && rm -rf node_modules && rm -rf dist"
+  },
+  "dependencies": {
+    "react": "17.0.2",
+    "react-dom": "17.0.2",
+    "react-youtube": "1.0.0"
+  },
+  "devDependencies": {
+    "parcel": "2.4.1",
+    "process": "0.11.10"
+  },
+  "keywords": [
+    "javascript",
+    "starter"
+  ],
+  "browserslist": "> 0.1%, not dead, not op_mini all, ie 11"
+}

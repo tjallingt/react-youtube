@@ -3,11 +3,11 @@
 Run with NPM:
 
 ```bash
-$ npm run example
+npm run dev
 ```
 
 or with Yarn:
 
 ```bash
-$ yarn example
+yarn dev
 ```
