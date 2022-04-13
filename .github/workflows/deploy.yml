@@ -19,7 +19,7 @@ jobs:
       - name: Install dependencies
         run: yarn install --frozen-lockfile
       - name: Build example
-        run: yarn example:build
+        run: yarn build --filter=react-youtube-example...
       - name: Deploy to GitHub pages
         if: success()
         uses: crazy-max/ghaction-github-pages@v2

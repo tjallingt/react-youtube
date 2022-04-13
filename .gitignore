@@ -1,8 +1,8 @@
 node_modules
 npm-debug.log
-dist
-es
-.vscode/*
-.cache/*
-.parcel-cache/*
-build/*
+dist/
+.vscode/
+.cache/
+.parcel-cache/
+build/
+.turbo
