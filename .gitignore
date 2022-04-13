@@ -5,3 +5,4 @@ dist/
 .cache/
 .parcel-cache/
 build/
+.turbo

@@ -20,4 +20,4 @@ jobs:
       - name: Install dependencies
         run: yarn install
       - name: Run tests
-        run: yarn test:ci
+        run: yarn test --filter=react-youtube

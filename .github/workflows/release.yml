@@ -20,11 +20,14 @@ jobs:
       - name: Install dependencies
         run: yarn install --frozen-lockfile
       - name: Run tests
-        run: yarn test
+        run: yarn test --filter=react-youtube
       - name: Build
-        run: yarn compile
+        run: yarn build --filter=react-youtube
       - name: Semantic Release
         uses: cycjimmy/semantic-release-action@v3
+        with:
+          semantic_version: 19
+          working_directory: ./packages/react-youtube
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
