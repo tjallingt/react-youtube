@@ -1,6 +1,6 @@
 {
   "name": "react-youtube-example",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description": "react-youtube example starter project",
   "scripts": {
     "dev": "parcel index.html --public-url /react-youtube/ --open",
@@ -10,7 +10,7 @@
   "dependencies": {
     "react": "17.0.2",
     "react-dom": "17.0.2",
-    "react-youtube": "0.0.0"
+    "react-youtube": "1.0.0"
   },
   "devDependencies": {
     "parcel": "2.4.1",

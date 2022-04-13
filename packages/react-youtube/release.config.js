@@ -21,4 +21,5 @@ module.exports = {
     { name: 'alpha', prerelease: true },
     { name: 'canary', prerelease: true },
   ],
+  tagFormat: `v\${version}`,
 };
