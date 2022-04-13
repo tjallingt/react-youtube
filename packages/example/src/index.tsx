@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import ReactDOM from 'react-dom';
-import YouTube from 'react-youtube';
+import YouTube, { YouTubePlayer } from 'react-youtube';
 
 import './styles.css';
 
 const VIDEOS = ['XxVg_s8xAms', '-DX3vJiqxm4'];
 
 function YouTubeComponentExample() {
-  const [player, setPlayer] = useState(0);
+  const [player, setPlayer] = useState<YouTubePlayer>();
   const [videoIndex, setVideoIndex] = useState(0);
   const [width, setWidth] = useState(600);
   const [hidden, setHidden] = useState(false);
@@ -16,7 +16,7 @@ function YouTubeComponentExample() {
   return (
     <div className="App">
       <div style={{ display: 'flex', marginBottom: '1em' }}>
-        <button type="button" onClick={() => player.seekTo(120)}>
+        <button type="button" onClick={() => player?.seekTo(120, true)}>
           Seek to 2 minutes
         </button>
         <button type="button" onClick={() => setVideoIndex((videoIndex + 1) % VIDEOS.length)}>
@@ -28,7 +28,7 @@ function YouTubeComponentExample() {
             min="300"
             max="1080"
             value={width}
-            onChange={(event) => setWidth(event.currentTarget.value)}
+            onChange={(event) => setWidth(event.currentTarget.valueAsNumber)}
           />
           Width ({width}px)
         </label>
@@ -36,7 +36,7 @@ function YouTubeComponentExample() {
           {hidden ? 'Show' : 'Hide'}
         </button>
         <label>
-          <input type="checkbox" value={autoplay} onChange={(event) => setAutoplay(event.currentTarget.checked)} />
+          <input type="checkbox" checked={autoplay} onChange={(event) => setAutoplay(event.currentTarget.checked)} />
           Autoplaying
         </label>
       </div>
@@ -46,9 +46,13 @@ function YouTubeComponentExample() {
       ) : (
         <YouTube
           videoId={VIDEOS[videoIndex]}
-          autoplay={autoplay}
-          width={width}
-          height={width * (9 / 16)}
+          opts={{
+            width,
+            height: width * (9 / 16),
+            playerVars: {
+              autoplay: autoplay ? 1 : 0,
+            },
+          }}
           className="container"
           onReady={(event) => setPlayer(event.target)}
         />
