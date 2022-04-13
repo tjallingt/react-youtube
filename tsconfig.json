@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "include": ["**/*.ts", "**/*.tsx"],
+  "compilerOptions": {
+    "lib": ["DOM", "ES2015"],
+    "isolatedModules": true,
+    "esModuleInterop": true,
+    "jsx": "react-jsx",
+    "module": "ESNext",
+    "moduleResolution": "node",
+    "target": "ES6",
+    "skipLibCheck": true,
+    "strict": true
+  },
+  "exclude": ["dist", "build", "node_modules", "**/*.d.ts"]
+}
