@@ -65,6 +65,13 @@ function shouldUpdatePlayer(prevProps: YouTubeProps, props: YouTubeProps) {
   );
 }
 
+export { YouTubePlayer };
+
+export type YouTubeEvent<T = any> = {
+  data: T;
+  target: YouTubePlayer;
+};
+
 export type YouTubeProps = {
   /**
    * The YouTube video ID.
@@ -108,39 +115,39 @@ export type YouTubeProps = {
    * This event fires whenever a player has finished loading and is ready to begin receiving API calls.
    * {@link https://developers.google.com/youtube/iframe_api_reference#onReady}
    */
-  onReady?: (event: CustomEvent) => void;
+  onReady?: (event: YouTubeEvent) => void;
   /**
    * This event fires if an error occurs in the player.
    * {@link https://developers.google.com/youtube/iframe_api_reference#onError}
    */
-  onError?: (event: CustomEvent) => void;
+  onError?: (event: YouTubeEvent<number>) => void;
   /**
    * This event fires when the layer's state changes to PlayerState.PLAYING.
    */
-  onPlay?: (event: CustomEvent) => void;
+  onPlay?: (event: YouTubeEvent<number>) => void;
   /**
    * This event fires when the layer's state changes to PlayerState.PAUSED.
    */
-  onPause?: (event: CustomEvent) => void;
+  onPause?: (event: YouTubeEvent<number>) => void;
   /**
    * This event fires when the layer's state changes to PlayerState.ENDED.
    */
-  onEnd?: (event: CustomEvent) => void;
+  onEnd?: (event: YouTubeEvent<number>) => void;
   /**
    * This event fires whenever the player's state changes.
    * {@link https://developers.google.com/youtube/iframe_api_reference#onStateChange}
    */
-  onStateChange?: (event: CustomEvent) => void;
+  onStateChange?: (event: YouTubeEvent<number>) => void;
   /**
    * This event fires whenever the video playback quality changes.
    * {@link https://developers.google.com/youtube/iframe_api_reference#onPlaybackRateChange}
    */
-  onPlaybackRateChange?: (event: CustomEvent) => void;
+  onPlaybackRateChange?: (event: YouTubeEvent<number>) => void;
   /**
    * This event fires whenever the video playback rate changes.
    * {@link https://developers.google.com/youtube/iframe_api_reference#onPlaybackQualityChange}
    */
-  onPlaybackQualityChange?: (event: CustomEvent) => void;
+  onPlaybackQualityChange?: (event: YouTubeEvent<string>) => void;
 } & typeof defaultProps;
 
 const defaultProps = {
@@ -151,14 +158,14 @@ const defaultProps = {
   opts: {},
   containerClassName: '',
   containerStyle: {},
-  onReady: () => {},
-  onError: () => {},
-  onPlay: () => {},
-  onPause: () => {},
-  onEnd: () => {},
-  onStateChange: () => {},
-  onPlaybackRateChange: () => {},
-  onPlaybackQualityChange: () => {},
+  onReady: (event: YouTubeEvent) => {},
+  onError: (event: YouTubeEvent<number>) => {},
+  onPlay: (event: YouTubeEvent<number>) => {},
+  onPause: (event: YouTubeEvent<number>) => {},
+  onEnd: (event: YouTubeEvent<number>) => {},
+  onStateChange: (event: YouTubeEvent<number>) => {},
+  onPlaybackRateChange: (event: YouTubeEvent<number>) => {},
+  onPlaybackQualityChange: (event: YouTubeEvent<string>) => {},
   title: '',
 };
 
@@ -241,19 +248,19 @@ class YouTube extends React.Component<YouTubeProps> {
    * This event fires whenever a player has finished loading and is ready to begin receiving API calls.
    * https://developers.google.com/youtube/iframe_api_reference#onReady
    */
-  onPlayerReady = (event: CustomEvent) => this.props.onReady?.(event);
+  onPlayerReady = (event: YouTubeEvent) => this.props.onReady?.(event);
 
   /**
    * This event fires if an error occurs in the player.
    * https://developers.google.com/youtube/iframe_api_reference#onError
    */
-  onPlayerError = (event: CustomEvent) => this.props.onError?.(event);
+  onPlayerError = (event: YouTubeEvent<number>) => this.props.onError?.(event);
 
   /**
    * This event fires whenever the video playback quality changes.
    * https://developers.google.com/youtube/iframe_api_reference#onStateChange
    */
-  onPlayerStateChange = (event: CustomEvent) => {
+  onPlayerStateChange = (event: YouTubeEvent<number>) => {
     this.props.onStateChange?.(event);
     // @ts-ignore
     switch (event.data) {
@@ -277,13 +284,13 @@ class YouTube extends React.Component<YouTubeProps> {
    * This event fires whenever the video playback quality changes.
    * https://developers.google.com/youtube/iframe_api_reference#onPlaybackRateChange
    */
-  onPlayerPlaybackRateChange = (event: CustomEvent) => this.props.onPlaybackRateChange?.(event);
+  onPlayerPlaybackRateChange = (event: YouTubeEvent<number>) => this.props.onPlaybackRateChange?.(event);
 
   /**
    * This event fires whenever the video playback rate changes.
    * https://developers.google.com/youtube/iframe_api_reference#onPlaybackQualityChange
    */
-  onPlayerPlaybackQualityChange = (event: CustomEvent) => this.props.onPlaybackQualityChange?.(event);
+  onPlayerPlaybackQualityChange = (event: YouTubeEvent<string>) => this.props.onPlaybackQualityChange?.(event);
 
   /**
    * Initialize the YouTube Player API on the container and attach event handlers
@@ -299,11 +306,11 @@ class YouTube extends React.Component<YouTubeProps> {
     };
     this.internalPlayer = youTubePlayer(this.container!, playerOpts);
     // attach event handlers
-    this.internalPlayer.on('ready', this.onPlayerReady);
-    this.internalPlayer.on('error', this.onPlayerError);
-    this.internalPlayer.on('stateChange', this.onPlayerStateChange);
-    this.internalPlayer.on('playbackRateChange', this.onPlayerPlaybackRateChange);
-    this.internalPlayer.on('playbackQualityChange', this.onPlayerPlaybackQualityChange);
+    this.internalPlayer.on('ready', this.onPlayerReady as any);
+    this.internalPlayer.on('error', this.onPlayerError as any);
+    this.internalPlayer.on('stateChange', this.onPlayerStateChange as any);
+    this.internalPlayer.on('playbackRateChange', this.onPlayerPlaybackRateChange as any);
+    this.internalPlayer.on('playbackQualityChange', this.onPlayerPlaybackQualityChange as any);
   };
 
   /**
