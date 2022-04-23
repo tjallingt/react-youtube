@@ -15,8 +15,8 @@ function shouldUpdateVideo(prevProps: YouTubeProps, props: YouTubeProps) {
 
   // Otherwise, a change in the start/end time playerVars also requires a player
   // update.
-  const prevVars = prevProps.opts.playerVars || {};
-  const vars = props.opts.playerVars || {};
+  const prevVars = prevProps.opts?.playerVars || {};
+  const vars = props.opts?.playerVars || {};
 
   return prevVars.start !== vars.start || prevVars.end !== vars.end;
 }
@@ -26,7 +26,7 @@ function shouldUpdateVideo(prevProps: YouTubeProps, props: YouTubeProps) {
  * that require a player reset. The results can then be compared to see if a
  * player reset is necessary.
  */
-function filterResetOptions(opts: Options) {
+function filterResetOptions(opts: Options = {}) {
   return {
     ...opts,
     height: 0,
@@ -59,11 +59,18 @@ function shouldUpdatePlayer(prevProps: YouTubeProps, props: YouTubeProps) {
   return (
     prevProps.id !== props.id ||
     prevProps.className !== props.className ||
-    prevProps.opts.width !== props.opts.width ||
-    prevProps.opts.height !== props.opts.height ||
+    prevProps.opts?.width !== props.opts?.width ||
+    prevProps.opts?.height !== props.opts?.height ||
     prevProps.title !== props.title
   );
 }
+
+type YoutubePlayerCueVideoOptions = {
+  videoId: string;
+  startSeconds?: number;
+  endSeconds?: number;
+  suggestedQuality?: string;
+};
 
 export { YouTubePlayer };
 
@@ -148,25 +155,25 @@ export type YouTubeProps = {
    * {@link https://developers.google.com/youtube/iframe_api_reference#onPlaybackQualityChange}
    */
   onPlaybackQualityChange?: (event: YouTubeEvent<string>) => void;
-} & typeof defaultProps;
+};
 
-const defaultProps = {
+const defaultProps: YouTubeProps = {
   videoId: '',
   id: '',
   className: '',
-  loading: undefined,
-  opts: {},
   containerClassName: '',
   containerStyle: {},
-  onReady: (event: YouTubeEvent) => {},
-  onError: (event: YouTubeEvent<number>) => {},
-  onPlay: (event: YouTubeEvent<number>) => {},
-  onPause: (event: YouTubeEvent<number>) => {},
-  onEnd: (event: YouTubeEvent<number>) => {},
-  onStateChange: (event: YouTubeEvent<number>) => {},
-  onPlaybackRateChange: (event: YouTubeEvent<number>) => {},
-  onPlaybackQualityChange: (event: YouTubeEvent<string>) => {},
   title: '',
+  loading: undefined,
+  opts: {},
+  onReady: () => {},
+  onError: () => {},
+  onPlay: () => {},
+  onPause: () => {},
+  onEnd: () => {},
+  onStateChange: () => {},
+  onPlaybackRateChange: () => {},
+  onPlaybackQualityChange: () => {},
 };
 
 const propTypes = {
@@ -176,7 +183,7 @@ const propTypes = {
   containerClassName: PropTypes.string,
   containerStyle: PropTypes.object,
   title: PropTypes.string,
-  loading: PropTypes.oneOf(['lazy', 'eager', 'auto']),
+  loading: PropTypes.oneOf(['lazy', 'eager']),
   opts: PropTypes.objectOf(PropTypes.any),
   onReady: PropTypes.func,
   onError: PropTypes.func,
@@ -299,7 +306,7 @@ class YouTube extends React.Component<YouTubeProps> {
     // do not attempt to create a player server-side, it won't work
     if (typeof document === 'undefined') return;
     // create player
-    const playerOpts = {
+    const playerOpts: Options = {
       ...this.props.opts,
       // preload the `videoId` video if one is already given
       videoId: this.props.videoId,
@@ -311,6 +318,12 @@ class YouTube extends React.Component<YouTubeProps> {
     this.internalPlayer.on('stateChange', this.onPlayerStateChange as any);
     this.internalPlayer.on('playbackRateChange', this.onPlayerPlaybackRateChange as any);
     this.internalPlayer.on('playbackQualityChange', this.onPlayerPlaybackQualityChange as any);
+    if (this.props.title || this.props.loading) {
+      this.internalPlayer.getIframe().then((iframe) => {
+        if (this.props.title) iframe.setAttribute('title', this.props.title);
+        if (this.props.loading) iframe.setAttribute('loading', this.props.loading);
+      });
+    }
   };
 
   /**
@@ -333,8 +346,10 @@ class YouTube extends React.Component<YouTubeProps> {
       else iframe.removeAttribute('width');
       if (this.props.opts && this.props.opts.height) iframe.setAttribute('height', this.props.opts.height.toString());
       else iframe.removeAttribute('height');
-      if (typeof this.props.title === 'string') iframe.setAttribute('title', this.props.title);
+      if (this.props.title) iframe.setAttribute('title', this.props.title);
       else iframe.setAttribute('title', 'YouTube video player');
+      if (this.props.loading) iframe.setAttribute('loading', this.props.loading);
+      else iframe.removeAttribute('loading');
     });
   };
 
@@ -358,21 +373,16 @@ class YouTube extends React.Component<YouTubeProps> {
 
     // set queueing options
     let autoplay = false;
-    const opts = {
+    const opts: YoutubePlayerCueVideoOptions = {
       videoId: this.props.videoId,
     };
-    // @ts-ignore
-    if ('playerVars' in this.props.opts) {
-      // @ts-ignore
+
+    if (this.props.opts?.playerVars) {
       autoplay = this.props.opts.playerVars.autoplay === 1;
-      // @ts-ignore
       if ('start' in this.props.opts.playerVars) {
-        // @ts-ignore
         opts.startSeconds = this.props.opts.playerVars.start;
       }
-      // @ts-ignore
       if ('end' in this.props.opts.playerVars) {
-        // @ts-ignore
         opts.endSeconds = this.props.opts.playerVars.end;
       }
     }
@@ -393,8 +403,7 @@ class YouTube extends React.Component<YouTubeProps> {
   render() {
     return (
       <div className={this.props.containerClassName} style={this.props.containerStyle}>
-        {/* @ts-ignore */}
-        <div id={this.props.id} className={this.props.className} ref={this.refContainer} loading={this.props.loading} />
+        <div id={this.props.id} className={this.props.className} ref={this.refContainer} />
       </div>
     );
   }
