@@ -61,6 +61,22 @@ describe('YouTube', () => {
     expect(playerMock.getIframe).toHaveBeenCalled();
   });
 
+  it('should update the loading when modified', () => {
+    const { rerender } = render(<YouTube loading="lazy" videoId="XxVg_s8xAms" />);
+
+    rerender(<YouTube loading="eager" videoId="XxVg_s8xAms" />);
+
+    expect(playerMock.getIframe).toHaveBeenCalled();
+  });
+
+  it('should update the loading when removed', () => {
+    const { rerender } = render(<YouTube loading="lazy" videoId="XxVg_s8xAms" />);
+
+    rerender(<YouTube videoId="XxVg_s8xAms" />);
+
+    expect(playerMock.getIframe).toHaveBeenCalled();
+  });
+
   it('should not update id and className when no change in them', () => {
     const className = 'custom-class';
     const videoId = 'XxVg_s8xAms';
@@ -76,6 +92,14 @@ describe('YouTube', () => {
     render(<YouTube videoId="XxVg_s8xAms" />);
 
     expect(playerMock.on).toHaveBeenCalledTimes(5);
+    expect(playerMock.getIframe).toHaveBeenCalledTimes(0);
+  });
+
+  it('should create and bind a new YouTube player when mounted with title and loading', () => {
+    render(<YouTube videoId="XxVg_s8xAms" title="Custom title" loading="lazy" />);
+
+    expect(playerMock.on).toHaveBeenCalledTimes(5);
+    expect(playerMock.getIframe).toHaveBeenCalled();
   });
 
   it('should create and bind a new YouTube player when props.opts changes', () => {
