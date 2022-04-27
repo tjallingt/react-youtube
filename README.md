@@ -38,7 +38,7 @@ pnpm add react-youtube
   id={string}                       // defaults -> ''
   className={string}                // defaults -> ''
   iframeClassName={string}          // defaults -> ''
-  containerStyle={object}           // defaults -> {}
+  style={object}                    // defaults -> {}
   title={string}                    // defaults -> ''
   loading={string}                  // defaults -> undefined
   opts={obj}                        // defaults -> {}

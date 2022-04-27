@@ -104,7 +104,7 @@ export type YouTubeProps = {
   /**
    * Custom style for the player container element
    */
-  containerStyle?: React.CSSProperties;
+  style?: React.CSSProperties;
   /**
    * Title of the video for the iframe's title tag.
    */
@@ -163,7 +163,7 @@ const defaultProps: YouTubeProps = {
   id: '',
   className: '',
   iframeClassName: '',
-  containerStyle: {},
+  style: {},
   title: '',
   loading: undefined,
   opts: {},
@@ -182,7 +182,7 @@ const propTypes = {
   id: PropTypes.string,
   className: PropTypes.string,
   iframeClassName: PropTypes.string,
-  containerStyle: PropTypes.object,
+  style: PropTypes.object,
   title: PropTypes.string,
   loading: PropTypes.oneOf(['lazy', 'eager']),
   opts: PropTypes.objectOf(PropTypes.any),
@@ -403,7 +403,7 @@ class YouTube extends React.Component<YouTubeProps> {
 
   render() {
     return (
-      <div className={this.props.className} style={this.props.containerStyle}>
+      <div className={this.props.className} style={this.props.style}>
         <div id={this.props.id} className={this.props.iframeClassName} ref={this.refContainer} />
       </div>
     );
