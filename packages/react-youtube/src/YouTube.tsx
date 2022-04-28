@@ -53,7 +53,7 @@ function shouldResetPlayer(prevProps: YouTubeProps, props: YouTubeProps) {
 }
 
 /**
- * Check whether a props change should result in an id or className update.
+ * Check whether a props change should result in an update of player.
  */
 function shouldUpdatePlayer(prevProps: YouTubeProps, props: YouTubeProps) {
   return (
@@ -61,6 +61,7 @@ function shouldUpdatePlayer(prevProps: YouTubeProps, props: YouTubeProps) {
     prevProps.className !== props.className ||
     prevProps.opts?.width !== props.opts?.width ||
     prevProps.opts?.height !== props.opts?.height ||
+    prevProps.iframeClassName !== props.iframeClassName ||
     prevProps.title !== props.title
   );
 }
@@ -97,13 +98,13 @@ export type YouTubeProps = {
    */
   className?: string;
   /**
-   * Custom class name for the player container element
+   * Custom class name for the iframe element
    */
-  containerClassName?: string;
+  iframeClassName?: string;
   /**
-   * Custom styles for the player container element
+   * Custom style for the player container element
    */
-  containerStyle?: React.CSSProperties;
+  style?: React.CSSProperties;
   /**
    * Title of the video for the iframe's title tag.
    */
@@ -161,8 +162,8 @@ const defaultProps: YouTubeProps = {
   videoId: '',
   id: '',
   className: '',
-  containerClassName: '',
-  containerStyle: {},
+  iframeClassName: '',
+  style: {},
   title: '',
   loading: undefined,
   opts: {},
@@ -180,8 +181,8 @@ const propTypes = {
   videoId: PropTypes.string,
   id: PropTypes.string,
   className: PropTypes.string,
-  containerClassName: PropTypes.string,
-  containerStyle: PropTypes.object,
+  iframeClassName: PropTypes.string,
+  style: PropTypes.object,
   title: PropTypes.string,
   loading: PropTypes.oneOf(['lazy', 'eager']),
   opts: PropTypes.objectOf(PropTypes.any),
@@ -340,7 +341,7 @@ class YouTube extends React.Component<YouTubeProps> {
     this.internalPlayer?.getIframe().then((iframe) => {
       if (this.props.id) iframe.setAttribute('id', this.props.id);
       else iframe.removeAttribute('id');
-      if (this.props.className) iframe.setAttribute('class', this.props.className);
+      if (this.props.iframeClassName) iframe.setAttribute('class', this.props.iframeClassName);
       else iframe.removeAttribute('class');
       if (this.props.opts && this.props.opts.width) iframe.setAttribute('width', this.props.opts.width.toString());
       else iframe.removeAttribute('width');
@@ -402,8 +403,8 @@ class YouTube extends React.Component<YouTubeProps> {
 
   render() {
     return (
-      <div className={this.props.containerClassName} style={this.props.containerStyle}>
-        <div id={this.props.id} className={this.props.className} ref={this.refContainer} />
+      <div className={this.props.className} style={this.props.style}>
+        <div id={this.props.id} className={this.props.iframeClassName} ref={this.refContainer} />
       </div>
     );
   }
