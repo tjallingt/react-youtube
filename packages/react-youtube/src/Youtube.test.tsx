@@ -29,6 +29,19 @@ describe('YouTube', () => {
     expect(queryByAttribute('class', container, 'custom-class')).toBeDefined();
   });
 
+  it('should render an iframe with a custom class name', () => {
+    const { container } = render(<YouTube iframeClassName="custom-frame-class" videoId="XxVg_s8xAms" />);
+
+    expect(queryByAttribute('class', container, 'custom-frame-class')).toBeDefined();
+  });
+
+  it("should update iframe class name once it's changed", () => {
+    const { container, rerender } = render(<YouTube iframeClassName="custom-frame-class" videoId="XxVg_s8xAms" />);
+
+    rerender(<YouTube iframeClassName="custom-frame-class-2" videoId="XxVg_s8xAms" />);
+    expect(queryByAttribute('class', container, 'custom-frame-class-2')).toBeDefined();
+  });
+
   it('should update an id', () => {
     const { rerender } = render(<YouTube id="custom-id" videoId="XxVg_s8xAms" />);
 
