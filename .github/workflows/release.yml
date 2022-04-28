@@ -6,6 +6,8 @@ on:
       - master
       - canary
 
+concurrency: ${{ github.workflow }}-${{ github.ref }}
+
 jobs:
   release:
     runs-on: ubuntu-latest
