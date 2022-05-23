@@ -313,53 +313,48 @@ class YouTube extends React.Component<YouTubeProps> {
   destroyPlayer = () => {
     if (this.internalPlayer) {
       this.destroyPlayerPromise = this.internalPlayer.destroy().then(() => (this.destroyPlayerPromise = undefined));
+      return this.destroyPlayerPromise;
     }
+    return Promise.resolve();
   };
 
   /**
    * Initialize the YouTube Player API on the container and attach event handlers
    */
   createPlayer = () => {
-    const doCreatePlayer = () => {
-      // do not attempt to create a player server-side, it won't work
-      if (typeof document === 'undefined') return;
-      // create player
-      const playerOpts: Options = {
-        ...this.props.opts,
-        // preload the `videoId` video if one is already given
-        videoId: this.props.videoId,
-      };
-      this.internalPlayer = youTubePlayer(this.container!, playerOpts);
-      // attach event handlers
-      this.internalPlayer.on('ready', this.onPlayerReady as any);
-      this.internalPlayer.on('error', this.onPlayerError as any);
-      this.internalPlayer.on('stateChange', this.onPlayerStateChange as any);
-      this.internalPlayer.on('playbackRateChange', this.onPlayerPlaybackRateChange as any);
-      this.internalPlayer.on('playbackQualityChange', this.onPlayerPlaybackQualityChange as any);
-      if (this.props.title || this.props.loading) {
-        this.internalPlayer.getIframe().then((iframe) => {
-          if (this.props.title) iframe.setAttribute('title', this.props.title);
-          if (this.props.loading) iframe.setAttribute('loading', this.props.loading);
-        });
-      }
-    };
+    // do not attempt to create a player server-side, it won't work
+    if (typeof document === 'undefined') return;
     if (this.destroyPlayerPromise) {
       // We need to first await the existing player to be destroyed before
       // we can re-create it.
-      this.destroyPlayerPromise.then(doCreatePlayer);
-    } else {
-      // No need to await - can create it synchronously.
-      doCreatePlayer();
+      this.destroyPlayerPromise.then(this.createPlayer);
+      return;
+    }
+    // create player
+    const playerOpts: Options = {
+      ...this.props.opts,
+      // preload the `videoId` video if one is already given
+      videoId: this.props.videoId,
+    };
+    this.internalPlayer = youTubePlayer(this.container!, playerOpts);
+    // attach event handlers
+    this.internalPlayer.on('ready', this.onPlayerReady as any);
+    this.internalPlayer.on('error', this.onPlayerError as any);
+    this.internalPlayer.on('stateChange', this.onPlayerStateChange as any);
+    this.internalPlayer.on('playbackRateChange', this.onPlayerPlaybackRateChange as any);
+    this.internalPlayer.on('playbackQualityChange', this.onPlayerPlaybackQualityChange as any);
+    if (this.props.title || this.props.loading) {
+      this.internalPlayer.getIframe().then((iframe) => {
+        if (this.props.title) iframe.setAttribute('title', this.props.title);
+        if (this.props.loading) iframe.setAttribute('loading', this.props.loading);
+      });
     }
   };
 
   /**
    * Shorthand for destroying and then re-creating the YouTube Player
    */
-  resetPlayer = () => {
-    this.destroyPlayer();
-    this.createPlayer();
-  };
+  resetPlayer = () => this.destroyPlayer().then(this.createPlayer);
 
   /**
    * Method to update the id and class of the YouTube Player iframe.
