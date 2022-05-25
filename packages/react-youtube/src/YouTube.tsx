@@ -224,6 +224,18 @@ class YouTube extends React.Component<YouTubeProps> {
     this.internalPlayer = null;
   }
 
+  /**
+   * Note: The `youtube-player` package that is used promisifies all YouTube
+   * Player API calls, which introduces a delay of a tick before it actually
+   * gets destroyed.
+   *
+   * The promise to destroy the player is stored here so we can make sure to
+   * only re-create the Player after it's been destroyed.
+   *
+   * See: https://github.com/tjallingt/react-youtube/issues/355
+   */
+  destroyPlayerPromise: Promise<void> | undefined = undefined;
+
   componentDidMount() {
     this.createPlayer();
   }
@@ -243,13 +255,7 @@ class YouTube extends React.Component<YouTubeProps> {
   }
 
   componentWillUnmount() {
-    /**
-     * Note: The `youtube-player` package that is used promisifies all YouTube
-     * Player API calls, which introduces a delay of a tick before it actually
-     * gets destroyed. Since React attempts to remove the element instantly
-     * this method isn't quick enough to reset the container element.
-     */
-    this.internalPlayer?.destroy();
+    this.destroyPlayer();
   }
 
   /**
@@ -301,11 +307,29 @@ class YouTube extends React.Component<YouTubeProps> {
   onPlayerPlaybackQualityChange = (event: YouTubeEvent<string>) => this.props.onPlaybackQualityChange?.(event);
 
   /**
+   * Destroy the YouTube Player using its async API and store the promise so we
+   * can await before re-creating it.
+   */
+  destroyPlayer = () => {
+    if (this.internalPlayer) {
+      this.destroyPlayerPromise = this.internalPlayer.destroy().then(() => (this.destroyPlayerPromise = undefined));
+      return this.destroyPlayerPromise;
+    }
+    return Promise.resolve();
+  };
+
+  /**
    * Initialize the YouTube Player API on the container and attach event handlers
    */
   createPlayer = () => {
     // do not attempt to create a player server-side, it won't work
     if (typeof document === 'undefined') return;
+    if (this.destroyPlayerPromise) {
+      // We need to first await the existing player to be destroyed before
+      // we can re-create it.
+      this.destroyPlayerPromise.then(this.createPlayer);
+      return;
+    }
     // create player
     const playerOpts: Options = {
       ...this.props.opts,
@@ -330,7 +354,7 @@ class YouTube extends React.Component<YouTubeProps> {
   /**
    * Shorthand for destroying and then re-creating the YouTube Player
    */
-  resetPlayer = () => this.internalPlayer?.destroy().then(this.createPlayer);
+  resetPlayer = () => this.destroyPlayer().then(this.createPlayer);
 
   /**
    * Method to update the id and class of the YouTube Player iframe.
