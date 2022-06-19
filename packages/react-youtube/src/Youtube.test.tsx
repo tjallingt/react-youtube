@@ -1,6 +1,6 @@
 import '@testing-library/jest-dom';
 import React from 'react';
-import { render, queryByAttribute } from '@testing-library/react';
+import { render, queryByAttribute, waitFor } from '@testing-library/react';
 import YouTube from './YouTube';
 
 // @ts-ignore
@@ -148,7 +148,7 @@ describe('YouTube', () => {
     expect(playerMock.destroy).toHaveBeenCalled();
   });
 
-  it('should create and bind a new YouTube player when props.videoId, playerVars.autoplay, playerVars.start, or playerVars.end change', () => {
+  it('should create and bind a new YouTube player when props.videoId, playerVars.autoplay, playerVars.start, or playerVars.end change', async () => {
     const { rerender } = render(
       <YouTube
         videoId="XxVg_s8xAms"
@@ -182,7 +182,7 @@ describe('YouTube', () => {
     // player is destroyed & rebound, despite the changes
     expect(playerMock.destroy).toHaveBeenCalled();
     // and the video is updated
-    expect(playerMock.loadVideoById).toHaveBeenCalled();
+    await waitFor(() => expect(playerMock.loadVideoById).toHaveBeenCalled());
   });
 
   it('should not create and bind a new YouTube player when only playerVars.autoplay, playerVars.start, or playerVars.end change', () => {
@@ -260,7 +260,7 @@ describe('YouTube', () => {
     expect(Player.mock.calls[0][1]).toEqual({ videoId: 'XxVg_s8xAms' });
   });
 
-  it('should load a new video', () => {
+  it('should load a new video', async () => {
     const { rerender } = render(<YouTube id="new-video" videoId="XxVg_s8xAms" />);
 
     rerender(<YouTube id="new-video" videoId="-DX3vJiqxm4" />);
@@ -268,17 +268,17 @@ describe('YouTube', () => {
     expect(Player).toHaveBeenCalled();
     expect(Player.mock.calls[0][0] instanceof HTMLDivElement).toBe(true);
     expect(Player.mock.calls[0][1]).toEqual({ videoId: 'XxVg_s8xAms' });
-    expect(playerMock.cueVideoById).toHaveBeenCalledWith({ videoId: '-DX3vJiqxm4' });
+    await waitFor(() => expect(playerMock.cueVideoById).toHaveBeenCalledWith({ videoId: '-DX3vJiqxm4' }));
   });
 
-  it('should not load a video when props.videoId is null', () => {
+  it('should not load a video when props.videoId is null', async () => {
     // @ts-ignore
     render(<YouTube videoId={null} />);
 
-    expect(playerMock.cueVideoById).not.toHaveBeenCalled();
+    await waitFor(() => expect(playerMock.cueVideoById).not.toHaveBeenCalled());
   });
 
-  it('should stop a video when props.videoId changes to null', () => {
+  it('should stop a video when props.videoId changes to null', async () => {
     const { rerender } = render(<YouTube videoId="XxVg_s8xAms" />);
 
     expect(Player).toHaveBeenCalled();
@@ -286,7 +286,7 @@ describe('YouTube', () => {
     // @ts-ignore
     rerender(<YouTube videoId={null} />);
 
-    expect(playerMock.stopVideo).toHaveBeenCalled();
+    await waitFor(() => expect(playerMock.stopVideo).toHaveBeenCalled());
   });
 
   it('should load a video with autoplay enabled', () => {
@@ -313,7 +313,7 @@ describe('YouTube', () => {
     });
   });
 
-  it('should load a new video with autoplay enabled', () => {
+  it('should load a new video with autoplay enabled', async () => {
     const { rerender } = render(
       <YouTube
         id="should-load-new-autoplay"
@@ -347,10 +347,10 @@ describe('YouTube', () => {
     );
 
     expect(playerMock.cueVideoById).not.toHaveBeenCalled();
-    expect(playerMock.loadVideoById).toHaveBeenCalledWith({ videoId: 'something' });
+    await waitFor(() => expect(playerMock.loadVideoById).toHaveBeenCalledWith({ videoId: 'something' }));
   });
 
-  it('should load a video with a set starting and ending time', () => {
+  it('should load a video with a set starting and ending time', async () => {
     const { rerender } = render(
       <YouTube
         videoId="XxVg_s8xAms"
@@ -384,10 +384,12 @@ describe('YouTube', () => {
       />,
     );
 
-    expect(playerMock.cueVideoById).toHaveBeenCalledWith({
-      videoId: 'KYzlpRvWZ6c',
-      startSeconds: 1,
-      endSeconds: 2,
+    await waitFor(() => {
+      expect(playerMock.cueVideoById).toHaveBeenCalledWith({
+        videoId: 'KYzlpRvWZ6c',
+        startSeconds: 1,
+        endSeconds: 2,
+      });
     });
   });
 

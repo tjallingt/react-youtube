@@ -240,13 +240,13 @@ class YouTube extends React.Component<YouTubeProps> {
     this.createPlayer();
   }
 
-  componentDidUpdate(prevProps: YouTubeProps) {
+  async componentDidUpdate(prevProps: YouTubeProps) {
     if (shouldUpdatePlayer(prevProps, this.props)) {
       this.updatePlayer();
     }
 
     if (shouldResetPlayer(prevProps, this.props)) {
-      this.resetPlayer();
+      await this.resetPlayer();
     }
 
     if (shouldUpdateVideo(prevProps, this.props)) {
