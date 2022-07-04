@@ -11,4 +11,4 @@ jobs:
         with:
           fetch-depth: 0
       - name: Lint commit messages
-        uses: wagoid/commitlint-github-action@v2
+        uses: wagoid/commitlint-github-action@v5
