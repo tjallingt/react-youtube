@@ -22,7 +22,7 @@ jobs:
     name: Node.js ${{ matrix.node }}
     strategy:
       matrix:
-        node: ['14.x', '16.x', '17.x', '18.x']
+        node: ['14.x', '16.x', '18.x']
     steps:
       - name: Checkout
         uses: actions/checkout@v3
