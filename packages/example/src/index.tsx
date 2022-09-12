@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
 import YouTube, { YouTubePlayer } from 'react-youtube';
 
 import './styles.css';
@@ -61,4 +61,6 @@ function YouTubeComponentExample() {
   );
 }
 
-ReactDOM.render(<YouTubeComponentExample />, document.getElementById('app'));
+const container = document.getElementById('app');
+const root = createRoot(container!);
+root.render(<YouTubeComponentExample />);
