@@ -1,3 +1,4 @@
+/** @jsxRuntime classic */
 import PropTypes from 'prop-types';
 import React from 'react';
 import isEqual from 'fast-deep-equal';
