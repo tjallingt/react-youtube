@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "React.js powered YouTube player component",
   "main": "dist/YouTube.js",
-  "module": "dist/YouTube.mjs",
+  "module": "dist/YouTube.esm.js",
   "types": "dist/YouTube.d.ts",
   "sideEffects": false,
   "files": [
@@ -45,7 +45,7 @@
     "semantic-release": "19.0.5",
     "semantic-release-monorepo": "7.0.5",
     "ts-jest": "29.0.0",
-    "tsup": "6.2.3"
+    "tsup": "6.5.0"
   },
   "peerDependencies": {
     "react": ">=0.14.1"
