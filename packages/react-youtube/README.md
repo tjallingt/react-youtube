@@ -30,6 +30,16 @@ yarn add react-youtube
 pnpm add react-youtube
 ```
 
+### TypeScript (optional)
+
+```
+npm install -D @types/youtube-player
+# OR
+yarn add -D @types/youtube-player
+# OR
+pnpm add -D @types/youtube-player
+```
+
 ## Usage
 
 ```js
