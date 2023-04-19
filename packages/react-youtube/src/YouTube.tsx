@@ -4,6 +4,7 @@ import React from 'react';
 import isEqual from 'fast-deep-equal';
 import youTubePlayer from 'youtube-player';
 import type { YouTubePlayer, Options } from 'youtube-player/dist/types';
+export type { YouTubePlayer } from 'youtube-player/dist/types';
 
 /**
  * Check whether a `props` change should result in the video being updated.
