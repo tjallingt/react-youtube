@@ -48,9 +48,7 @@ function filterResetOptions(opts: Options = {}) {
  * those.
  */
 function shouldResetPlayer(prevProps: YouTubeProps, props: YouTubeProps) {
-  return (
-    prevProps.videoId !== props.videoId || !isEqual(filterResetOptions(prevProps.opts), filterResetOptions(props.opts))
-  );
+  return !isEqual(filterResetOptions(prevProps.opts), filterResetOptions(props.opts));
 }
 
 /**
