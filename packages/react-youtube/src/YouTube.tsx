@@ -364,6 +364,7 @@ class YouTube extends React.Component<YouTubeProps> {
    */
   updatePlayer = () => {
     this.internalPlayer?.getIframe().then((iframe) => {
+      if (!iframe) return;
       if (this.props.id) iframe.setAttribute('id', this.props.id);
       else iframe.removeAttribute('id');
       if (this.props.iframeClassName) iframe.setAttribute('class', this.props.iframeClassName);
