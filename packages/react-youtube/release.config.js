@@ -21,6 +21,7 @@ module.exports = {
     { name: 'beta', prerelease: true },
     { name: 'alpha', prerelease: true },
     { name: 'canary', prerelease: true },
+    { name: 'load_iframe_script_content', prerelease: true },
   ],
   tagFormat: `v\${version}`,
 };
