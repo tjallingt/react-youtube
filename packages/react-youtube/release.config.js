@@ -15,11 +15,13 @@ module.exports = {
   branches: [
     '+([0-9])?(.{+([0-9]),x}).x',
     'master',
+    'load_iframe_script_content',
     'next',
     'next-major',
     { name: 'beta', prerelease: true },
     { name: 'alpha', prerelease: true },
     { name: 'canary', prerelease: true },
+    { name: 'load_iframe_script_content', prerelease: true },
   ],
   tagFormat: `v\${version}`,
 };

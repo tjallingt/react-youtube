@@ -8,13 +8,14 @@ on:
       - '[0-9]+.x'
       - master
       - canary
+      - load_iframe_script_content
 
 concurrency: ${{ github.workflow }}-${{ github.ref }}
 
 jobs:
   release:
     # publish only when merged in master on original repo, not on PR
-    if: github.repository == 'tjallingt/react-youtube'
+    # if: github.repository == 'tjallingt/react-youtube'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
